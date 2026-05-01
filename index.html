@@ -1,10 +1,10 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.7 -->
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.5 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethernum Company v2.7 - Arquivo Operacional</title>
+  <title>Ethernum Company v3.5 - Arquivo Operacional</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     :root {
@@ -34,7 +34,87 @@
       overflow-x: hidden;
     }
 
+    body.has-intro {
+      overflow: hidden;
+    }
+
     a { color: inherit; text-decoration: none; }
+
+    .intro-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      padding: clamp(1.5rem, 5vw, 4rem);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(200, 168, 75, 0.16), transparent 28%),
+        radial-gradient(circle at 50% 72%, rgba(110, 163, 111, 0.08), transparent 34%),
+        linear-gradient(145deg, #010202 0%, #080907 54%, #140f08 100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 420ms ease, visibility 420ms ease;
+      visibility: hidden;
+    }
+
+    .intro-gate.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .intro-panel {
+      width: min(920px, 100%);
+      text-align: center;
+    }
+
+    .intro-mark {
+      display: grid;
+      place-items: center;
+      width: clamp(6rem, 16vw, 10rem);
+      height: clamp(6rem, 16vw, 10rem);
+      margin: 0 auto 1.6rem;
+      border: 1px solid rgba(200, 168, 75, 0.52);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(0, 0, 0, 0.36);
+      box-shadow: inset 0 0 44px rgba(200, 168, 75, 0.08), 0 0 90px rgba(200, 168, 75, 0.12);
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      letter-spacing: 0;
+    }
+
+    .intro-title {
+      max-width: none;
+      color: #f2df9b;
+      font-size: clamp(2.8rem, 9vw, 7.2rem);
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+    }
+
+    .intro-subtitle {
+      max-width: 680px;
+      margin: 1.2rem auto 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .intro-button {
+      margin-top: 2rem;
+      min-width: min(100%, 320px);
+      min-height: 3.2rem;
+      border-color: rgba(200, 168, 75, 0.72);
+      background: linear-gradient(135deg, rgba(200, 168, 75, 0.24), rgba(110, 163, 111, 0.18));
+      color: #f7edc7;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .intro-options {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
 
     .topbar {
       position: sticky;
@@ -66,6 +146,7 @@
     }
 
     .nav a,
+    .nav button,
     .button {
       display: inline-flex;
       align-items: center;
@@ -82,10 +163,16 @@
     }
 
     .nav a:hover,
+    .nav button:hover,
     .button:hover {
       border-color: var(--gold);
       background: rgba(200, 168, 75, 0.18);
       transform: translateY(-1px);
+    }
+
+    .nav button {
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .button.primary {
@@ -188,6 +275,7 @@
     }
 
     .terminal-grid,
+    .ops-grid,
     .characters,
     .changes,
     .tools {
@@ -198,6 +286,47 @@
     .terminal-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 1rem;
+    }
+
+    .ops-grid {
+      grid-template-columns: 1.15fr 0.85fr 0.85fr;
+      margin-top: 1rem;
+    }
+
+    .ops-card {
+      min-height: 260px;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+    }
+
+    .ops-card h3 {
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    .ops-list {
+      display: grid;
+      gap: 0.72rem;
+      margin-top: 1rem;
+    }
+
+    .ops-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.75rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid rgba(200, 168, 75, 0.13);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .ops-item strong {
+      color: #f2df9b;
+      text-transform: uppercase;
     }
 
     .signal {
@@ -260,6 +389,43 @@
       transform: translateY(-2px);
     }
 
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .band {
+        animation: pageTurnIn 640ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+        transform-origin: left center;
+      }
+
+      .record,
+      .change,
+      .tool-card,
+      .ops-card {
+        transform-style: preserve-3d;
+      }
+
+      .record:hover,
+      .change:hover,
+      .tool-card:hover,
+      .ops-card:hover {
+        transform: perspective(900px) rotateY(-2.5deg) translateY(-2px);
+      }
+    }
+
+    @keyframes pageTurnIn {
+      from {
+        opacity: 0;
+        transform: perspective(900px) rotateY(4deg) translateX(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: perspective(900px) rotateY(0) translateX(0);
+      }
+    }
+
     .record h3,
     .change h3,
     .tool-card h3 {
@@ -299,6 +465,7 @@
 
     @media (max-width: 900px) {
       .hero,
+      .ops-grid,
       .changes { grid-template-columns: 1fr; }
       .section-head,
       .topbar,
@@ -311,15 +478,34 @@
       .tools,
       .terminal-grid { grid-template-columns: 1fr; }
       .button,
-      .nav a { width: 100%; }
+      .nav a,
+      .nav button { width: 100%; }
+      .ops-item { grid-template-columns: 1fr; }
       h1 { font-size: clamp(2.6rem, 16vw, 4.2rem); }
     }
   </style>
 </head>
 <body class="ethernum-page-ready">
+  <div class="intro-gate" role="dialog" aria-modal="true" aria-label="Entrada Ethernum Company">
+    <div class="intro-panel">
+      <div class="intro-mark">EC</div>
+      <p class="eyebrow">Acesso autorizado // Arquivo operacional</p>
+      <h1 class="intro-title">Ethernum Company</h1>
+      <p class="intro-subtitle">
+        Um registro corporativo confidencial para agentes, protagonistas e contratos de campo.
+      </p>
+      <button class="button intro-button" type="button" data-enter-site>Inicie aqui a sua aventura</button>
+      <div class="intro-options">
+        <button class="button" type="button" data-intro-always>Mostrar esta abertura sempre</button>
+      </div>
+    </div>
+  </div>
+
   <header class="topbar">
-    <div class="brand">Ethernum Company · v2.7</div>
+    <div class="brand">Ethernum Company · v3.5</div>
     <nav class="nav" aria-label="Navegacao principal">
+      <button type="button" data-intro-mode>Intro: uma vez</button>
+      <a href="campanha.html">Campanha</a>
       <a href="#personagens">Personagens</a>
       <a href="#alteracoes">Alteracoes</a>
       <a href="#ferramentas">Ferramentas</a>
@@ -343,18 +529,21 @@
         </p>
         <div class="actions">
           <a class="button primary" href="#personagens">Abrir personagens</a>
+          <a class="button" href="campanha.html">Status da campanha</a>
           <a class="button" href="mestre-panel.html">Painel do Mestre</a>
           <a class="button" href="TESTS.html">Testes</a>
         </div>
       </div>
 
       <aside class="terminal">
-        <p class="eyebrow">Status v2.7</p>
+        <p class="eyebrow">Status v3.5</p>
         <div class="terminal-grid">
           <div class="signal"><strong>4</strong><span>fichas registradas</span></div>
           <div class="signal"><strong>PF2e</strong><span>ficha + inventario</span></div>
-          <div class="signal"><strong>1</strong><span>painel multi-personagem</span></div>
-          <div class="signal"><strong>0</strong><span>links abrindo nova aba</span></div>
+          <div class="signal"><strong>A definir</strong><span>sessao atual</span></div>
+          <div class="signal"><strong>Contrato</strong><span>missao ativa aguardando despacho</span></div>
+          <div class="signal"><strong>Rank 1</strong><span>agentes de campo trainee</span></div>
+          <div class="signal"><strong>EP</strong><span>a definir</span></div>
         </div>
       </aside>
     </section>
@@ -412,7 +601,7 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Lista de alteracoes</p>
-          <h2>v2.7</h2>
+          <h2>v3.5</h2>
         </div>
         <p class="section-note">Toda rodada de alteracao sobe a versao do site.</p>
       </div>
@@ -428,11 +617,14 @@
         <article class="change"><h3>Cards corrigidos</h3><p>Palmas, tecnicas e progresso deixam de sofrer conflito de duplo clique.</p></article>
         <article class="change"><h3>IKONs editaveis</h3><p>Linhas internas, custos e transcendencias entram no modo de edicao.</p></article>
         <article class="change"><h3>Audio do Gyro revisado</h3><p>Fallback local e desbloqueio do AudioContext no primeiro clique.</p></article>
-        <article class="change"><h3>Nova bateria de testes</h3><p>Testes 12 a 15 cobrem IKONs, audio, multiplos cards e Cartola offline.</p></article>
-        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao, testes e Cartola.</p></article>
+        <article class="change"><h3>Visao geral corrigida</h3><p>Personagens usam uma abertura inteira por aba, com paleta propria, Origem e Caminho.</p></article>
+        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao e bateria manual.</p></article>
         <article class="change"><h3>Asset do Gyro local</h3><p>Removida dependencia de caminho absoluto do Foundry para evitar quebra no GitHub Pages.</p></article>
         <article class="change"><h3>Codigo mais limpo</h3><p>Seletores editaveis foram centralizados para evitar duplicidade no <code>app.js</code>.</p></article>
         <article class="change"><h3>Botao de edicao</h3><p>A navegacao compartilhada ganhou controle visual para alternar o modo edicao.</p></article>
+        <article class="change"><h3>Tela inicial</h3><p>Primeiro acesso mostra uma abertura Ethernum Company em preto e dourado.</p></article>
+        <article class="change"><h3>Painel contextual</h3><p>Link de Painel Mestre preserva o personagem atual ao navegar por fichas.</p></article>
+        <article class="change"><h3>Audio local resiliente</h3><p>URLs antigas de presets quebrados caem para o arquivo local em <code>media/audio/</code>.</p></article>
       </div>
     </section>
 
@@ -444,8 +636,9 @@
         </div>
       </div>
       <div class="tools">
+        <article class="tool-card"><h3>Campanha</h3><p>Sessao, status e rank da equipe em pagina propria.</p><div class="record-actions"><a class="button" href="campanha.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Painel Mestre</h3><p>Controle multi-personagem com senha.</p><div class="record-actions"><a class="button" href="mestre-panel.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Audio</h3><p>Configurador de trilha e preferencias.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
+        <article class="tool-card"><h3>Configurações Gerais</h3><p>Trilhas por pagina, cards e abertura inicial.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Testes</h3><p>Validacao manual das funcionalidades.</p><div class="record-actions"><a class="button" href="TESTS.html">Abrir</a></div></article>
         <article class="tool-card"><h3>API</h3><p>Referencia de integracao entre paginas.</p><div class="record-actions"><a class="button" href="API-REFERENCE.js">Abrir</a></div></article>
       </div>
@@ -457,16 +650,47 @@
           <p class="eyebrow">Proximas fases</p>
           <h2>Roadmap</h2>
         </div>
-        <p class="section-note">Proxima rodada sera v2.8, mantendo esse padrao de versionamento incremental.</p>
+        <p class="section-note">Proxima rodada sera v3.6, mantendo esse padrao de versionamento incremental.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.7
+    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v3.5
   </footer>
   <script>
     (() => {
+      const introKey = 'ethernum-index-intro-seen';
+      const introModeKey = 'ethernum-index-intro-mode';
+      const intro = document.querySelector('.intro-gate');
+      const modeButton = document.querySelector('[data-intro-mode]');
+      const updateIntroMode = () => {
+        const always = localStorage.getItem(introModeKey) === 'always';
+        if (modeButton) modeButton.textContent = always ? 'Intro: sempre' : 'Intro: uma vez';
+      };
+      updateIntroMode();
+      modeButton?.addEventListener('click', () => {
+        const always = localStorage.getItem(introModeKey) === 'always';
+        localStorage.setItem(introModeKey, always ? 'once' : 'always');
+        updateIntroMode();
+      });
+      const shouldShowIntro = localStorage.getItem(introModeKey) === 'always' || localStorage.getItem(introKey) !== 'true';
+      if (intro && shouldShowIntro) {
+        document.body.classList.add('has-intro');
+        intro.classList.add('is-visible');
+        intro.querySelector('[data-intro-always]')?.addEventListener('click', () => {
+          localStorage.setItem(introModeKey, 'always');
+          updateIntroMode();
+          intro.querySelector('[data-intro-always]').textContent = 'Abertura marcada como sempre ativa';
+        });
+        intro.querySelector('[data-enter-site]')?.addEventListener('click', () => {
+          if (localStorage.getItem(introModeKey) !== 'always') localStorage.setItem(introKey, 'true');
+          intro.classList.remove('is-visible');
+          document.body.classList.remove('has-intro');
+        });
+      }
+
+      if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
       const src = localStorage.getItem('ethernum-music-url-index');
       if (!src) return;
       const audio = new Audio(src);

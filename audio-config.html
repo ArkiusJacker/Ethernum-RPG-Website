@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configurar Áudio - ETHERNUM</title>
+  <title>Configurações Gerais - ETHERNUM</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * {
@@ -199,11 +199,38 @@
       background: rgba(200, 168, 75, 0.2);
       border-color: #c8a84b;
     }
+
+    .map-list {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.8rem;
+    }
+
+    .map-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 0.7rem;
+      padding: 0.65rem;
+      border: 1px solid rgba(200, 168, 75, 0.18);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.035);
+      font: 0.78rem/1.35 "Courier New", monospace;
+    }
+
+    .map-row strong {
+      color: #c8a84b;
+      text-transform: uppercase;
+    }
+
+    .map-row span {
+      color: rgba(224, 224, 224, 0.72);
+      overflow-wrap: anywhere;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎵 Configurar Áudio</h1>
+    <h1>⚙️ Configurações Gerais</h1>
 
     <!-- Método 1: URL da Música -->
     <div class="config-group">
@@ -218,12 +245,18 @@
       <p class="help-text">Cada página pode ter uma trilha própria. O modo mestre usa esta escolha ao salvar.</p>
     </div>
 
+    <div class="config-group">
+      <label>Trilhas já configuradas</label>
+      <div class="map-list" id="trackMap"></div>
+      <p class="help-text">Use o seletor acima para editar uma página por vez. Assim cada personagem pode ter uma trilha própria.</p>
+    </div>
+
     <div class="section-divider"></div>
 
     <div class="config-group">
       <label for="musicUrl">URL da Música de Fundo</label>
-      <input type="text" id="musicUrl" placeholder="./audio/background-music.mp3 ou https://...">
-      <p class="help-text">Cole aqui o caminho local (./audio/music.mp3) ou URL remota (https://...)</p>
+      <input type="text" id="musicUrl" placeholder="media/audio/audio%20%5Bmusic%5D.mp3 ou https://...">
+      <p class="help-text">Cole aqui o caminho local em media/audio/ ou URL remota (https://...). Em branco usa a trilha local padrão.</p>
     </div>
 
     <div class="section-divider"></div>
@@ -248,6 +281,10 @@
         <input type="checkbox" id="enableCustomAudio" checked>
         <span>Ativar áudio customizado</span>
       </label>
+      <label style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+        <input type="checkbox" id="alwaysShowIntro">
+        <span>Mostrar a abertura do Index sempre</span>
+      </label>
     </div>
 
     <div class="section-divider"></div>
@@ -268,7 +305,7 @@
       <button class="btn-test" id="testBtn">🔊 Testar Áudio</button>
       <button class="btn-save" id="saveBtn">💾 Salvar Configuração</button>
       <button class="btn-reset" id="resetBtn">🔄 Resetar Padrão</button>
-      <button class="btn-test" id="backPanelBtn" type="button">Voltar ao Painel</button>
+      <button class="btn-test" id="backPanelBtn" type="button">Voltar</button>
       <button class="btn-test" id="backIndexBtn" type="button">Voltar ao Index</button>
     </div>
 
@@ -278,12 +315,24 @@
   <script>
     class AudioConfigManager {
       constructor() {
+        this.defaultTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
+        this.legacyTracks = new Set([
+          './audio/ambient-synth.mp3',
+          './audio/piano-classical.mp3',
+          './audio/orchestral-bg.mp3',
+          './audio/desert-wind.mp3',
+          'audio/ambient-synth.mp3',
+          'audio/piano-classical.mp3',
+          'audio/orchestral-bg.mp3',
+          'audio/desert-wind.mp3'
+        ]);
         const params = new URLSearchParams(window.location.search);
         this.target = params.get('target') || localStorage.getItem('ethernum-audio-target') || 'index';
         this.returnTo = params.get('return') || 'mestre-panel.html';
-        this.musicUrl = localStorage.getItem(`ethernum-music-url-${this.target}`) || localStorage.getItem('ethernum-music-url') || '';
+        this.musicUrl = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`) || (this.target === 'gyro' ? localStorage.getItem('ethernum-music-url') : ''));
         this.allowMultiple = localStorage.getItem('ethernum-allow-multiple') === 'true';
         this.enableCustomAudio = localStorage.getItem('ethernum-enable-custom') !== 'false';
+        this.alwaysShowIntro = localStorage.getItem('ethernum-index-intro-mode') === 'always';
         this.audioContext = null;
         this.loadUI();
         this.setupEventListeners();
@@ -294,18 +343,21 @@
         document.getElementById('musicUrl').value = this.musicUrl;
         document.getElementById('allowMultiple').checked = this.allowMultiple;
         document.getElementById('enableCustomAudio').checked = this.enableCustomAudio;
+        document.getElementById('alwaysShowIntro').checked = this.alwaysShowIntro;
+        this.renderTrackMap();
       }
 
       setupEventListeners() {
         document.getElementById('saveBtn').addEventListener('click', () => this.save());
         document.getElementById('testBtn').addEventListener('click', () => this.test());
         document.getElementById('resetBtn').addEventListener('click', () => this.reset());
-        document.getElementById('backPanelBtn').addEventListener('click', () => window.location.href = 'mestre-panel.html');
+        document.getElementById('backPanelBtn').addEventListener('click', () => window.location.href = this.returnTo);
         document.getElementById('backIndexBtn').addEventListener('click', () => window.location.href = 'index.html');
         document.getElementById('audioTarget').addEventListener('change', (event) => {
           this.target = event.target.value;
           localStorage.setItem('ethernum-audio-target', this.target);
-          document.getElementById('musicUrl').value = localStorage.getItem(`ethernum-music-url-${this.target}`) || '';
+          document.getElementById('musicUrl').value = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`));
+          this.renderTrackMap();
           this.showStatus(`Alvo alterado para ${this.target}.`, 'success');
         });
         document.getElementById('audioFile').addEventListener('change', (e) => this.handleFileUpload(e));
@@ -329,7 +381,7 @@
       }
 
       loadPreset(preset) {
-        const localTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
+        const localTrack = this.defaultTrack;
         const presets = {
           ambient: localTrack,
           piano: localTrack,
@@ -341,16 +393,19 @@
       }
 
       save() {
-        const musicUrl = document.getElementById('musicUrl').value.trim();
+        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
         const target = document.getElementById('audioTarget').value;
         const allowMultiple = document.getElementById('allowMultiple').checked;
         const enableCustomAudio = document.getElementById('enableCustomAudio').checked;
+        const alwaysShowIntro = document.getElementById('alwaysShowIntro').checked;
 
         localStorage.setItem(`ethernum-music-url-${target}`, musicUrl);
         localStorage.setItem('ethernum-audio-target', target);
         if (target === 'gyro') localStorage.setItem('ethernum-music-url', musicUrl);
         localStorage.setItem('ethernum-allow-multiple', allowMultiple);
         localStorage.setItem('ethernum-enable-custom', enableCustomAudio);
+        localStorage.setItem('ethernum-index-intro-mode', alwaysShowIntro ? 'always' : 'once');
+        this.renderTrackMap();
 
         this.showStatus('✅ Configurações salvas! Voltando para o painel...', 'success');
         setTimeout(() => {
@@ -359,7 +414,7 @@
       }
 
       test() {
-        const musicUrl = document.getElementById('musicUrl').value.trim();
+        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
         if (!musicUrl) {
           this.showStatus('❌ Insira uma URL ou carregue um arquivo primeiro!', 'error');
           return;
@@ -375,12 +430,19 @@
         setTimeout(() => audio.pause(), 3000);
       }
 
+      normalizeUrl(url) {
+        const value = (url || '').trim();
+        if (!value || this.legacyTracks.has(value)) return this.defaultTrack;
+        return value;
+      }
+
       reset() {
         if (confirm('Resetar todas as configurações de áudio?')) {
           localStorage.removeItem('ethernum-music-url');
           ['index', 'gyro', 'cinerio', 'pipping', 'bayle'].forEach((target) => localStorage.removeItem(`ethernum-music-url-${target}`));
           localStorage.removeItem('ethernum-allow-multiple');
           localStorage.removeItem('ethernum-enable-custom');
+          localStorage.removeItem('ethernum-index-intro-mode');
           this.loadUI();
           this.showStatus('🔄 Configurações resetadas ao padrão.', 'success');
         }
@@ -391,6 +453,21 @@
         msg.textContent = message;
         msg.className = `status-message ${type}`;
         setTimeout(() => msg.classList.remove(type), 5000);
+      }
+
+      renderTrackMap() {
+        const labels = {
+          index: 'Index',
+          gyro: 'Gyro',
+          cinerio: 'Cinério',
+          pipping: 'Pipping',
+          bayle: 'Bayle'
+        };
+        const host = document.getElementById('trackMap');
+        host.innerHTML = Object.entries(labels).map(([target, label]) => {
+          const value = localStorage.getItem(`ethernum-music-url-${target}`) || 'Sem trilha especifica';
+          return `<div class="map-row"><strong>${label}</strong><span>${value}</span></div>`;
+        }).join('');
       }
     }
 

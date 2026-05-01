@@ -2,6 +2,17 @@
   const MASTER_KEY = 'ethernum-master-authenticated';
   const DEFAULT_PASSWORD = 'ethernum-master';
   const LOCK_PREFIX = 'ethernum-section-locks-';
+  const DEFAULT_AUDIO = 'media/audio/audio%20%5Bmusic%5D.mp3';
+  const LEGACY_AUDIO_PATHS = new Set([
+    './audio/ambient-synth.mp3',
+    './audio/piano-classical.mp3',
+    './audio/orchestral-bg.mp3',
+    './audio/desert-wind.mp3',
+    'audio/ambient-synth.mp3',
+    'audio/piano-classical.mp3',
+    'audio/orchestral-bg.mp3',
+    'audio/desert-wind.mp3'
+  ]);
 
   const characters = {
     gyro: {
@@ -14,6 +25,16 @@
       ac: '19',
       heroPoints: '1',
       speed: '25 ft',
+      art: 'imagem/characters/gyro/gyro1.png',
+      overview: {
+        line: 'Mecanica unica - Rotacao Sagrada',
+        first: 'Gyro',
+        last: 'Zeppeli',
+        sub: 'Gunslinger 3 · Nexus · agente de campo',
+        tags: ['Rotacao', 'IKONs', 'Palmas', 'Ball Breaker', 'SP 9'],
+        origin: 'Origem ainda em registro. Use este espaco para marcar familia, trauma, patronos, promessa inicial e o evento que colocou Gyro na rota da Ethernum.',
+        path: 'Caminho em aberto. Registre aqui escolhas de mesa, votos, perdas, rivalidades e como a Rotacao Sagrada muda quando a campanha avanca.'
+      },
       attributes: { STR: '+1', DEX: '+4', CON: '+2', INT: '+0', WIS: '+1', CHA: '+0' },
       sheet: ['SP 9', 'Rotacao Sagrada', 'IKONs / Palmas', 'Ball Breaker'],
       inventory: ['Esferas de Aco', 'Kit medico', 'Documentos Ethernum'],
@@ -30,6 +51,16 @@
       ac: '--',
       heroPoints: '1',
       speed: '--',
+      art: 'imagem/characters/cinerio/cinerio1.png',
+      overview: {
+        line: 'Arquivo especial - Vinculo Umbra',
+        first: 'Cinerio',
+        last: 'Umbra',
+        sub: 'Dupla vinculada · ficha especial · contrato em observacao',
+        tags: ['Vinculo', 'Sombras', 'Contrato', 'Arquivo Visual'],
+        origin: 'Origem ainda em registro. Use este espaco para separar o que pertence a Cinerio, o que pertence a Umbra e o que nenhum dos dois admite.',
+        path: 'Caminho em aberto. Marque quando o vinculo protege, quando cobra preco e quando a sombra passa a desejar algo proprio.'
+      },
       attributes: { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' },
       sheet: ['Vinculo Umbra', 'Contrato', 'Risco', 'Arquivo Visual']
     },
@@ -43,7 +74,16 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/PBB.png',
+      art: 'imagem/characters/pipping/PBB1.png',
+      overview: {
+        line: 'Mecanica unica - Expressao da Noite',
+        first: 'Pipping',
+        last: 'Black',
+        sub: 'Bardo 3 · Fetchling · heranca vampirica',
+        tags: ['Pulso Sombrio', 'Performance', 'Ocultismo', 'PS 6'],
+        origin: 'Origem ainda em registro. Use este espaco para a familia Black, a heranca vampirica, a profecia e a primeira noite em que Pipping entendeu o palco.',
+        path: 'Caminho em aberto. Registre cancoes, pactos, testemunhas, marcas da noite e escolhas que aproximam ou afastam Pipping da profecia.'
+      },
       attributes: { STR: '+0', DEX: '+3', CON: '+2', INT: '+1', WIS: '+1', CHA: '+4' },
       sheet: ['PS 6', 'Expressao da Noite', 'Heranca Vampirica', 'Profecia'],
       inventory: ['Instrumento', 'Kit de disfarce', 'Diario Black', 'Adaga cerimonial'],
@@ -60,7 +100,16 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/bayle.png',
+      art: 'imagem/characters/bayle/bayle1.png',
+      overview: {
+        line: 'Mecanica unica - Ardor Draconico',
+        first: 'Bayle',
+        last: 'O Horror',
+        sub: 'Barbaro 3 · Draconico · humanidade em risco',
+        tags: ['Ardor', 'Estagios', 'Fragmentos', 'Arquivista'],
+        origin: 'Origem ainda em registro. Use este espaco para a Porta, a perda de memoria, o primeiro fragmento e o motivo de Bayle ainda insistir em ser humano.',
+        path: 'Caminho em aberto. Registre cada fragmento, cada aparicao do Arquivista e cada escolha em que Bayle vence ou cede ao horror.'
+      },
       attributes: { STR: '+4', DEX: '+1', CON: '+3', INT: '+0', WIS: '+1', CHA: '+1' },
       sheet: ['Ardor Draconico', 'Estagios', 'Fragmentos', 'Arquivista'],
       inventory: ['Arma draconica', 'Amuleto chamuscado', 'Fragmentos recuperados'],
@@ -76,6 +125,12 @@
     if (file.includes('pipping')) return 'pipping';
     if (file.includes('bayle')) return 'bayle';
     return document.body.dataset.character || '';
+  }
+
+  function normalizeAudioUrl(url) {
+    const value = (url || '').trim();
+    if (!value || LEGACY_AUDIO_PATHS.has(value)) return DEFAULT_AUDIO;
+    return value;
   }
 
   const sectionDefinitions = {
@@ -163,13 +218,15 @@
 
   function ensureShell() {
     if (document.querySelector('.ethernum-shell-nav')) return;
+    const characterId = pageCharacter();
+    const panelHref = characterId ? `mestre-panel.html?character=${encodeURIComponent(characterId)}` : 'mestre-panel.html';
     const nav = document.createElement('div');
     nav.className = 'ethernum-shell-nav';
     nav.innerHTML = `
       <div class="ethernum-shell-brand">Ethernum Company</div>
       <div class="ethernum-shell-links">
         <a href="index.html" target="_top">Index</a>
-        <a href="mestre-panel.html" target="_top">Painel Mestre</a>
+        <a href="${panelHref}" target="_top">Painel Mestre</a>
         <button type="button" class="ethernum-edit-btn">Modo Edicao</button>
         <button type="button" class="ethernum-master-btn">${isMaster() ? 'Sair Mestre' : 'Modo Mestre'}</button>
       </div>`;
@@ -269,9 +326,15 @@
     sheet.dataset.pf2Sheet = 'true';
     if (characterId === 'gyro') sheet.classList.add('section');
     const attrs = data.attributes || { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' };
+    const inventoryKey = `ethernum-pf2-${characterId}-inventory-count`;
+    const baseInventory = data.inventory || ['Item', 'Item', 'Item'];
+    const inventoryCount = Math.max(baseInventory.length, Number(localStorage.getItem(inventoryKey) || baseInventory.length));
+    const inventoryRows = Array.from({ length: inventoryCount }, (_, index) => baseInventory[index] || '');
     const list = (items = []) => items.map((item, index) => `
       <tr>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-item">${item}</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-type">Geral</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-effect">-</td>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-bulk"></td>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-notes"></td>
       </tr>`).join('');
@@ -280,6 +343,7 @@
       <div class="ethernum-pf2-tabs">
         <button class="ethernum-pf2-tab is-active" data-pf2-tab="resumo">Resumo</button>
         <button class="ethernum-pf2-tab" data-pf2-tab="combate">Combate</button>
+        <button class="ethernum-pf2-tab" data-pf2-tab="saberes">Saberes</button>
         <button class="ethernum-pf2-tab" data-pf2-tab="inventario">Inventario</button>
       </div>
       <div class="ethernum-pf2-panel is-active" data-pf2-panel="resumo">
@@ -305,11 +369,20 @@
           <div class="ethernum-pf2-box"><span>Strikes / Acoes</span>${editable('strikes', (data.strikes || ['Ataque principal', 'Ataque secundario']).join(' · '), 'p')}</div>
         </div>
       </div>
+      <div class="ethernum-pf2-panel" data-pf2-panel="saberes">
+        <div class="ethernum-pf2-grid">
+          <div class="ethernum-pf2-box"><span>Saberes / Lores</span>${editable('lores', 'Saber da Campanha · Saber de Cidade · Saber de Monstros', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Pericias de conhecimento</span>${editable('knowledge-skills', 'Arcana · Natureza · Ocultismo · Religiao · Sociedade', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Notas de investigacao</span>${editable('investigation-notes', 'Pistas, contatos, idiomas e informacoes permanentes.', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Treinamentos</span>${editable('training-notes', 'Destreinado / Treinado / Especialista / Mestre / Lendario.', 'p')}</div>
+        </div>
+      </div>
       <div class="ethernum-pf2-panel" data-pf2-panel="inventario">
         <table class="ethernum-pf2-table">
-          <thead><tr><th>Item</th><th>Bulk</th><th>Notas</th></tr></thead>
-          <tbody>${list(data.inventory || ['Item', 'Item', 'Item'])}</tbody>
+          <thead><tr><th>Item</th><th>Tipo</th><th>Dano / Armadura / Cura</th><th>Bulk</th><th>Notas</th></tr></thead>
+          <tbody>${list(inventoryRows)}</tbody>
         </table>
+        <button class="ethernum-pf2-add" type="button" data-add-inventory>Adicionar item</button>
       </div>`;
     sheet.addEventListener('click', (event) => {
       const tab = event.target.closest('.ethernum-pf2-tab');
@@ -319,11 +392,30 @@
       tab.classList.add('is-active');
       sheet.querySelector(`[data-pf2-panel="${tab.dataset.pf2Tab}"]`)?.classList.add('is-active');
     });
-    sheet.querySelectorAll('[data-edit-key]').forEach((el) => {
-      const key = `ethernum-pf2-${characterId}-${el.dataset.editKey}`;
-      const saved = localStorage.getItem(key);
-      if (saved !== null) el.textContent = saved;
-      el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+    const bindEditable = (root = sheet) => {
+      root.querySelectorAll('[data-edit-key]').forEach((el) => {
+        if (el.dataset.boundEditable === 'true') return;
+        el.dataset.boundEditable = 'true';
+        const key = `ethernum-pf2-${characterId}-${el.dataset.editKey}`;
+        const saved = localStorage.getItem(key);
+        if (saved !== null) el.textContent = saved;
+        el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+      });
+    };
+    bindEditable();
+    sheet.querySelector('[data-add-inventory]')?.addEventListener('click', () => {
+      const tbody = sheet.querySelector('.ethernum-pf2-table tbody');
+      const index = tbody.querySelectorAll('tr').length;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-item">Novo item</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-type">Geral</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-effect">-</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-bulk"></td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-notes"></td>`;
+      tbody.appendChild(row);
+      localStorage.setItem(inventoryKey, String(index + 1));
+      bindEditable(row);
     });
     const host = document.querySelector('main') || document.querySelector('.container') || document.querySelector('.page') || document.body;
     host.appendChild(sheet);
@@ -331,7 +423,7 @@
 
   function addCharacterArt(characterId) {
     const data = characters[characterId];
-    if (!data?.art || document.querySelector('.ethernum-character-portrait')) return;
+    if (!data?.art || document.querySelector('.ethernum-character-portrait') || document.querySelector('.ethernum-character-overview')) return;
     const portrait = document.createElement('figure');
     portrait.className = 'ethernum-character-portrait';
     portrait.innerHTML = `<img src="${data.art}" alt="${data.label}">`;
@@ -340,16 +432,75 @@
     else document.body.prepend(portrait);
   }
 
+  function overviewMarkup(characterId) {
+    const data = characters[characterId];
+    const overview = data?.overview;
+    if (!data || !overview) return '';
+    const art = data.art || '';
+    return `
+      <div class="ethernum-overview-hero">
+        <div class="ethernum-overview-left">
+          <p class="ethernum-overview-eyebrow">// ${overview.line}</p>
+          <h1 class="ethernum-overview-name">${overview.first}<span>${overview.last}</span></h1>
+          <p class="ethernum-overview-sub">| ${overview.sub}</p>
+          <div class="ethernum-overview-tags">
+            ${overview.tags.map((tag) => `<span>${tag}</span>`).join('')}
+          </div>
+        </div>
+        <div class="ethernum-overview-right">
+          ${art ? `<img src="${art}" alt="${data.label}">` : ''}
+        </div>
+      </div>
+      <div class="ethernum-overview-story">
+        <article>
+          <p>Origem</p>
+          <div class="ethernum-editable" contenteditable="true" data-edit-key="overview-origin">${overview.origin}</div>
+        </article>
+        <article>
+          <p>Caminho</p>
+          <div class="ethernum-editable" contenteditable="true" data-edit-key="overview-path">${overview.path}</div>
+        </article>
+      </div>`;
+  }
+
+  function addCharacterOverview(characterId) {
+    if (!characterId || document.querySelector('.ethernum-character-overview')) return;
+    const html = overviewMarkup(characterId);
+    if (!html) return;
+    const overview = document.createElement('header');
+    overview.className = `ethernum-character-overview ethernum-theme-${characterId}`;
+    overview.dataset.overview = characterId;
+    overview.innerHTML = html;
+    overview.querySelectorAll('[data-edit-key]').forEach((el) => {
+      const key = `ethernum-overview-${characterId}-${el.dataset.editKey}`;
+      const saved = localStorage.getItem(key);
+      if (saved !== null) el.textContent = saved;
+      el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+    });
+
+    const shell = document.querySelector('.ethernum-shell-nav');
+    if (shell) shell.insertAdjacentElement('afterend', overview);
+    else document.body.prepend(overview);
+  }
+
   function setupSharedBackgroundAudio(characterId) {
     if (!characterId || document.querySelector('script[src*="app.js"]')) return;
-    const src = localStorage.getItem(`ethernum-music-url-${characterId}`) || localStorage.getItem('ethernum-music-url') || '';
+    if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
+    const stored = localStorage.getItem(`ethernum-music-url-${characterId}`);
+    if (!stored) return;
+    const src = normalizeAudioUrl(stored);
     if (!src) return;
     const audio = new Audio(src);
     audio.loop = true;
     audio.volume = 0.05;
+    audio.addEventListener('error', () => {
+      if (!audio.src.includes('audio%20%5Bmusic%5D.mp3')) {
+        audio.src = DEFAULT_AUDIO;
+        audio.load();
+      }
+    }, { once: true });
     window.EthernumBackgroundAudio = audio;
     document.addEventListener('click', () => {
-      if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
       audio.play().catch(() => null);
     }, { once: true });
   }
@@ -547,6 +698,7 @@
     const characterId = pageCharacter();
     document.body.classList.add('ethernum-page-ready');
     if (characterId) ensureShell();
+    addCharacterOverview(characterId);
     addCharacterArt(characterId);
     addPf2Sheet(characterId);
     setupSharedBackgroundAudio(characterId);

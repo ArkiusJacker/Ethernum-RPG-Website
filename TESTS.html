@@ -1,10 +1,10 @@
-<!-- TESTE INTERATIVO - ETHERNUM v2.7 -->
+<!-- TESTE INTERATIVO - ETHERNUM v3.5 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v2.7</title>
+  <title>Teste - ETHERNUM v3.5</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,6 +57,17 @@
     .test-item.error {
       background: rgba(196, 43, 43, 0.1);
       border-left-color: rgba(196, 43, 43, 0.5);
+    }
+
+    .test-item.is-passed {
+      padding: 0.75rem 1rem;
+      opacity: 0.78;
+    }
+
+    .test-item.is-passed .test-desc,
+    .test-item.is-passed .test-steps,
+    .test-item.is-passed .button-group {
+      display: none;
     }
 
     .test-title {
@@ -208,22 +219,14 @@
       font-weight: bold;
     }
 
-    .cartola-preview {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(200, 168, 75, 0.18);
-      border-radius: 4px;
-      padding: 1rem;
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v2.7</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v3.5</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
-      Siga os passos abaixo para validar a rodada v2.7
+      Siga os passos abaixo para validar a rodada v3.5. Testes marcados ficam compactos automaticamente.
     </p>
 
     <!-- TESTE 1: Section Lock -->
@@ -419,8 +422,8 @@
         <ol>
           <li>Abra <code>mestre-panel.html</code></li>
           <li>Na seção de Áudio (esquerda), procure pelo botão</li>
-          <li>Você deve ver: <strong>"⚙️ Configurar Música"</strong></li>
-          <li>Clique no botão - deve abrir <code>audio-config.html</code></li>
+          <li>Você deve ver: <strong>"⚙️ Configurações Gerais"</strong></li>
+          <li>Clique no botão - deve abrir <code>audio-config.html</code> preservando o personagem ativo</li>
           <li>Se funciona, marque</li>
         </ol>
       </div>
@@ -430,7 +433,7 @@
       </div>
       <label class="check-item">
         <input type="checkbox" onchange="validateTest7()">
-        <span>Botão "Configurar Música" funciona no painel</span>
+        <span>Botão "Configurações Gerais" funciona no painel</span>
       </label>
     </div>
 
@@ -461,29 +464,6 @@
       <label class="check-item">
         <input type="checkbox" onchange="validateTest8()">
         <span>Música toca em volume baixo (como esperado)</span>
-      </label>
-    </div>
-
-    <!-- TESTE 9: Cartola JS -->
-    <h2>✅ TESTE 9: Integração Cartola JS</h2>
-    <div class="test-item">
-      <div class="test-title">🎩 Verificar arquivo cartola.js</div>
-      <div class="test-desc">
-        O arquivo <code>cartola.js</code> é um gerador Node/docx. Nesta página ele é lido como fonte para conferirmos
-        estrutura, quantidade de efeitos e presença da tabela d100 sem executar dependências de servidor no navegador.
-      </div>
-      <div class="button-group">
-        <button class="btn primary" onclick="inspectCartola()">Inspecionar Cartola</button>
-        <button class="btn" onclick="inspectCartolaOffline()">Inspeção Offline</button>
-        <a class="btn" href="cartola.js">Abrir cartola.js</a>
-      </div>
-      <div id="cartola-preview" class="cartola-preview">Aguardando inspeção...</div>
-      <div class="result" id="test9-result" style="display:none;">
-        ✅ cartola.js carregado e reconhecido nos testes!
-      </div>
-      <label class="check-item">
-        <input type="checkbox" onchange="validateTest9()">
-        <span>Cartola JS foi carregado e inspecionado</span>
       </label>
     </div>
 
@@ -608,29 +588,6 @@
       </label>
     </div>
 
-    <!-- TESTE 15: Cartola Offline -->
-    <h2>✅ TESTE 15: Cartola com Inspeção Offline</h2>
-    <div class="test-item">
-      <div class="test-title">🎩 Confirmar fallback da Cartola</div>
-      <div class="test-desc">
-        Quando o navegador bloquear leitura local, a inspeção offline deve preencher o resultado imediatamente.
-      </div>
-      <div class="test-steps">
-        <ol>
-          <li>No Teste 9, clique em <strong>Inspeção Offline</strong></li>
-          <li>Confira se aparecem 85 efeitos, 6 estágios e tipo Node/docx</li>
-          <li>Confirme que o Teste 9 passa sem ficar carregando para sempre</li>
-        </ol>
-      </div>
-      <div class="result" id="test15-result" style="display:none;">
-        ✅ Cartola offline validada!
-      </div>
-      <label class="check-item">
-        <input type="checkbox" onchange="validateTest15()">
-        <span>Inspeção offline da Cartola funciona</span>
-      </label>
-    </div>
-
     <!-- TESTE 16: Autoauditoria Local -->
     <h2>✅ TESTE 16: Autoauditoria Local</h2>
     <div class="test-item">
@@ -641,7 +598,7 @@
       <div class="test-steps">
         <ol>
           <li>No terminal, dentro da pasta do projeto, rode <code>node site-selftest.js</code></li>
-          <li>Confirme que ele valida scripts, links locais, versão, testes e Cartola</li>
+          <li>Confirme que ele valida scripts, links locais, versão e testes manuais</li>
           <li>O resultado esperado é <strong>All self-tests passed.</strong></li>
         </ol>
       </div>
@@ -654,12 +611,202 @@
       </label>
     </div>
 
+    <!-- TESTE 17: Intro do Index -->
+    <h2>✅ TESTE 17: Tela Inicial do Index</h2>
+    <div class="test-item">
+      <div class="test-title">🏛️ Validar entrada Ethernum Company</div>
+      <div class="test-desc">
+        O primeiro acesso ao index deve mostrar a tela preta/dourada com o botão de aventura.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>No console, rode <code>localStorage.removeItem('ethernum-index-intro-seen')</code></li>
+          <li>Abra <code>index.html</code> pelo servidor local</li>
+          <li>Confirme que aparece <strong>Ethernum Company</strong> e o botão <strong>Inicie aqui a sua aventura</strong></li>
+          <li>Clique no botão, recarregue a página e confirme que a tela não aparece novamente</li>
+        </ol>
+      </div>
+      <div class="result" id="test17-result" style="display:none;">
+        ✅ Tela inicial funcionando!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest17()">
+        <span>Intro aparece uma vez e depois é pulada</span>
+      </label>
+    </div>
+
+    <!-- TESTE 18: Painel Mestre contextual -->
+    <h2>✅ TESTE 18: Painel Mestre Mantém Personagem Atual</h2>
+    <div class="test-item">
+      <div class="test-title">🎛️ Link contextual da barra superior</div>
+      <div class="test-desc">
+        Ao abrir o Painel Mestre a partir de Pipping, Bayle ou Cinério, ele deve manter aquele personagem.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>pipping-expressao-da-noite.html</code></li>
+          <li>Clique em <strong>Painel Mestre</strong> na barra superior</li>
+          <li>Confirme que a URL contém <code>?character=pipping</code></li>
+          <li>Repita em Bayle e Cinério se quiser validar a matriz toda</li>
+        </ol>
+      </div>
+      <div class="result" id="test18-result" style="display:none;">
+        ✅ Painel contextual funcionando!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest18()">
+        <span>Painel Mestre abre no personagem correto</span>
+      </label>
+    </div>
+
+    <!-- TESTE 19: Áudio Local Resiliente -->
+    <h2>✅ TESTE 19: Áudio Local Resiliente</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎚️ Validar fallback para banco local</div>
+      <div class="test-desc">
+        URLs antigas de presets inexistentes devem cair para <code>media/audio/audio [music].mp3</code>.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>audio-config.html?target=gyro&return=gyro_zeppeli.html</code></li>
+          <li>Confirme que o campo de URL usa <code>media/audio/audio%20%5Bmusic%5D.mp3</code> quando está vazio</li>
+          <li>Clique em um preset e depois em <strong>Testar Áudio</strong></li>
+          <li>Salve, abra o Gyro, clique na página e confirme que a trilha local tenta tocar</li>
+        </ol>
+      </div>
+      <div class="result" id="test19-result" style="display:none;">
+        ✅ Áudio local resiliente validado!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest19()">
+        <span>Áudio usa o arquivo local do projeto</span>
+      </label>
+    </div>
+
+    <!-- TESTE 20: Abertura Full Page -->
+    <h2>✅ TESTE 20: Abertura Full Page por Personagem</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎭 Validar lógica visual estilo Yu sem virar card</div>
+      <div class="test-desc">
+        A apresentação deve aparecer antes das abas mecânicas como uma abertura inteira, sem virar aba ou card.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra cada personagem: Gyro, Cinério, Pipping e Bayle</li>
+          <li>Confirme que a primeira tela já mostra o personagem, com nome grande, tags e imagem quando existir</li>
+          <li>Confirme que as abas mecânicas aparecem somente depois da abertura</li>
+          <li>Confirme que não há um bloco/card envolvendo a abertura como na falha anterior</li>
+        </ol>
+      </div>
+      <div class="result" id="test20-result" style="display:none;">
+        ✅ Visão geral full page validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest20()">
+        <span>Abertura não está mais como aba/bloco/card</span>
+      </label>
+    </div>
+
+    <!-- TESTE 21: Paletas Individuais -->
+    <h2>✅ TESTE 21: Paletas Individuais dos Personagens</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎨 Confirmar cores correlacionadas ao HTML de cada ficha</div>
+      <div class="test-desc">
+        A visão geral deve usar a identidade do personagem: Gyro verde/dourado, Pipping azul/vermelho, Cinério azul/roxo, Bayle ouro/vermelho.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Compare a abertura com as cores já usadas no HTML original do personagem</li>
+          <li>Confirme que Pipping não parece Bayle, Bayle não parece Yu genérico e Gyro não usa vermelho como cor principal</li>
+          <li>Confirme que as tags e acentos acompanham a paleta correta</li>
+        </ol>
+      </div>
+      <div class="result" id="test21-result" style="display:none;">
+        ✅ Paletas individuais validadas!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest21()">
+        <span>Cada personagem tem paleta própria</span>
+      </label>
+    </div>
+
+    <!-- TESTE 22: Origem e Caminho -->
+    <h2>✅ TESTE 22: Origem e Caminho Editáveis</h2>
+    <div class="test-item">
+      <div class="test-title">📜 Validar expansão narrativa da aba</div>
+      <div class="test-desc">
+        A abertura agora deve ter espaços de Origem e Caminho para expandir a história sem misturar com mecânica.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra qualquer personagem</li>
+          <li>Role abaixo da abertura principal</li>
+          <li>Edite os campos <strong>Origem</strong> e <strong>Caminho</strong></li>
+          <li>Recarregue a página e confirme que o texto permanece no navegador</li>
+        </ol>
+      </div>
+      <div class="result" id="test22-result" style="display:none;">
+        ✅ Origem e Caminho editáveis validados!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest22()">
+        <span>Origem e Caminho existem e persistem localmente</span>
+      </label>
+    </div>
+
+    <!-- TESTE 23: Campanha Separada -->
+    <h2>✅ TESTE 23: Campanha em HTML Próprio</h2>
+    <div class="test-item">
+      <div class="test-title">🗂️ Validar separação do index</div>
+      <div class="test-desc">
+        Sessão, status e rank da equipe devem estar em <code>campanha.html</code>, com o index funcionando apenas como hub.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>index.html</code> e clique em <strong>Campanha</strong> ou <strong>Status da campanha</strong></li>
+          <li>Confirme que abriu <code>campanha.html</code></li>
+          <li>Confirme que a página tem Sessão atual, Status da campanha e Rank da equipe</li>
+        </ol>
+      </div>
+      <div class="result" id="test23-result" style="display:none;">
+        ✅ Campanha separada validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest23()">
+        <span>Campanha está em HTML separado</span>
+      </label>
+    </div>
+
+    <!-- TESTE 24: Entrada Inicial Correta -->
+    <h2>✅ TESTE 24: Entrada Inicial Correta nos Personagens</h2>
+    <div class="test-item warning">
+      <div class="test-title">🧭 Garantir que cada ficha abre na Visão Geral</div>
+      <div class="test-desc">
+        Ao abrir um personagem, a primeira coisa visível deve ser a apresentação dele, não a ficha mecânica ou uma lista de habilidades.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra Gyro, Cinério, Pipping e Bayle em carregamento limpo</li>
+          <li>Confirme que a apresentação aparece antes de qualquer navegação interna</li>
+          <li>No Pipping, confirme que a barra "Tudo/Ficha/Habilidades" vem abaixo da abertura</li>
+          <li>No Bayle, confirme que a abertura vem antes do bloco de abas do arquivo dracônico</li>
+        </ol>
+      </div>
+      <div class="result" id="test24-result" style="display:none;">
+        ✅ Aba inicial correta validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest24()">
+        <span>Personagens abrem pela apresentação correta</span>
+      </label>
+    </div>
+
     <!-- RESUMO FINAL -->
     <h2 style="margin-top: 3rem;">📊 Resumo de Testes</h2>
     <div class="test-item success" style="background: rgba(46, 125, 50, 0.15);">
       <div class="status-line">
         <span class="label">Tests Completados:</span>
-        <span class="value" id="completed-count">0/16</span>
+        <span class="value" id="completed-count">0/22</span>
       </div>
       <div class="status-line">
         <span class="label">Taxa de Sucesso:</span>
@@ -675,7 +822,7 @@
     <div class="test-item">
       <p style="line-height: 1.8;">
         <strong>Se todos os testes passaram:</strong> ✅<br>
-        Parabéns! A bateria v2.7 está funcionando.<br>
+        Parabéns! A bateria v3.5 está funcionando.<br>
         <br>
         <strong>Próxima fase:</strong><br>
         → Criar um mini painel de áudio dentro do Painel Mestre com play/pause/volume<br>
@@ -692,7 +839,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v2.7 - Teste Completo<br>
+        ETHERNUM v3.5 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>
@@ -708,14 +855,20 @@
       test6: false,
       test7: false,
       test8: false,
-      test9: false,
       test10: false,
       test11: false,
       test12: false,
       test13: false,
       test14: false,
-      test15: false,
-      test16: false
+      test16: false,
+      test17: false,
+      test18: false,
+      test19: false,
+      test20: false,
+      test21: false,
+      test22: false,
+      test23: false,
+      test24: false
     };
 
     function validateTest1() {
@@ -774,13 +927,6 @@
       else document.getElementById('test8-result').style.display = 'none';
     }
 
-    function validateTest9() {
-      tests.test9 = !tests.test9;
-      updateSummary();
-      if (tests.test9) document.getElementById('test9-result').style.display = 'block';
-      else document.getElementById('test9-result').style.display = 'none';
-    }
-
     function validateTest10() {
       tests.test10 = !tests.test10;
       updateSummary();
@@ -816,13 +962,6 @@
       else document.getElementById('test14-result').style.display = 'none';
     }
 
-    function validateTest15() {
-      tests.test15 = !tests.test15;
-      updateSummary();
-      if (tests.test15) document.getElementById('test15-result').style.display = 'block';
-      else document.getElementById('test15-result').style.display = 'none';
-    }
-
     function validateTest16() {
       tests.test16 = !tests.test16;
       updateSummary();
@@ -830,55 +969,60 @@
       else document.getElementById('test16-result').style.display = 'none';
     }
 
-    const cartolaOfflineInfo = {
-      chars: 38485,
-      effects: 85,
-      first: 'Chave que não existe',
-      stages: 6,
-      hasDocx: true
-    };
-
-    function renderCartolaInfo(info, mode = 'automática') {
-      const preview = document.getElementById('cartola-preview');
-      preview.innerHTML = `
-        <div class="status-line"><span class="label">Inspeção:</span><span class="value">${mode}</span></div>
-        <div class="status-line"><span class="label">Tipo:</span><span class="value">${info.hasDocx ? 'Gerador Node/docx' : 'JS comum'}</span></div>
-        <div class="status-line"><span class="label">Efeitos detectados:</span><span class="value">${info.effects}</span></div>
-        <div class="status-line"><span class="label">Primeiro efeito:</span><span class="value">${info.first}</span></div>
-        <div class="status-line"><span class="label">Estágios:</span><span class="value">${info.stages}</span></div>
-      `;
-      tests.test9 = true;
-      document.getElementById('test9-result').style.display = 'block';
+    function validateTest17() {
+      tests.test17 = !tests.test17;
       updateSummary();
+      if (tests.test17) document.getElementById('test17-result').style.display = 'block';
+      else document.getElementById('test17-result').style.display = 'none';
     }
 
-    function inspectCartolaOffline() {
-      renderCartolaInfo(cartolaOfflineInfo, 'offline');
+    function validateTest18() {
+      tests.test18 = !tests.test18;
+      updateSummary();
+      if (tests.test18) document.getElementById('test18-result').style.display = 'block';
+      else document.getElementById('test18-result').style.display = 'none';
     }
 
-    async function inspectCartola() {
-      const preview = document.getElementById('cartola-preview');
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 1800);
-      try {
-        preview.textContent = 'Inspecionando cartola.js...';
-        const response = await fetch('cartola.js', { signal: controller.signal });
-        const source = await response.text();
-        const effectRows = [...source.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"/g)];
-        const hasDocx = source.includes("require('docx')") || source.includes('require("docx")');
-        const stages = [...source.matchAll(/stageBadge\("([^"]+)"/g)].map(match => match[1]);
-        renderCartolaInfo({
-          chars: source.length,
-          effects: effectRows.length,
-          first: effectRows[0]?.[2] || 'n/a',
-          stages: stages.length,
-          hasDocx
-        }, 'via fetch');
-      } catch (error) {
-        renderCartolaInfo(cartolaOfflineInfo, 'offline após bloqueio local');
-      } finally {
-        clearTimeout(timeout);
-      }
+    function validateTest19() {
+      tests.test19 = !tests.test19;
+      updateSummary();
+      if (tests.test19) document.getElementById('test19-result').style.display = 'block';
+      else document.getElementById('test19-result').style.display = 'none';
+    }
+
+    function validateTest20() {
+      tests.test20 = !tests.test20;
+      updateSummary();
+      if (tests.test20) document.getElementById('test20-result').style.display = 'block';
+      else document.getElementById('test20-result').style.display = 'none';
+    }
+
+    function validateTest21() {
+      tests.test21 = !tests.test21;
+      updateSummary();
+      if (tests.test21) document.getElementById('test21-result').style.display = 'block';
+      else document.getElementById('test21-result').style.display = 'none';
+    }
+
+    function validateTest22() {
+      tests.test22 = !tests.test22;
+      updateSummary();
+      if (tests.test22) document.getElementById('test22-result').style.display = 'block';
+      else document.getElementById('test22-result').style.display = 'none';
+    }
+
+    function validateTest23() {
+      tests.test23 = !tests.test23;
+      updateSummary();
+      if (tests.test23) document.getElementById('test23-result').style.display = 'block';
+      else document.getElementById('test23-result').style.display = 'none';
+    }
+
+    function validateTest24() {
+      tests.test24 = !tests.test24;
+      updateSummary();
+      if (tests.test24) document.getElementById('test24-result').style.display = 'block';
+      else document.getElementById('test24-result').style.display = 'none';
     }
 
     function updateSummary() {
@@ -899,6 +1043,10 @@
       }
       
       document.getElementById('final-message').textContent = message;
+      Object.entries(tests).forEach(([key, passed]) => {
+        const result = document.getElementById(`${key}-result`);
+        result?.closest('.test-item')?.classList.toggle('is-passed', passed);
+      });
     }
   </script>
 </body>

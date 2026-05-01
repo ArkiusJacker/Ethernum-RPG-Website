@@ -294,8 +294,8 @@
       <!-- SOUND CONTROL -->
       <div class="control-section">
         <div class="control-label">Áudio</div>
-        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="window.location.href='audio-config.html?target=' + activeCharacter + '&return=mestre-panel.html'" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
-          ⚙️ Configurar Música
+        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="openGeneralSettings()" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
+          ⚙️ Configurações Gerais
         </button>      </div>
 
       <div class="divider"></div>
@@ -510,6 +510,11 @@
         isSoundEnabled ? '🔊 Sons ativados' : '🔇 Sons desativados',
         'success'
       );
+    }
+
+    function openGeneralSettings() {
+      const back = `mestre-panel.html?character=${encodeURIComponent(activeCharacter)}`;
+      window.location.href = `audio-config.html?target=${encodeURIComponent(activeCharacter)}&return=${encodeURIComponent(back)}`;
     }
 
     /**

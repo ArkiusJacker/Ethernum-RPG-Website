@@ -228,9 +228,9 @@ class EthernumApp {
     bgElement.className = 'hero-scroll-bg';
     const img = heroContainer.querySelector('img');
     if (img && img.src) {
-      const bgImg = img.cloneNode(true);
-      bgElement.appendChild(bgImg);
+      bgElement.style.backgroundImage = `url("${img.src}")`;
       document.body.appendChild(bgElement);
+      document.body.classList.add('has-hero-scroll-bg');
     }
 
     window.addEventListener('scroll', () => {
@@ -238,12 +238,12 @@ class EthernumApp {
       const heroHeight = document.querySelector('.hero').offsetHeight;
 
       if (scrolled > 0) {
-        const opacity = Math.min(scrolled / (heroHeight * 0.5), 0.4);
+        const opacity = Math.min(scrolled / (heroHeight * 0.5), 0.16);
         bgElement.style.opacity = opacity;
         bgElement.classList.add('active');
         
         // Move background slightly for parallax
-        bgElement.style.transform = `translateY(${scrolled * 0.3}px)`;
+        bgElement.style.transform = `translateY(${scrolled * 0.12}px)`;
       } else {
         bgElement.classList.remove('active');
       }
@@ -486,10 +486,18 @@ class EthernumApp {
   detectMasterMode() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('master') === 'true') {
-      localStorage.setItem('masterMode', 'true');
-      return true;
+      if (window.EthernumShared?.requestMaster) {
+        return window.EthernumShared.requestMaster();
+      }
+      const password = localStorage.getItem('ethernum-master-password') || 'ethernum-master';
+      const value = window.prompt('Senha do modo mestre:');
+      const allowed = value === password;
+      localStorage.setItem('masterMode', allowed ? 'true' : 'false');
+      localStorage.setItem('ethernum-master-authenticated', allowed ? 'true' : 'false');
+      if (!allowed && value !== null) window.alert('Senha incorreta.');
+      return allowed;
     }
-    return localStorage.getItem('masterMode') === 'true';
+    return localStorage.getItem('ethernum-master-authenticated') === 'true';
   }
 
   /* ───────────────────────────────────────── SOUND TOGGLE ───────────────────────────────────────── */
@@ -566,8 +574,14 @@ class EthernumApp {
       switchSection: (sectionId) => this.switchSection(sectionId),
       getEditMode: () => this.isEditMode,
       setMasterMode: (value) => {
-        localStorage.setItem('masterMode', value);
-        this.masterMode = value;
+        if (value && window.EthernumShared?.requestMaster && !window.EthernumShared.isMaster()) {
+          if (!window.EthernumShared.requestMaster()) return false;
+        }
+        localStorage.setItem('masterMode', value ? 'true' : 'false');
+        if (!value) localStorage.removeItem('ethernum-master-authenticated');
+        this.masterMode = value && localStorage.getItem('ethernum-master-authenticated') === 'true';
+        this.setupLockedContent();
+        return this.masterMode;
       },
       toggleSound: () => this.toggleSound(),
       playSound: () => this.playClickSound(),
@@ -580,8 +594,11 @@ class EthernumApp {
         this.switchSection(event.data.sectionId);
       }
       if (event.data.action === 'TOGGLE_MASTER') {
-        this.masterMode = event.data.value;
-        localStorage.setItem('masterMode', event.data.value);
+        if (event.data.value && window.EthernumShared?.requestMaster && !window.EthernumShared.isMaster()) {
+          if (!window.EthernumShared.requestMaster()) return;
+        }
+        this.masterMode = Boolean(event.data.value) && localStorage.getItem('ethernum-master-authenticated') === 'true';
+        localStorage.setItem('masterMode', this.masterMode ? 'true' : 'false');
         this.setupLockedContent();
       }
     });

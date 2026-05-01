@@ -62,7 +62,7 @@ Retorna:
 // ════════════════════════════════════════════════════════════════════
 
 // HTML
-<iframe id="character-sheet" src="gyro_zeppeli.html"></iframe>
+<iframe id="character-sheet" src="pipping-expressao-da-noite.html"></iframe>
 
 // JavaScript
 const sheetFrame = document.getElementById('character-sheet');
@@ -163,11 +163,11 @@ localStorage.clear();
 // 7. URL PARAMETERS (Atalhos)
 // ════════════════════════════════════════════════════════════════════
 
-// Modo Mestre automático:
-// https://seu-site.com/gyro_zeppeli.html?master=true
+// Modo Mestre automático agora pede senha:
+// https://seu-site.com/mestre-panel.html?character=pipping
 
 // Você pode adicionar mais parâmetros:
-// https://seu-site.com/gyro_zeppeli.html?master=true&section=s-npcs&sound=false
+// https://seu-site.com/mestre-panel.html?character=bayle&section=s-npcs&sound=false
 
 // Parse no seu código:
 const params = new URLSearchParams(window.location.search);

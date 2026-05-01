@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Mestre — ETHERNUM</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * {
       margin: 0;
@@ -94,6 +95,19 @@
       background: rgba(74, 158, 78, 0.3);
       border-color: rgba(74, 158, 78, 0.6);
       color: #4a9e4e;
+    }
+
+    select {
+      width: 100%;
+      background: rgba(8, 9, 10, 0.92);
+      border: 1px solid rgba(200, 168, 75, 0.3);
+      color: #e8d5c4;
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .section-buttons {
@@ -229,6 +243,18 @@
     <div class="master-panel">
       <h2>🎭 Painel do Mestre</h2>
 
+      <div class="control-section">
+        <div class="control-label">Personagem no Painel</div>
+        <select id="character-select" onchange="changeCharacter(this.value)">
+          <option value="gyro">Gyro Zeppeli</option>
+          <option value="cinerio">Cinério & Umbra</option>
+          <option value="pipping">Pipping Baldwin Black</option>
+          <option value="bayle">Bayle, O Horror</option>
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
       <!-- MODE CONTROL -->
       <div class="control-section">
         <div class="control-label">Modo de Visibilidade</div>
@@ -258,6 +284,7 @@
           <button onclick="switchSection('s-risco')">Execução</button>
           <button onclick="switchSection('s-bb')">BB</button>
           <button onclick="switchSection('s-prog')">Progressão</button>
+          <button onclick="switchSection('s-ficha')">Ficha</button>
           <button onclick="switchSection('s-npcs')">NPCs</button>
           <button onclick="switchSection('s-quest')">Quest</button>
         </div>
@@ -303,13 +330,23 @@
     </div>
   </div>
 
+  <script src="ethernum-shared.js"></script>
   <script>
     const playerFrame = document.getElementById('player-iframe');
-    let isMasterMode = true;
+    const characterFiles = {
+      gyro: { name: 'Gyro Zeppeli', level: '3', file: 'gyro_zeppeli.html' },
+      cinerio: { name: 'Cinério & Umbra', level: '-', file: 'cinerio_umbra_visual.html' },
+      pipping: { name: 'Pipping Baldwin Black', level: '3', file: 'pipping-expressao-da-noite.html' },
+      bayle: { name: 'Bayle, O Horror', level: '3', file: 'bayle_draconico (1).html' },
+    };
+    let activeCharacter = new URLSearchParams(window.location.search).get('character') || 'gyro';
+    let isMasterMode = localStorage.getItem('ethernum-master-authenticated') === 'true';
     let isSoundEnabled = true;
 
     // Initialize on load
     window.addEventListener('load', () => {
+      document.getElementById('character-select').value = activeCharacter;
+      changeCharacter(activeCharacter, false);
       setTimeout(() => {
         syncPlayerState();
       }, 1000);
@@ -330,16 +367,34 @@
      * Set master mode
      */
     function setMasterMode(enabled) {
-      isMasterMode = enabled;
-      document.getElementById('btn-master-on').classList.toggle('active', enabled);
-      document.getElementById('btn-master-off').classList.toggle('active', !enabled);
-      document.getElementById('master-status').textContent = enabled ? '✓ Ativo' : '✗ Desativo';
+      if (enabled && window.EthernumShared && !window.EthernumShared.isMaster()) {
+        if (!window.EthernumShared.requestMaster()) {
+          enabled = false;
+        }
+      }
+      if (!enabled && window.EthernumShared) {
+        window.EthernumShared.leaveMaster();
+      }
+      isMasterMode = Boolean(enabled) && localStorage.getItem('ethernum-master-authenticated') === 'true';
+      document.getElementById('btn-master-on').classList.toggle('active', isMasterMode);
+      document.getElementById('btn-master-off').classList.toggle('active', !isMasterMode);
+      document.getElementById('master-status').textContent = isMasterMode ? '✓ Ativo' : '✗ Desativo';
 
-      sendToPlayer('TOGGLE_MASTER', { value: enabled });
+      sendToPlayer('TOGGLE_MASTER', { value: isMasterMode });
       showNotification(
-        enabled ? '👁️ Modo Mestre ativado - NPCs visíveis' : '🔒 Modo Jogador - Conteúdo bloqueado',
-        enabled ? 'success' : 'warning'
+        isMasterMode ? '👁️ Modo Mestre ativado para o personagem atual' : '🔒 Modo Jogador - conteúdo bloqueado',
+        isMasterMode ? 'success' : 'warning'
       );
+    }
+
+    function changeCharacter(character, notify = true) {
+      activeCharacter = characterFiles[character] ? character : 'gyro';
+      const data = characterFiles[activeCharacter];
+      playerFrame.src = data.file + (isMasterMode ? '?master=true' : '');
+      document.getElementById('char-name').textContent = data.name;
+      document.getElementById('char-level').textContent = data.level;
+      document.getElementById('char-section').textContent = 'Inicial';
+      if (notify) showNotification(`Personagem carregado: ${data.name}`, 'success');
     }
 
     /**
@@ -357,6 +412,7 @@
         's-risco': 'Execução & Risco',
         's-bb': 'Ball Breaker',
         's-prog': 'Progressão',
+        's-ficha': 'Ficha PF2e',
         's-npcs': 'NPCs',
         's-quest': 'Questline',
       };
@@ -388,7 +444,7 @@
       if (playerFrame.contentWindow.EthernumAPI) {
         const data = playerFrame.contentWindow.EthernumAPI.getCharacterData();
         if (data) {
-          document.getElementById('char-name').textContent = data.name || 'Gyro Zeppeli';
+          document.getElementById('char-name').textContent = data.name || characterFiles[activeCharacter].name;
           document.getElementById('char-level').textContent = data.level || 3;
         }
       }
@@ -429,7 +485,7 @@
     });
 
     // Initial setup
-    setMasterMode(true);
+    setMasterMode(isMasterMode);
     showNotification('✓ Painel do Mestre carregado', 'success');
   </script>
 </body>

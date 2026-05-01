@@ -1,5 +1,5 @@
 /**
- * ETHERNUM v2.8 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v2.9 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
@@ -29,7 +29,7 @@ const ETHERNUM_LEGACY_AUDIO_PATHS = [
 
 function normalizeEthernumAudioUrl(url) {
   const value = (url || '').trim();
-  if (!value || ETHERNUM_LEGACY_AUDIO_PATHS.includes(value)) return ETHERNUM_DEFAULT_AUDIO;
+  if (ETHERNUM_LEGACY_AUDIO_PATHS.includes(value)) return ETHERNUM_DEFAULT_AUDIO;
   return value;
 }
 
@@ -68,10 +68,10 @@ const ETHERNUM_EDITABLE_SELECTORS = [
 class EthernumApp {
   constructor(config = {}) {
     const character = config.character || detectEthernumCharacter();
-    const storedAudio = localStorage.getItem(`ethernum-music-url-${character}`) || localStorage.getItem('ethernum-music-url');
+    const storedAudio = localStorage.getItem(`ethernum-music-url-${character}`) || (character === 'gyro' ? localStorage.getItem('ethernum-music-url') : '');
     this.config = {
       character,
-      backgroundMusicUrl: normalizeEthernumAudioUrl(config.backgroundMusicUrl || storedAudio),
+      backgroundMusicUrl: normalizeEthernumAudioUrl(config.backgroundMusicUrl || storedAudio || (character === 'gyro' ? ETHERNUM_DEFAULT_AUDIO : '')),
       enableCustomAudio: config.enableCustomAudio !== false,
       allowMultipleOpenCards: config.allowMultipleOpenCards || (localStorage.getItem('ethernum-allow-multiple') === 'true'),
       ...config
@@ -102,7 +102,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v2.8 initialized', {
+    console.log('🎯 ETHERNUM v2.9 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,
@@ -212,7 +212,6 @@ class EthernumApp {
       return;
     }
     if (!this.config.backgroundMusicUrl) {
-      this.createAmbientLoop();
       return;
     }
 
@@ -354,6 +353,8 @@ class EthernumApp {
   formatSectionId(text) {
     const sectionMap = {
       'Sistema SP': 's-sp',
+      'Visao Geral': 's-overview',
+      'Visão Geral': 's-overview',
       'IKONs': 's-ikons',
       'Palmas do Diabo': 's-palmas',
       'Técnicas': 's-tecnicas',

@@ -294,8 +294,8 @@
       <!-- SOUND CONTROL -->
       <div class="control-section">
         <div class="control-label">Áudio</div>
-        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="window.location.href='audio-config.html?target=' + activeCharacter + '&return=mestre-panel.html'" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
-          ⚙️ Configurar Música
+        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="openGeneralSettings()" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
+          ⚙️ Configurações Gerais
         </button>      </div>
 
       <div class="divider"></div>
@@ -347,6 +347,7 @@
     let isSoundEnabled = true;
     const sectionDefinitions = {
       gyro: [
+        { id: 's-overview', label: 'Visão Geral' },
         { id: 's-sp', label: 'SP' },
         { id: 's-ikons', label: 'IKONs' },
         { id: 's-palmas', label: 'Palmas' },
@@ -360,6 +361,7 @@
         { id: 's-quest', label: 'Quest' }
       ],
       cinerio: [
+        { id: 'overview', label: 'Visão Geral' },
         { id: 'fundacao', label: 'Fundação' },
         { id: 'recursos', label: 'Recursos' },
         { id: 'tecnicas', label: 'Técnicas' },
@@ -367,6 +369,7 @@
         { id: 'progressao', label: 'Progressão' }
       ],
       pipping: [
+        { id: 'overview', label: 'Visão Geral' },
         { id: 'sheet', label: 'Ficha' },
         { id: 'tiers', label: 'Habilidades' },
         { id: 'progression', label: 'Progressão' }
@@ -510,6 +513,11 @@
         isSoundEnabled ? '🔊 Sons ativados' : '🔇 Sons desativados',
         'success'
       );
+    }
+
+    function openGeneralSettings() {
+      const back = `mestre-panel.html?character=${encodeURIComponent(activeCharacter)}`;
+      window.location.href = `audio-config.html?target=${encodeURIComponent(activeCharacter)}&return=${encodeURIComponent(back)}`;
     }
 
     /**

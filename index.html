@@ -1,10 +1,10 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.8 -->
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.9 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethernum Company v2.8 - Arquivo Operacional</title>
+  <title>Ethernum Company v2.9 - Arquivo Operacional</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     :root {
@@ -109,6 +109,13 @@
       text-transform: uppercase;
     }
 
+    .intro-options {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
     .topbar {
       position: sticky;
       top: 0;
@@ -139,6 +146,7 @@
     }
 
     .nav a,
+    .nav button,
     .button {
       display: inline-flex;
       align-items: center;
@@ -155,10 +163,16 @@
     }
 
     .nav a:hover,
+    .nav button:hover,
     .button:hover {
       border-color: var(--gold);
       background: rgba(200, 168, 75, 0.18);
       transform: translateY(-1px);
+    }
+
+    .nav button {
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .button.primary {
@@ -261,6 +275,7 @@
     }
 
     .terminal-grid,
+    .ops-grid,
     .characters,
     .changes,
     .tools {
@@ -271,6 +286,47 @@
     .terminal-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 1rem;
+    }
+
+    .ops-grid {
+      grid-template-columns: 1.15fr 0.85fr 0.85fr;
+      margin-top: 1rem;
+    }
+
+    .ops-card {
+      min-height: 260px;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+    }
+
+    .ops-card h3 {
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    .ops-list {
+      display: grid;
+      gap: 0.72rem;
+      margin-top: 1rem;
+    }
+
+    .ops-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.75rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid rgba(200, 168, 75, 0.13);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .ops-item strong {
+      color: #f2df9b;
+      text-transform: uppercase;
     }
 
     .signal {
@@ -333,6 +389,43 @@
       transform: translateY(-2px);
     }
 
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .band {
+        animation: pageTurnIn 640ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+        transform-origin: left center;
+      }
+
+      .record,
+      .change,
+      .tool-card,
+      .ops-card {
+        transform-style: preserve-3d;
+      }
+
+      .record:hover,
+      .change:hover,
+      .tool-card:hover,
+      .ops-card:hover {
+        transform: perspective(900px) rotateY(-2.5deg) translateY(-2px);
+      }
+    }
+
+    @keyframes pageTurnIn {
+      from {
+        opacity: 0;
+        transform: perspective(900px) rotateY(4deg) translateX(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: perspective(900px) rotateY(0) translateX(0);
+      }
+    }
+
     .record h3,
     .change h3,
     .tool-card h3 {
@@ -372,6 +465,7 @@
 
     @media (max-width: 900px) {
       .hero,
+      .ops-grid,
       .changes { grid-template-columns: 1fr; }
       .section-head,
       .topbar,
@@ -384,7 +478,9 @@
       .tools,
       .terminal-grid { grid-template-columns: 1fr; }
       .button,
-      .nav a { width: 100%; }
+      .nav a,
+      .nav button { width: 100%; }
+      .ops-item { grid-template-columns: 1fr; }
       h1 { font-size: clamp(2.6rem, 16vw, 4.2rem); }
     }
   </style>
@@ -399,12 +495,17 @@
         Um registro corporativo confidencial para agentes, protagonistas e contratos de campo.
       </p>
       <button class="button intro-button" type="button" data-enter-site>Inicie aqui a sua aventura</button>
+      <div class="intro-options">
+        <button class="button" type="button" data-intro-always>Mostrar esta abertura sempre</button>
+      </div>
     </div>
   </div>
 
   <header class="topbar">
-    <div class="brand">Ethernum Company · v2.8</div>
+    <div class="brand">Ethernum Company · v2.9</div>
     <nav class="nav" aria-label="Navegacao principal">
+      <button type="button" data-intro-mode>Intro: uma vez</button>
+      <a href="#campanha">Campanha</a>
       <a href="#personagens">Personagens</a>
       <a href="#alteracoes">Alteracoes</a>
       <a href="#ferramentas">Ferramentas</a>
@@ -434,7 +535,7 @@
       </div>
 
       <aside class="terminal">
-        <p class="eyebrow">Status v2.8</p>
+        <p class="eyebrow">Status v2.9</p>
         <div class="terminal-grid">
           <div class="signal"><strong>4</strong><span>fichas registradas</span></div>
           <div class="signal"><strong>PF2e</strong><span>ficha + inventario</span></div>
@@ -444,6 +545,46 @@
           <div class="signal"><strong>EP</strong><span>a definir</span></div>
         </div>
       </aside>
+    </section>
+
+    <section class="band" id="campanha">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Mesa em andamento</p>
+          <h2>Campanha</h2>
+        </div>
+        <p class="section-note">Resumo operacional para abrir a sessão sem caçar informação em abas de personagem.</p>
+      </div>
+      <div class="ops-grid">
+        <article class="ops-card">
+          <span class="tag">Sessao</span>
+          <h3>Sessao atual</h3>
+          <div class="ops-list">
+            <div class="ops-item"><strong>Numero</strong><span>A definir</span></div>
+            <div class="ops-item"><strong>Local</strong><span>Stingol / rota operacional Ethernum</span></div>
+            <div class="ops-item"><strong>Objetivo</strong><span>Contrato ativo aguardando despacho do mestre.</span></div>
+            <div class="ops-item"><strong>Gancho</strong><span>Registrar pistas, NPCs relevantes e pendencias antes do proximo jogo.</span></div>
+          </div>
+        </article>
+        <article class="ops-card">
+          <span class="tag">Status</span>
+          <h3>Status da campanha</h3>
+          <div class="ops-list">
+            <div class="ops-item"><strong>Risco</strong><span>Moderado</span></div>
+            <div class="ops-item"><strong>Recursos</strong><span>EP e recompensas a definir.</span></div>
+            <div class="ops-item"><strong>Arquivos</strong><span>4 protagonistas integrados com ficha PF2e.</span></div>
+          </div>
+        </article>
+        <article class="ops-card">
+          <span class="tag">Equipe</span>
+          <h3>Rank da equipe</h3>
+          <div class="ops-list">
+            <div class="ops-item"><strong>Rank</strong><span>1 · Agentes de campo trainee</span></div>
+            <div class="ops-item"><strong>Membros</strong><span>Gyro, Cinerio, Pipping e Bayle.</span></div>
+            <div class="ops-item"><strong>Marco</strong><span>Atualizar apos fechamento de contrato.</span></div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="band" id="personagens">
@@ -499,7 +640,7 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Lista de alteracoes</p>
-          <h2>v2.8</h2>
+          <h2>v2.9</h2>
         </div>
         <p class="section-note">Toda rodada de alteracao sobe a versao do site.</p>
       </div>
@@ -515,8 +656,8 @@
         <article class="change"><h3>Cards corrigidos</h3><p>Palmas, tecnicas e progresso deixam de sofrer conflito de duplo clique.</p></article>
         <article class="change"><h3>IKONs editaveis</h3><p>Linhas internas, custos e transcendencias entram no modo de edicao.</p></article>
         <article class="change"><h3>Audio do Gyro revisado</h3><p>Fallback local e desbloqueio do AudioContext no primeiro clique.</p></article>
-        <article class="change"><h3>Nova bateria de testes</h3><p>Testes 12 a 15 cobrem IKONs, audio, multiplos cards e Cartola offline.</p></article>
-        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao, testes e Cartola.</p></article>
+        <article class="change"><h3>Nova bateria de testes</h3><p>Testes funcionais agora podem ser minimizados para deixar a pagina respiravel.</p></article>
+        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao e bateria manual.</p></article>
         <article class="change"><h3>Asset do Gyro local</h3><p>Removida dependencia de caminho absoluto do Foundry para evitar quebra no GitHub Pages.</p></article>
         <article class="change"><h3>Codigo mais limpo</h3><p>Seletores editaveis foram centralizados para evitar duplicidade no <code>app.js</code>.</p></article>
         <article class="change"><h3>Botao de edicao</h3><p>A navegacao compartilhada ganhou controle visual para alternar o modo edicao.</p></article>
@@ -535,7 +676,7 @@
       </div>
       <div class="tools">
         <article class="tool-card"><h3>Painel Mestre</h3><p>Controle multi-personagem com senha.</p><div class="record-actions"><a class="button" href="mestre-panel.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Audio</h3><p>Configurador de trilha e preferencias.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
+        <article class="tool-card"><h3>Configurações Gerais</h3><p>Trilhas por pagina, cards e abertura inicial.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Testes</h3><p>Validacao manual das funcionalidades.</p><div class="record-actions"><a class="button" href="TESTS.html">Abrir</a></div></article>
         <article class="tool-card"><h3>API</h3><p>Referencia de integracao entre paginas.</p><div class="record-actions"><a class="button" href="API-REFERENCE.js">Abrir</a></div></article>
       </div>
@@ -547,31 +688,48 @@
           <p class="eyebrow">Proximas fases</p>
           <h2>Roadmap</h2>
         </div>
-        <p class="section-note">Proxima rodada sera v2.9, mantendo esse padrao de versionamento incremental.</p>
+        <p class="section-note">Proxima rodada sera v3.0, mantendo esse padrao de versionamento incremental.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.8
+    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.9
   </footer>
   <script>
     (() => {
       const introKey = 'ethernum-index-intro-seen';
+      const introModeKey = 'ethernum-index-intro-mode';
       const intro = document.querySelector('.intro-gate');
-      if (intro && localStorage.getItem(introKey) !== 'true') {
+      const modeButton = document.querySelector('[data-intro-mode]');
+      const updateIntroMode = () => {
+        const always = localStorage.getItem(introModeKey) === 'always';
+        if (modeButton) modeButton.textContent = always ? 'Intro: sempre' : 'Intro: uma vez';
+      };
+      updateIntroMode();
+      modeButton?.addEventListener('click', () => {
+        const always = localStorage.getItem(introModeKey) === 'always';
+        localStorage.setItem(introModeKey, always ? 'once' : 'always');
+        updateIntroMode();
+      });
+      const shouldShowIntro = localStorage.getItem(introModeKey) === 'always' || localStorage.getItem(introKey) !== 'true';
+      if (intro && shouldShowIntro) {
         document.body.classList.add('has-intro');
         intro.classList.add('is-visible');
+        intro.querySelector('[data-intro-always]')?.addEventListener('click', () => {
+          localStorage.setItem(introModeKey, 'always');
+          updateIntroMode();
+          intro.querySelector('[data-intro-always]').textContent = 'Abertura marcada como sempre ativa';
+        });
         intro.querySelector('[data-enter-site]')?.addEventListener('click', () => {
-          localStorage.setItem(introKey, 'true');
+          if (localStorage.getItem(introModeKey) !== 'always') localStorage.setItem(introKey, 'true');
           intro.classList.remove('is-visible');
           document.body.classList.remove('has-intro');
         });
       }
 
       if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
-      const fallback = 'media/audio/audio%20%5Bmusic%5D.mp3';
-      const src = localStorage.getItem('ethernum-music-url-index') || fallback;
+      const src = localStorage.getItem('ethernum-music-url-index');
       if (!src) return;
       const audio = new Audio(src);
       audio.loop = true;

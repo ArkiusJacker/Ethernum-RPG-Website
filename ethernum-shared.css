@@ -70,6 +70,105 @@
   filter: saturate(0.96) contrast(1.02);
 }
 
+.ethernum-character-overview {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+  align-items: end;
+  min-height: min(720px, calc(100vh - 56px));
+  margin: 0;
+  padding: clamp(54px, 8vw, 92px) clamp(18px, 6vw, 72px) clamp(34px, 6vw, 62px);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(200, 168, 75, 0.22);
+  background:
+    radial-gradient(circle at 82% 42%, rgba(143, 26, 26, 0.32), transparent 32%),
+    linear-gradient(90deg, rgba(5, 7, 8, 0.98) 0%, rgba(10, 11, 12, 0.95) 62%, rgba(37, 14, 13, 0.86) 100%);
+  color: #f2eee6;
+}
+
+.ethernum-character-overview::after {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -18%;
+  left: 55%;
+  width: 34px;
+  background: linear-gradient(180deg, transparent, rgba(185, 34, 34, 0.34), transparent);
+  transform: rotate(13deg);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.ethernum-overview-left,
+.ethernum-overview-right {
+  position: relative;
+  z-index: 2;
+}
+
+.ethernum-overview-eyebrow {
+  margin: 0 0 14px;
+  color: #cf2e2e;
+  font: 700 12px/1.1 "Courier New", monospace;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.ethernum-overview-name {
+  margin: 0;
+  color: #f4f0e8;
+  font: 900 clamp(56px, 12vw, 144px)/0.82 Impact, "Arial Black", sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ethernum-overview-name span {
+  display: block;
+  margin-top: 16px;
+  color: #cf2e2e;
+  font-size: 0.46em;
+}
+
+.ethernum-overview-sub {
+  margin: 24px 0 0;
+  color: rgba(242, 238, 230, 0.56);
+  font: 400 13px/1.4 "Courier New", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ethernum-overview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.ethernum-overview-tags span {
+  min-height: 28px;
+  padding: 7px 12px;
+  border: 1px solid rgba(200, 168, 75, 0.35);
+  background: rgba(0, 0, 0, 0.34);
+  color: #d9c978;
+  font: 700 11px/1.1 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-overview-right {
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.ethernum-overview-right img {
+  width: min(100%, 430px);
+  max-height: calc(100vh - 92px);
+  object-fit: contain;
+  object-position: bottom center;
+  filter: saturate(0.96) contrast(1.05) drop-shadow(0 28px 44px rgba(0, 0, 0, 0.62));
+}
+
 .ethernum-shell-nav {
   position: sticky;
   top: 0;
@@ -247,6 +346,20 @@
   color: #d9f0d8;
 }
 
+.ethernum-pf2-add {
+  margin-top: 12px;
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 4px;
+  background: rgba(110, 163, 111, 0.14);
+  color: #d9f0d8;
+  cursor: pointer;
+  font: 700 11px/1.1 "Courier New", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .ethernum-pf2-panel {
   display: none;
 }
@@ -383,6 +496,22 @@ body.has-hero-scroll-bg .section {
 }
 
 @media (max-width: 850px) {
+  .ethernum-character-overview {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-top: 42px;
+  }
+
+  .ethernum-overview-right {
+    margin-top: 28px;
+    max-height: 58vh;
+  }
+
+  .ethernum-overview-eyebrow,
+  .ethernum-overview-sub {
+    letter-spacing: 0.12em;
+  }
+
   .ethernum-shell-nav {
     align-items: flex-start;
     flex-direction: column;

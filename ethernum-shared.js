@@ -25,6 +25,14 @@
       ac: '19',
       heroPoints: '1',
       speed: '25 ft',
+      art: 'backgrounds/gyro-placeholder.svg',
+      overview: {
+        line: 'Mecanica unica - Rotacao Sagrada',
+        first: 'Gyro',
+        last: 'Zeppeli',
+        sub: 'Gunslinger 3 · Nexus · agente de campo',
+        tags: ['Rotacao', 'IKONs', 'Palmas', 'Ball Breaker', 'SP 9']
+      },
       attributes: { STR: '+1', DEX: '+4', CON: '+2', INT: '+0', WIS: '+1', CHA: '+0' },
       sheet: ['SP 9', 'Rotacao Sagrada', 'IKONs / Palmas', 'Ball Breaker'],
       inventory: ['Esferas de Aco', 'Kit medico', 'Documentos Ethernum'],
@@ -41,6 +49,13 @@
       ac: '--',
       heroPoints: '1',
       speed: '--',
+      overview: {
+        line: 'Arquivo especial - Vinculo Umbra',
+        first: 'Cinerio',
+        last: 'Umbra',
+        sub: 'Dupla vinculada · ficha especial · contrato em observacao',
+        tags: ['Vinculo', 'Sombras', 'Contrato', 'Arquivo Visual']
+      },
       attributes: { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' },
       sheet: ['Vinculo Umbra', 'Contrato', 'Risco', 'Arquivo Visual']
     },
@@ -55,6 +70,13 @@
       heroPoints: '1',
       speed: '25 ft',
       art: 'imagem/PBB.png',
+      overview: {
+        line: 'Mecanica unica - Expressao da Noite',
+        first: 'Pipping',
+        last: 'Black',
+        sub: 'Bardo 3 · Fetchling · heranca vampirica',
+        tags: ['Pulso Sombrio', 'Performance', 'Ocultismo', 'PS 6']
+      },
       attributes: { STR: '+0', DEX: '+3', CON: '+2', INT: '+1', WIS: '+1', CHA: '+4' },
       sheet: ['PS 6', 'Expressao da Noite', 'Heranca Vampirica', 'Profecia'],
       inventory: ['Instrumento', 'Kit de disfarce', 'Diario Black', 'Adaga cerimonial'],
@@ -72,6 +94,13 @@
       heroPoints: '1',
       speed: '25 ft',
       art: 'imagem/bayle.png',
+      overview: {
+        line: 'Mecanica unica - Ardor Draconico',
+        first: 'Bayle',
+        last: 'O Horror',
+        sub: 'Barbaro 3 · Draconico · humanidade em risco',
+        tags: ['Ardor', 'Estagios', 'Fragmentos', 'Arquivista']
+      },
       attributes: { STR: '+4', DEX: '+1', CON: '+3', INT: '+0', WIS: '+1', CHA: '+1' },
       sheet: ['Ardor Draconico', 'Estagios', 'Fragmentos', 'Arquivista'],
       inventory: ['Arma draconica', 'Amuleto chamuscado', 'Fragmentos recuperados'],
@@ -97,6 +126,7 @@
 
   const sectionDefinitions = {
     gyro: [
+      { id: 's-overview', label: 'Visao Geral' },
       { id: 's-sp', label: 'SP' },
       { id: 's-ikons', label: 'IKONs' },
       { id: 's-palmas', label: 'Palmas' },
@@ -110,6 +140,7 @@
       { id: 's-quest', label: 'Quest' }
     ],
     cinerio: [
+      { id: 'overview', label: 'Visao Geral' },
       { id: 'fundacao', label: 'Fundacao' },
       { id: 'recursos', label: 'Recursos' },
       { id: 'tecnicas', label: 'Tecnicas' },
@@ -117,6 +148,7 @@
       { id: 'progressao', label: 'Progressao' }
     ],
     pipping: [
+      { id: 'overview', label: 'Visao Geral' },
       { id: 'sheet', label: 'Ficha' },
       { id: 'tiers', label: 'Habilidades' },
       { id: 'progression', label: 'Progressao' }
@@ -224,6 +256,7 @@
     }
     if (characterId === 'pipping') {
       const selectors = {
+        overview: '.ethernum-character-overview',
         sheet: '.ethernum-pf2-sheet',
         tiers: '.pulso-box, .tier-section',
         progression: '.progression, .footer-quote'
@@ -288,9 +321,15 @@
     sheet.dataset.pf2Sheet = 'true';
     if (characterId === 'gyro') sheet.classList.add('section');
     const attrs = data.attributes || { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' };
+    const inventoryKey = `ethernum-pf2-${characterId}-inventory-count`;
+    const baseInventory = data.inventory || ['Item', 'Item', 'Item'];
+    const inventoryCount = Math.max(baseInventory.length, Number(localStorage.getItem(inventoryKey) || baseInventory.length));
+    const inventoryRows = Array.from({ length: inventoryCount }, (_, index) => baseInventory[index] || '');
     const list = (items = []) => items.map((item, index) => `
       <tr>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-item">${item}</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-type">Geral</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-effect">-</td>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-bulk"></td>
         <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-notes"></td>
       </tr>`).join('');
@@ -299,6 +338,7 @@
       <div class="ethernum-pf2-tabs">
         <button class="ethernum-pf2-tab is-active" data-pf2-tab="resumo">Resumo</button>
         <button class="ethernum-pf2-tab" data-pf2-tab="combate">Combate</button>
+        <button class="ethernum-pf2-tab" data-pf2-tab="saberes">Saberes</button>
         <button class="ethernum-pf2-tab" data-pf2-tab="inventario">Inventario</button>
       </div>
       <div class="ethernum-pf2-panel is-active" data-pf2-panel="resumo">
@@ -324,11 +364,20 @@
           <div class="ethernum-pf2-box"><span>Strikes / Acoes</span>${editable('strikes', (data.strikes || ['Ataque principal', 'Ataque secundario']).join(' · '), 'p')}</div>
         </div>
       </div>
+      <div class="ethernum-pf2-panel" data-pf2-panel="saberes">
+        <div class="ethernum-pf2-grid">
+          <div class="ethernum-pf2-box"><span>Saberes / Lores</span>${editable('lores', 'Saber da Campanha · Saber de Cidade · Saber de Monstros', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Pericias de conhecimento</span>${editable('knowledge-skills', 'Arcana · Natureza · Ocultismo · Religiao · Sociedade', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Notas de investigacao</span>${editable('investigation-notes', 'Pistas, contatos, idiomas e informacoes permanentes.', 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Treinamentos</span>${editable('training-notes', 'Destreinado / Treinado / Especialista / Mestre / Lendario.', 'p')}</div>
+        </div>
+      </div>
       <div class="ethernum-pf2-panel" data-pf2-panel="inventario">
         <table class="ethernum-pf2-table">
-          <thead><tr><th>Item</th><th>Bulk</th><th>Notas</th></tr></thead>
-          <tbody>${list(data.inventory || ['Item', 'Item', 'Item'])}</tbody>
+          <thead><tr><th>Item</th><th>Tipo</th><th>Dano / Armadura / Cura</th><th>Bulk</th><th>Notas</th></tr></thead>
+          <tbody>${list(inventoryRows)}</tbody>
         </table>
+        <button class="ethernum-pf2-add" type="button" data-add-inventory>Adicionar item</button>
       </div>`;
     sheet.addEventListener('click', (event) => {
       const tab = event.target.closest('.ethernum-pf2-tab');
@@ -338,11 +387,30 @@
       tab.classList.add('is-active');
       sheet.querySelector(`[data-pf2-panel="${tab.dataset.pf2Tab}"]`)?.classList.add('is-active');
     });
-    sheet.querySelectorAll('[data-edit-key]').forEach((el) => {
-      const key = `ethernum-pf2-${characterId}-${el.dataset.editKey}`;
-      const saved = localStorage.getItem(key);
-      if (saved !== null) el.textContent = saved;
-      el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+    const bindEditable = (root = sheet) => {
+      root.querySelectorAll('[data-edit-key]').forEach((el) => {
+        if (el.dataset.boundEditable === 'true') return;
+        el.dataset.boundEditable = 'true';
+        const key = `ethernum-pf2-${characterId}-${el.dataset.editKey}`;
+        const saved = localStorage.getItem(key);
+        if (saved !== null) el.textContent = saved;
+        el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+      });
+    };
+    bindEditable();
+    sheet.querySelector('[data-add-inventory]')?.addEventListener('click', () => {
+      const tbody = sheet.querySelector('.ethernum-pf2-table tbody');
+      const index = tbody.querySelectorAll('tr').length;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-item">Novo item</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-type">Geral</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-effect">-</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-bulk"></td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-notes"></td>`;
+      tbody.appendChild(row);
+      localStorage.setItem(inventoryKey, String(index + 1));
+      bindEditable(row);
     });
     const host = document.querySelector('main') || document.querySelector('.container') || document.querySelector('.page') || document.body;
     host.appendChild(sheet);
@@ -350,7 +418,7 @@
 
   function addCharacterArt(characterId) {
     const data = characters[characterId];
-    if (!data?.art || document.querySelector('.ethernum-character-portrait')) return;
+    if (!data?.art || document.querySelector('.ethernum-character-portrait') || document.querySelector('.ethernum-character-overview')) return;
     const portrait = document.createElement('figure');
     portrait.className = 'ethernum-character-portrait';
     portrait.innerHTML = `<img src="${data.art}" alt="${data.label}">`;
@@ -359,10 +427,100 @@
     else document.body.prepend(portrait);
   }
 
+  function overviewMarkup(characterId) {
+    const data = characters[characterId];
+    const overview = data?.overview;
+    if (!data || !overview) return '';
+    const art = data.art || '';
+    return `
+      <div class="ethernum-overview-left">
+        <p class="ethernum-overview-eyebrow">// ${overview.line}</p>
+        <h1 class="ethernum-overview-name">${overview.first}<span>${overview.last}</span></h1>
+        <p class="ethernum-overview-sub">| ${overview.sub}</p>
+        <div class="ethernum-overview-tags">
+          ${overview.tags.map((tag) => `<span>${tag}</span>`).join('')}
+        </div>
+      </div>
+      <div class="ethernum-overview-right">
+        ${art ? `<img src="${art}" alt="${data.label}">` : ''}
+      </div>`;
+  }
+
+  function addCharacterOverview(characterId) {
+    if (!characterId || document.querySelector('.ethernum-character-overview')) return;
+    const html = overviewMarkup(characterId);
+    if (!html) return;
+    const overview = document.createElement('section');
+    overview.className = 'ethernum-character-overview';
+    overview.dataset.overview = characterId;
+    overview.innerHTML = html;
+
+    if (characterId === 'gyro') {
+      overview.id = 's-overview';
+      overview.classList.add('section', 'on');
+      document.querySelectorAll('.section.on').forEach((section) => {
+        if (section !== overview) section.classList.remove('on');
+      });
+      const host = document.querySelector('main') || document.querySelector('.container') || document.body;
+      host.prepend(overview);
+      const navInner = document.querySelector('.nav-inner');
+      if (navInner && !document.querySelector('[data-overview-tab]')) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn on';
+        btn.dataset.overviewTab = 'true';
+        btn.textContent = 'Visao Geral';
+        btn.addEventListener('click', () => {
+          if (typeof window.showSection === 'function') window.showSection('overview', btn);
+        });
+        navInner.prepend(btn);
+      }
+      return;
+    }
+
+    if (characterId === 'cinerio') {
+      overview.id = 'overview';
+      overview.classList.add('active');
+      document.querySelectorAll('main > section.active').forEach((section) => section.classList.remove('active'));
+      document.querySelectorAll('[data-t].active').forEach((item) => item.classList.remove('active'));
+      const host = document.querySelector('.panels') || document.querySelector('main') || document.body;
+      host.prepend(overview);
+      const tabs = document.querySelector('.tabs, .nav-tabs, [data-tabs]');
+      const nav = document.querySelector('[data-t="fundacao"]')?.parentElement || tabs;
+      if (nav && !document.querySelector('[data-t="overview"]')) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.t = 'overview';
+        btn.textContent = 'Visao Geral';
+        btn.classList.add('active');
+        nav.prepend(btn);
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-panel], .ethernum-character-overview').forEach((panel) => panel.classList.remove('active'));
+          document.querySelectorAll('[data-t]').forEach((item) => item.classList.remove('active'));
+          overview.classList.add('active');
+          btn.classList.add('active');
+        });
+      }
+      return;
+    }
+
+    if (characterId === 'bayle') {
+      const panel = document.getElementById('tab-visao');
+      if (panel) panel.prepend(overview);
+      else (document.querySelector('main') || document.body).prepend(overview);
+      return;
+    }
+
+    const hero = document.querySelector('.hero, .site-header');
+    if (hero) hero.insertAdjacentElement('afterend', overview);
+    else document.body.prepend(overview);
+  }
+
   function setupSharedBackgroundAudio(characterId) {
     if (!characterId || document.querySelector('script[src*="app.js"]')) return;
     if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
-    const src = normalizeAudioUrl(localStorage.getItem(`ethernum-music-url-${characterId}`) || localStorage.getItem('ethernum-music-url'));
+    const stored = localStorage.getItem(`ethernum-music-url-${characterId}`);
+    if (!stored) return;
+    const src = normalizeAudioUrl(stored);
     if (!src) return;
     const audio = new Audio(src);
     audio.loop = true;
@@ -431,6 +589,7 @@
     tabs.className = 'ethernum-tabs';
     tabs.innerHTML = `
       <button class="ethernum-tab-btn is-active" data-filter="all">Tudo</button>
+      <button class="ethernum-tab-btn" data-filter="overview">Visao Geral</button>
       <button class="ethernum-tab-btn" data-filter="sheet">Ficha</button>
       <button class="ethernum-tab-btn" data-filter="tiers">Habilidades</button>
       <button class="ethernum-tab-btn" data-filter="progression">Progressao</button>`;
@@ -441,11 +600,12 @@
       tabs.querySelectorAll('.ethernum-tab-btn').forEach((b) => b.classList.remove('is-active'));
       btn.classList.add('is-active');
       const filter = btn.dataset.filter;
-      document.querySelectorAll('.pulso-box, .tier-section, .progression, .footer-quote, .ethernum-pf2-sheet').forEach((el) => {
+      document.querySelectorAll('.ethernum-character-overview, .pulso-box, .tier-section, .progression, .footer-quote, .ethernum-pf2-sheet').forEach((el) => {
+        const isOverview = el.classList.contains('ethernum-character-overview');
         const isSheet = el.classList.contains('ethernum-pf2-sheet');
         const isTier = el.classList.contains('tier-section') || el.classList.contains('pulso-box');
         const isProgress = el.classList.contains('progression') || el.classList.contains('footer-quote');
-        el.style.display = filter === 'all' || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
+        el.style.display = filter === 'all' || (filter === 'overview' && isOverview) || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
       });
       applySectionLocks(pageCharacter());
     });
@@ -521,6 +681,7 @@
     const characterId = pageCharacter();
     const pippingMap = {
       sheet: 'sheet',
+      overview: 'overview',
       tiers: 'tiers',
       progression: 'progression',
       's-sp': 'sheet',
@@ -558,6 +719,11 @@
       window.showSection('ficha', btn);
       return;
     }
+    if (characterId === 'gyro' && sectionId === 's-overview' && typeof window.showSection === 'function') {
+      const btn = document.querySelector('[data-overview-tab]');
+      window.showSection('overview', btn);
+      return;
+    }
     if (characterId === 'cinerio') {
       const btn = document.querySelector(`[data-t="${sectionId}"]`);
       if (btn) {
@@ -572,6 +738,7 @@
     const characterId = pageCharacter();
     document.body.classList.add('ethernum-page-ready');
     if (characterId) ensureShell();
+    addCharacterOverview(characterId);
     addCharacterArt(characterId);
     addPf2Sheet(characterId);
     setupSharedBackgroundAudio(characterId);

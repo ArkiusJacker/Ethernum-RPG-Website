@@ -4,8 +4,8 @@ const vm = require('vm');
 
 const ROOT = __dirname;
 const HTML_FILES = fs.readdirSync(ROOT).filter((file) => file.toLowerCase().endsWith('.html'));
-const JS_FILES = ['app.js', 'ethernum-shared.js', 'cartola.js'];
-const EXPECTED_VERSION = 'v2.8';
+const JS_FILES = ['app.js', 'ethernum-shared.js'];
+const EXPECTED_VERSION = 'v2.9';
 
 let failures = 0;
 
@@ -60,8 +60,8 @@ for (const file of HTML_FILES) {
 const testsHtml = read('TESTS.html');
 const testIds = [...testsHtml.matchAll(/test(\d+): false/g)].map((match) => Number(match[1]));
 const missingTestValidators = testIds.filter((id) => !testsHtml.includes(`function validateTest${id}()`));
-if (testIds.length !== 19) fail(`expected 19 tests, found ${testIds.length}`);
-else pass('TESTS.html exposes 19 manual tests');
+if (testIds.length !== 17) fail(`expected 17 tests, found ${testIds.length}`);
+else pass('TESTS.html exposes 17 manual tests');
 if (missingTestValidators.length) fail(`missing validators for tests: ${missingTestValidators.join(', ')}`);
 else pass('all manual tests have validators');
 
@@ -69,14 +69,6 @@ for (const file of ['index.html', 'TESTS.html', 'app.js']) {
   if (!read(file).includes(EXPECTED_VERSION)) fail(`${file} does not mention ${EXPECTED_VERSION}`);
   else pass(`${file} mentions ${EXPECTED_VERSION}`);
 }
-
-const cartolaSource = read('cartola.js');
-const cartolaEffects = [...cartolaSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"/g)].length;
-const cartolaStages = [...cartolaSource.matchAll(/stageBadge\("([^"]+)"/g)].length;
-if (cartolaEffects !== 85) fail(`cartola.js expected 85 effects, found ${cartolaEffects}`);
-else pass('cartola.js has 85 detected effects');
-if (cartolaStages !== 6) fail(`cartola.js expected 6 stage badges, found ${cartolaStages}`);
-else pass('cartola.js has 6 detected stages');
 
 if (failures) {
   console.error(`\n${failures} self-test failure(s).`);

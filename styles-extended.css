@@ -1,0 +1,415 @@
+/* ════════════════════════════════════════════════════════════════
+   EXTENDED STYLES - ANIMATIONS, TRANSITIONS & INTERACTIVE ELEMENTS
+   ════════════════════════════════════════════════════════════════ */
+
+/* ─── HERO PARALLAX & SCROLL EFFECTS ─── */
+.hero-scroll-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100vh;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.hero-scroll-bg.active {
+  opacity: 0.15;
+}
+
+.hero-scroll-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.hero-image-container {
+  margin-bottom: 5rem !important;
+}
+
+/* ─── SECTION TRANSITIONS (Enhanced) ─── */
+.section {
+  animation: fadeInSection 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  transform: translateY(20px) scale(0.97) rotateX(2deg);
+}
+
+.section.on {
+  animation: fadeInSection 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 1;
+  transform: translateY(0) scale(1) rotateX(0);
+}
+
+@keyframes fadeInSection {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97) rotateX(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0);
+  }
+}
+
+/* ─── TAB NAVIGATION TRANSITIONS ─── */
+.nav-btn {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--green-bright));
+  transition: width 0.4s ease;
+}
+
+.nav-btn.on::after {
+  width: 100%;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 8px rgba(200, 168, 75, 0.3);
+}
+
+/* ─── CARD HOVER ANIMATIONS ─── */
+.card,
+.ikon-card,
+.palma-card,
+.tec-card,
+.rank-card,
+.prog-card,
+.npc-card {
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card:hover,
+.ikon-card:hover,
+.rank-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ─── EDITABLE CONTENT STYLES ─── */
+[contenteditable="true"] {
+  position: relative;
+  outline: 2px solid rgba(200, 168, 75, 0.5);
+  outline-offset: 2px;
+  cursor: text;
+  transition: all 0.2s ease;
+}
+
+[contenteditable="true"]:hover {
+  outline-color: rgba(200, 168, 75, 0.6);
+  background: rgba(200, 168, 75, 0.05);
+}
+
+[contenteditable="true"]:focus {
+  outline: 2px solid var(--gold);
+  background: rgba(200, 168, 75, 0.1);
+}
+
+/* ─── LOCKED CONTENT OVERLAY ─── */
+.content-locked {
+  position: relative;
+  opacity: 0.5;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.content-locked::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(139, 26, 26, 0.1),
+    rgba(139, 26, 26, 0.1) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  pointer-events: none;
+}
+
+.lock-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(196, 43, 43, 0.2);
+  border: 1px solid rgba(196, 43, 43, 0.5);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #e05555;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(4px);
+}
+
+/* ─── EDIT MODE INDICATOR ─── */
+.edit-mode-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background: rgba(200, 168, 75, 0.15);
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  font-size: 11px;
+  font-family: var(--font-head);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.edit-mode-indicator.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ─── MULTIPLE OPEN CARDS TOGGLE ─── */
+.card-toggle-btn {
+  display: inline-block;
+  margin-left: 1rem;
+  padding: 4px 8px;
+  background: rgba(200, 168, 75, 0.1);
+  border: 1px solid rgba(200, 168, 75, 0.3);
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.card-toggle-btn:hover {
+  background: rgba(200, 168, 75, 0.2);
+  border-color: var(--gold);
+}
+
+.card-toggle-btn.active {
+  background: var(--gold);
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+/* ─── SMOOTH PAGE SCROLL ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── STAGGER ANIMATIONS ─── */
+.ikon-card,
+.palma-card,
+.rank-card,
+.prog-card {
+  animation: slideInUp 0.5s ease-out backwards;
+}
+
+.ikon-card:nth-child(1) { animation-delay: 0.05s; }
+.ikon-card:nth-child(2) { animation-delay: 0.1s; }
+.ikon-card:nth-child(3) { animation-delay: 0.15s; }
+.ikon-card:nth-child(4) { animation-delay: 0.2s; }
+.ikon-card:nth-child(5) { animation-delay: 0.25s; }
+.ikon-card:nth-child(6) { animation-delay: 0.3s; }
+.ikon-card:nth-child(7) { animation-delay: 0.35s; }
+.ikon-card:nth-child(8) { animation-delay: 0.4s; }
+.ikon-card:nth-child(9) { animation-delay: 0.45s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── TEXT ANIMATION ON SCROLL ─── */
+.hero-title {
+  animation: titlePulse 4s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+  0%, 100% {
+    letter-spacing: 0.05em;
+  }
+  50% {
+    letter-spacing: 0.1em;
+  }
+}
+
+/* ─── BUTTON CLICK FEEDBACK ─── */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+button:active::before {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+/* ─── BACKGROUND PARALLAX ─── */
+.parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ─── SMOOTH SCROLLBAR ─── */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--green-accent), var(--gold));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--green-bright), var(--gold-light));
+}
+
+/* ─── SOUND ICON BUTTON ─── */
+.sound-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(200, 168, 75, 0.2);
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.sound-toggle:hover {
+  background: rgba(200, 168, 75, 0.4);
+  transform: scale(1.1);
+}
+
+.sound-toggle.muted {
+  opacity: 0.5;
+}
+
+/* ─── LOADING ANIMATION ─── */
+.loading {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: loading 1.4s infinite;
+}
+
+.loading:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading {
+  0%, 80%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ─── RESPONSIVE PARALLAX ─── */
+@media (max-width: 768px) {
+  .hero-scroll-bg {
+    width: 30%;
+    opacity: 0 !important;
+  }
+
+  .nav-btn:hover {
+    transform: none;
+  }
+
+  .card:hover,
+  .ikon-card:hover,
+  .rank-card:hover {
+    transform: none;
+  }
+
+  .sound-toggle {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* ─── PRINT STYLES ─── */
+@media print {
+  .nav-btn,
+  .sound-toggle,
+  .edit-mode-indicator {
+    display: none;
+  }
+
+  .content-locked {
+    opacity: 1 !important;
+    filter: none;
+  }
+}

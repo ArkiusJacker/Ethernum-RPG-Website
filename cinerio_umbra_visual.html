@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinério & Umbra — Mesa Ethernum</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07060f;
+  --surface: #0f0d1c;
+  --surface2: #161328;
+  --card: #111020;
+  --card-h: #181530;
+  --br: rgba(255,255,255,0.07);
+  --br2: rgba(255,255,255,0.13);
+
+  --c: #6ab4f0;
+  --c-bg: rgba(106,180,240,0.09);
+  --c-br: rgba(106,180,240,0.28);
+  --c-glow: rgba(106,180,240,0.12);
+
+  --u: #a882e8;
+  --u-bg: rgba(168,130,232,0.09);
+  --u-br: rgba(168,130,232,0.28);
+  --u-glow: rgba(168,130,232,0.12);
+
+  --j: #d4a84c;
+  --j-bg: rgba(212,168,76,0.09);
+  --j-br: rgba(212,168,76,0.28);
+
+  --danger: #e06060;
+  --d-bg: rgba(224,96,96,0.09);
+  --d-br: rgba(224,96,96,0.3);
+
+  --t: #ddd5c8;
+  --t2: #f0e8d8;
+  --tm: #706858;
+  --td: #484038;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t);font-family:'Crimson Pro',serif;font-size:17px;line-height:1.65;min-height:100vh;overflow-x:hidden;}
+
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 55% 40% at 12% 8%,rgba(50,30,90,.32) 0%,transparent 100%),radial-gradient(ellipse 45% 38% at 88% 92%,rgba(20,40,80,.22) 0%,transparent 100%);pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:center;gap:0;background:rgba(7,6,15,.94);border-bottom:1px solid var(--br);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--tm);font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.1em;padding:14px 18px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+nav button:hover{color:var(--t);}
+nav button.active{color:var(--j);border-bottom-color:var(--j);}
+
+main{max-width:1080px;margin:0 auto;padding:0 24px 80px;position:relative;z-index:1;}
+section{display:none;}
+section.active{display:block;}
+
+/* HERO */
+.hero{text-align:center;padding:60px 0 44px;border-bottom:1px solid var(--br);margin-bottom:44px;}
+.duo{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:28px;}
+.fig{width:52px;height:80px;position:relative;}
+.fig svg{width:100%;height:100%;}
+.dvd{width:1px;height:56px;background:linear-gradient(to bottom,transparent,var(--j),transparent);margin:0 18px;}
+h1.title{font-family:'Cinzel',serif;font-size:36px;font-weight:700;letter-spacing:.14em;color:var(--t2);margin-bottom:6px;}
+h1.title span{color:var(--u);}
+.sub{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--tm);margin-bottom:20px;text-transform:uppercase;}
+.quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:18px;color:var(--tm);max-width:520px;margin:0 auto;padding:0 28px;position:relative;}
+.quote::before,.quote::after{font-family:'Cinzel',serif;font-size:30px;color:var(--u);opacity:.35;position:absolute;top:-6px;}
+.quote::before{content:'\201C';left:4px;}
+.quote::after{content:'\201D';right:4px;}
+
+/* SECTION HEADS */
+.sh{display:flex;align-items:center;gap:14px;margin:44px 0 24px;}
+.sh h2{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--j);white-space:nowrap;}
+.sh::after{content:'';flex:1;height:1px;background:var(--br);}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:20px 22px;}
+.card:hover{border-color:var(--br2);}
+
+/* PHILOSOPHY */
+.phil{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:44px;}
+.ph{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:20px;}
+.ph-num{font-family:'Cinzel',serif;font-size:30px;font-weight:700;color:var(--br2);line-height:1;margin-bottom:8px;}
+.ph-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.14em;color:var(--j);margin-bottom:8px;text-transform:uppercase;}
+.ph-desc{font-size:15px;color:var(--tm);line-height:1.55;}
+
+/* ACTION ECONOMY */
+.ae{display:grid;grid-template-columns:1fr auto 1fr;border:1px solid var(--br);border-radius:10px;overflow:hidden;margin-bottom:44px;}
+.ae-c{padding:24px 26px;background:var(--c-bg);}
+.ae-u{padding:24px 26px;background:var(--u-bg);}
+.ae-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 20px;background:var(--surface);gap:6px;border-left:1px solid var(--br);border-right:1px solid var(--br);}
+.ae-name{font-family:'Cinzel',serif;font-size:15px;font-weight:600;letter-spacing:.1em;margin-bottom:14px;}
+.ae-name.c{color:var(--c);}
+.ae-name.u{color:var(--u);}
+.ae-note{font-size:13px;color:var(--tm);margin-top:6px;font-style:italic;}
+.ae-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--tm);margin-bottom:10px;}
+.acts{display:flex;gap:7px;align-items:center;}
+.dia{width:13px;height:13px;transform:rotate(45deg);border-radius:2px;flex-shrink:0;}
+.dia.c{background:var(--c);}
+.dia.u{background:var(--u);}
+.dia.j{background:var(--j);}
+.rx{font-size:17px;color:var(--c);margin-left:3px;}
+.map-arrow{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.map-line{height:1px;width:38px;background:var(--j-br);}
+.map-txt{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.14em;color:var(--j);text-align:center;line-height:1.4;}
+
+/* UMBRA CAN/CAN'T */
+.can-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:44px;}
+.can-head{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;margin-bottom:12px;text-transform:uppercase;}
+.can-head.yes{color:var(--u);}
+.can-head.no{color:var(--danger);}
+.can-item{font-size:15px;padding:5px 0;border-bottom:1px solid var(--br);color:var(--t);}
+.can-item.muted{color:var(--tm);}
+.can-note{font-size:13px;color:var(--td);margin-left:4px;}
+
+/* PS GAUGE */
+.ps-gauge{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+.ps-cell{background:var(--card);border:1px solid var(--br);border-radius:8px;padding:16px 6px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.ps-cell:hover:not(.on){border-color:var(--br2);}
+.ps-num{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--td);transition:color .2s;line-height:1;margin-bottom:3px;}
+.ps-tag{font-size:9px;letter-spacing:.1em;color:var(--td);transition:color .2s;}
+.ps-cell[data-l="1"].on,.ps-cell[data-l="2"].on{border-color:var(--u-br);background:var(--u-bg);}
+.ps-cell[data-l="1"].on .ps-num,.ps-cell[data-l="2"].on .ps-num{color:var(--u);}
+.ps-cell[data-l="1"].on .ps-tag,.ps-cell[data-l="2"].on .ps-tag{color:rgba(168,130,232,.7);}
+.ps-cell[data-l="3"].on,.ps-cell[data-l="4"].on{border-color:var(--j-br);background:var(--j-bg);}
+.ps-cell[data-l="3"].on .ps-num,.ps-cell[data-l="4"].on .ps-num{color:var(--j);}
+.ps-cell[data-l="3"].on .ps-tag,.ps-cell[data-l="4"].on .ps-tag{color:rgba(212,168,76,.7);}
+.ps-cell[data-l="5"].on{border-color:var(--d-br);background:var(--d-bg);}
+.ps-cell[data-l="5"].on .ps-num{color:var(--danger);}
+.ps-cell[data-l="5"].on .ps-tag{color:rgba(224,96,96,.7);}
+.ps-box{background:var(--card);border:1px solid var(--br);border-radius:8px;padding:18px 20px;font-size:15px;line-height:1.65;min-height:78px;transition:border-color .25s;}
+.ps-box.s12{border-color:var(--u-br);}
+.ps-box.s34{border-color:var(--j-br);}
+.ps-box.s5{border-color:var(--d-br);}
+
+/* RASTRO */
+.rastro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:12px;}
+.rdot{background:var(--card);border:1px solid var(--br);border-radius:8px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .2s;}
+.rdot:hover:not(.on){border-color:var(--br2);}
+.r-num{font-family:'Cinzel',serif;font-size:22px;color:var(--td);transition:color .2s;}
+.r-lbl{font-size:10px;letter-spacing:.08em;color:var(--td);transition:color .2s;}
+.rdot[data-n="1"].on,.rdot[data-n="2"].on{border-color:var(--u-br);background:var(--u-bg);}
+.rdot[data-n="1"].on .r-num,.rdot[data-n="2"].on .r-num{color:var(--u);}
+.rdot[data-n="1"].on .r-lbl,.rdot[data-n="2"].on .r-lbl{color:rgba(168,130,232,.7);}
+.rdot[data-n="3"].on,.rdot[data-n="4"].on{border-color:var(--d-br);background:var(--d-bg);}
+.rdot[data-n="3"].on .r-num,.rdot[data-n="4"].on .r-num{color:var(--danger);}
+.rdot[data-n="3"].on .r-lbl,.rdot[data-n="4"].on .r-lbl{color:rgba(224,96,96,.7);}
+.r-box{background:var(--card);border:1px solid var(--br);border-radius:8px;padding:14px 18px;font-size:15px;line-height:1.6;min-height:56px;transition:border-color .25s;}
+
+/* SIN ROW */
+.sin-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:44px;}
+.sin-big{font-family:'Cinzel',serif;font-size:42px;font-weight:700;color:var(--j);line-height:1;margin-bottom:4px;}
+.sin-lbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--tm);margin-bottom:12px;}
+.sin-desc{font-size:15px;color:var(--tm);line-height:1.55;margin-bottom:16px;}
+.sin-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{background:var(--j-bg);border:1px solid var(--j-br);border-radius:6px;padding:8px 12px;text-align:center;}
+.chip-lv{font-family:'Cinzel',serif;font-size:9px;color:var(--td);letter-spacing:.12em;margin-bottom:2px;}
+.chip-n{font-family:'Cinzel',serif;font-size:19px;color:var(--j);}
+
+/* PS TABLE */
+.ps-table{background:var(--card);border:1px solid var(--br);border-radius:10px;overflow:hidden;margin-bottom:44px;}
+.ps-table table{width:100%;border-collapse:collapse;}
+.ps-table th{padding:13px 18px;text-align:left;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.14em;color:var(--tm);font-weight:400;border-bottom:1px solid var(--br);background:var(--surface);}
+.ps-table td{padding:13px 18px;font-size:15px;border-bottom:1px solid var(--br);}
+.ps-table tr:last-child td{border-bottom:none;}
+.td-ps{font-family:'Cinzel',serif;font-size:14px;}
+.td-ps.u{color:var(--u);}
+.td-ps.j{color:var(--j);}
+.td-ps.d{color:var(--danger);}
+.td-ps.dim{color:var(--td);}
+
+/* TÉCNICAS */
+.tc-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.tf{background:var(--card);border:1px solid var(--br);border-radius:20px;padding:6px 16px;font-family:'Crimson Pro',serif;font-size:14px;color:var(--tm);cursor:pointer;transition:all .18s;}
+.tf:hover{border-color:var(--br2);color:var(--t);}
+.tf.on{background:var(--j-bg);border-color:var(--j-br);color:var(--j);}
+.tc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.tc{background:var(--card);border:1px solid var(--br);border-radius:10px;padding:20px;border-left:3px solid transparent;transition:all .18s;}
+.tc:hover{background:var(--card-h);}
+.tc.tc-c{border-left-color:var(--c);}
+.tc.tc-u{border-left-color:var(--u);}
+.tc.tc-j{border-left-color:var(--j);}
+.tc.tc-p{border-left-color:var(--br2);}
+.tc-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px;}
+.tc-nm{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--t2);margin-bottom:5px;}
+.badge{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.12em;padding:3px 7px;border-radius:4px;white-space:nowrap;display:inline-block;margin-bottom:3px;}
+.bc{background:var(--c-bg);color:var(--c);border:1px solid var(--c-br);}
+.bu{background:var(--u-bg);color:var(--u);border:1px solid var(--u-br);}
+.bj{background:var(--j-bg);color:var(--j);border:1px solid var(--j-br);}
+.bp{background:rgba(255,255,255,.04);color:var(--tm);border:1px solid var(--br);}
+.br_{background:var(--d-bg);color:var(--danger);border:1px solid var(--d-br);}
+.blv{background:rgba(255,255,255,.03);color:var(--td);border:1px solid var(--br);font-size:8px;}
+.tc-acts{display:flex;gap:4px;align-items:center;flex-shrink:0;padding-top:2px;}
+.traits{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.trait{font-size:10.5px;background:rgba(255,255,255,.04);border:1px solid var(--br);border-radius:3px;padding:2px 6px;color:var(--td);font-family:'Cinzel',serif;letter-spacing:.08em;}
+.tc-desc{font-size:15px;color:var(--t);line-height:1.6;margin-bottom:10px;}
+.effs{display:flex;flex-direction:column;gap:5px;}
+.eff{font-size:14px;background:rgba(255,255,255,.03);border-left:2px solid var(--br2);border-radius:0 4px 4px 0;padding:7px 11px;color:var(--tm);line-height:1.55;}
+.eff strong{color:var(--t);}
+.tc-sin{font-size:13px;color:var(--j);margin-top:8px;}
+.tc-ps{font-size:13px;color:var(--u);margin-top:3px;}
+
+/* BOSS ACCORDION */
+.acc{display:flex;flex-direction:column;gap:11px;}
+.boss{background:var(--card);border:1px solid var(--br);border-radius:10px;overflow:hidden;}
+.boss-hd{padding:18px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .18s;}
+.boss-hd:hover{background:var(--card-h);}
+.boss-title{font-family:'Cinzel',serif;font-size:14px;color:var(--t2);letter-spacing:.08em;}
+.boss-sub{font-size:13px;color:var(--tm);font-style:italic;margin-top:2px;}
+.chev{color:var(--td);transition:transform .2s;font-size:11px;}
+.chev.open{transform:rotate(90deg);}
+.boss-bd{display:none;padding:0 22px 22px;border-top:1px solid var(--br);}
+.boss-bd.open{display:block;}
+.shadow-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:16px;}
+.sp{background:var(--surface);border:1px solid var(--br);border-radius:8px;padding:13px;}
+.sp.ss{border-top:2px solid rgba(168,130,232,.4);}
+.sp.sg{border-top:2px solid rgba(106,180,240,.4);}
+.sp.sr{border-top:2px solid rgba(212,168,76,.4);}
+.sp-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;margin-bottom:5px;}
+.sp-lbl.ss{color:rgba(168,130,232,.8);}
+.sp-lbl.sg{color:rgba(106,180,240,.8);}
+.sp-lbl.sr{color:rgba(212,168,76,.8);}
+.sp-name{font-size:14px;font-weight:600;color:var(--t2);margin-bottom:7px;}
+.sp-desc{font-size:14px;color:var(--tm);line-height:1.55;}
+
+/* PROGRESSÃO */
+.prog{position:relative;padding-left:28px;}
+.prog::before{content:'';position:absolute;left:7px;top:10px;bottom:10px;width:1px;background:linear-gradient(to bottom,var(--c),var(--u),var(--j),var(--danger));opacity:.28;}
+.pi{position:relative;padding:0 0 30px 20px;}
+.pi:last-child{padding-bottom:0;}
+.pdot{position:absolute;left:-22px;top:7px;width:13px;height:13px;border-radius:50%;border:2px solid var(--bg);}
+.pdot.c{background:var(--c);}
+.pdot.u{background:var(--u);}
+.pdot.j{background:var(--j);}
+.pdot.d{background:var(--danger);}
+.pdot.w{background:var(--t2);}
+.p-lvl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--td);margin-bottom:3px;}
+.p-name{font-family:'Cinzel',serif;font-size:17px;color:var(--t2);margin-bottom:7px;}
+.p-desc{font-size:15px;color:var(--tm);line-height:1.6;margin-bottom:11px;}
+.p-unlocks{display:flex;flex-direction:column;gap:4px;}
+.p-ul{font-size:14px;color:var(--tm);padding-left:14px;position:relative;}
+.p-ul::before{content:'◆';position:absolute;left:0;top:2px;font-size:7px;color:var(--j);opacity:.7;}
+
+/* QUICK REF */
+.qr{background:var(--surface);border:1px solid var(--br);border-radius:10px;padding:26px;margin-top:38px;font-family:'Courier New',monospace;font-size:13px;line-height:1.85;color:var(--tm);}
+.qr h3{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--j);margin-bottom:18px;}
+.qrk{color:var(--t);}
+.qrc{color:var(--c);}
+.qru{color:var(--u);}
+.qrj{color:var(--j);}
+.qrd{color:var(--danger);}
+.qrl{color:var(--br2);}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .phil{grid-template-columns:1fr;}
+  .ae{grid-template-columns:1fr;}
+  .ae-c{border-right:none;border-bottom:1px solid var(--br);}
+  .ae-mid{border-left:none;border-right:none;border-top:1px solid var(--br);border-bottom:1px solid var(--br);flex-direction:row;}
+  .tc-grid{grid-template-columns:1fr;}
+  .shadow-parts{grid-template-columns:1fr;}
+  .sin-row{grid-template-columns:1fr;}
+  .can-grid{grid-template-columns:1fr;}
+  h1.title{font-size:26px;}
+  nav button{font-size:9px;padding:12px 10px;letter-spacing:.06em;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="active" data-t="fundacao">Fundação</button>
+  <button data-t="recursos">Recursos</button>
+  <button data-t="tecnicas">Técnicas</button>
+  <button data-t="sombras">Sombras de Boss</button>
+  <button data-t="progressao">Progressão</button>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════ FUNDAÇÃO ══════════════════════════════════ -->
+<section id="fundacao" class="active">
+
+  <div class="hero">
+    <div class="duo">
+      <div class="fig">
+        <svg viewBox="0 0 52 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="26" cy="13" rx="9" ry="9" fill="#6ab4f0" opacity=".75"/>
+          <rect x="18" y="24" width="16" height="24" rx="4" fill="#6ab4f0" opacity=".7"/>
+          <rect x="8" y="25" width="10" height="18" rx="3" fill="#6ab4f0" opacity=".6"/>
+          <rect x="34" y="25" width="10" height="18" rx="3" fill="#6ab4f0" opacity=".6"/>
+          <rect x="18" y="50" width="7" height="22" rx="3" fill="#6ab4f0" opacity=".65"/>
+          <rect x="27" y="50" width="7" height="22" rx="3" fill="#6ab4f0" opacity=".65"/>
+        </svg>
+      </div>
+      <div class="dvd"></div>
+      <div class="fig" style="filter:blur(1.5px);transform:translateX(-8px);">
+        <svg viewBox="0 0 52 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="26" cy="13" rx="9" ry="9" fill="#a882e8" opacity=".55"/>
+          <rect x="18" y="24" width="16" height="24" rx="4" fill="#a882e8" opacity=".5"/>
+          <rect x="8" y="25" width="10" height="18" rx="3" fill="#a882e8" opacity=".42"/>
+          <rect x="34" y="25" width="10" height="18" rx="3" fill="#a882e8" opacity=".42"/>
+          <rect x="18" y="50" width="7" height="22" rx="3" fill="#a882e8" opacity=".48"/>
+          <rect x="27" y="50" width="7" height="22" rx="3" fill="#a882e8" opacity=".48"/>
+        </svg>
+      </div>
+    </div>
+    <h1 class="title">CINÉRIO <span>&amp;</span> UMBRA</h1>
+    <p class="sub">Mecânica Única · Mesa Ethernum · Pathfinder 2e</p>
+    <p class="quote">Não existe uma sombra. Existe Cinério visto do ângulo que o mundo prefere ignorar.</p>
+  </div>
+
+  <div class="sh"><h2>Três Pilares</h2></div>
+  <div class="phil">
+    <div class="ph">
+      <div class="ph-num">01</div>
+      <div class="ph-title">MAP Compartilhado</div>
+      <div class="ph-desc">Cada ataque de qualquer um dos dois penaliza os próximos. Um combate, dois corpos, uma fila de ataques.</div>
+    </div>
+    <div class="ph">
+      <div class="ph-num">02</div>
+      <div class="ph-title">Sem HP Separado</div>
+      <div class="ph-desc">Dano em Umbra vai para Cinério. Ela não é um escudo — é uma extensão. Destruí-la é ferir ele.</div>
+    </div>
+    <div class="ph">
+      <div class="ph-num">03</div>
+      <div class="ph-title">Custo Real</div>
+      <div class="ph-desc">Usar Umbra ao máximo cobra Peso da Sombra durante o combate e Rastros de Vazio depois. Poder tem preço.</div>
+    </div>
+  </div>
+
+  <div class="sh"><h2>Economia de Ações</h2></div>
+  <div class="ae">
+    <div class="ae-c">
+      <div class="ae-name c">Cinério</div>
+      <div class="ae-lbl">Controle · Burst · Teleporte</div>
+      <div class="acts">
+        <div class="dia c"></div>
+        <div class="dia c"></div>
+        <span class="rx">↻</span>
+      </div>
+      <div class="ae-note">2 ações + 1 reação</div>
+    </div>
+    <div class="ae-mid">
+      <div class="map-arrow">
+        <div class="map-line"></div>
+        <div class="map-txt">MAP<br>100%<br>COMP.</div>
+        <div class="map-line"></div>
+      </div>
+    </div>
+    <div class="ae-u">
+      <div class="ae-name u">Umbra</div>
+      <div class="ae-lbl">Pressão · Flanqueio · Manobras</div>
+      <div class="acts">
+        <div class="dia u"></div>
+        <div class="dia u"></div>
+      </div>
+      <div class="ae-note">2 ações · sem reação própria</div>
+    </div>
+  </div>
+
+  <div class="sh"><h2>O Que Umbra Pode Fazer</h2></div>
+  <div class="can-grid">
+    <div class="card">
+      <div class="can-head yes">Pode fazer</div>
+      <div class="can-item">◆ Mover / Passo</div>
+      <div class="can-item">◆ Golpe de Sombra <span class="can-note">1d6 + FOR</span></div>
+      <div class="can-item">◆ Derrubar · Empurrar · Agarrar</div>
+      <div class="can-item">◆ Ajudar <span class="can-note">+2 no próximo ataque de Cinério</span></div>
+      <div class="can-item" style="border-bottom:none;">◆ Ameaça de Silhueta <span class="can-note">Abalado 1 visual</span></div>
+    </div>
+    <div class="card">
+      <div class="can-head no">Não pode fazer</div>
+      <div class="can-item muted">✕ Usar itens</div>
+      <div class="can-item muted">✕ Habilidades de classe de Cinério</div>
+      <div class="can-item muted">✕ Reações próprias</div>
+      <div class="can-item muted">✕ Dois ataques com ações próprias por turno</div>
+      <div class="can-item muted" style="border-bottom:none;">✕ Agir se Cinério não usou nenhuma ação</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════ RECURSOS ══════════════════════════════════ -->
+<section id="recursos">
+
+  <div class="sh" style="margin-top:32px;"><h2>Peso da Sombra</h2></div>
+  <p style="color:var(--tm);margin-bottom:20px;font-size:16px;">Clique em um segmento para ver o efeito. O Peso reseta no início de cada combate e acumula com certas técnicas.</p>
+
+  <div style="margin-bottom:16px;">
+    <div class="ps-gauge">
+      <div class="ps-cell" data-l="1" onclick="setPS(1)"><div class="ps-num">1</div><div class="ps-tag">SILHUETA</div></div>
+      <div class="ps-cell" data-l="2" onclick="setPS(2)"><div class="ps-num">2</div><div class="ps-tag">DENSA</div></div>
+      <div class="ps-cell" data-l="3" onclick="setPS(3)"><div class="ps-num">3</div><div class="ps-tag">PENUMBRA</div></div>
+      <div class="ps-cell" data-l="4" onclick="setPS(4)"><div class="ps-num">4</div><div class="ps-tag">DISSOCIAÇÃO</div></div>
+      <div class="ps-cell" data-l="5" onclick="setPS(5)"><div class="ps-num">5</div><div class="ps-tag">LIMITE</div></div>
+    </div>
+    <div class="ps-box" id="ps-box" style="color:var(--tm);font-style:italic;">
+      Nenhum segmento ativo. Umbra está em estado normal — ela parece apenas uma sombra deslocada.
+    </div>
+  </div>
+
+  <div class="sh"><h2>Conversão de Peso em Rastros de Vazio</h2></div>
+  <div class="ps-table">
+    <table>
+      <thead><tr>
+        <th>PS FINAL</th>
+        <th>RASTROS</th>
+        <th>EFEITO PÓS-COMBATE</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="td-ps dim">0 – 1</td><td style="color:var(--td);">0 rastros</td><td style="color:var(--tm);font-size:15px;">Nenhum debuff.</td></tr>
+        <tr><td class="td-ps u">2</td><td style="color:var(--u);">1 rastro</td><td style="color:var(--tm);font-size:15px;">Sombra fina. −1 em Diplomacia e Enganação. Animais inquietos.</td></tr>
+        <tr><td class="td-ps u">3</td><td style="color:var(--u);">2 rastros</td><td style="color:var(--tm);font-size:15px;">Corpo frio. −1 em saves de Fortitude. Chamas tremelicam perto dele.</td></tr>
+        <tr><td class="td-ps j">4</td><td style="color:var(--j);">3 rastros</td><td style="font-size:15px;"><span style="color:var(--tm);">−1 em todos os saves.</span> <strong style="color:var(--j);">+2 em Iniciativa</strong><span style="color:var(--tm);"> — Umbra está acordada antes do combate.</span></td></tr>
+        <tr><td class="td-ps d">5</td><td style="color:var(--danger);">4 rastros</td><td style="color:var(--tm);font-size:15px;">−1 em todos os saves. Umbra age por conta própria uma vez antes do próximo Descanso Longo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sin-row">
+    <div class="card">
+      <div class="sin-big" id="sin-n">1</div>
+      <div class="sin-lbl">Pontos de Sincronia</div>
+      <div class="sin-desc">Alimenta técnicas fortes e serve como freio ao Peso. Recarrega em Descanso Curto (1 ponto) ou Descanso Longo (todos).</div>
+      <div class="sin-chips">
+        <div class="chip"><div class="chip-lv">NÍV. 3</div><div class="chip-n">1</div></div>
+        <div class="chip"><div class="chip-lv">NÍV. 7</div><div class="chip-n">2</div></div>
+        <div class="chip"><div class="chip-lv">NÍV. 13</div><div class="chip-n">3</div></div>
+        <div class="chip"><div class="chip-lv">NÍV. 17</div><div class="chip-n">4</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sin-lbl" style="margin-bottom:10px;">Rastro de Vazio — Tracker</div>
+      <p style="font-size:15px;color:var(--tm);margin-bottom:14px;">Acumula ao final de combate. Clique para marcar. Remover: Descanso Curto (−1) ou Descanso Longo (todos).</p>
+      <div class="rastro-grid">
+        <div class="rdot" data-n="1" onclick="setR(1)"><div class="r-num">1</div><div class="r-lbl">Sombra Fina</div></div>
+        <div class="rdot" data-n="2" onclick="setR(2)"><div class="r-num">2</div><div class="r-lbl">Corpo Frio</div></div>
+        <div class="rdot" data-n="3" onclick="setR(3)"><div class="r-num">3</div><div class="r-lbl">Profundo</div></div>
+        <div class="rdot" data-n="4" onclick="setR(4)"><div class="r-num">4</div><div class="r-lbl">Dissolução</div></div>
+      </div>
+      <div class="r-box" id="r-box" style="color:var(--tm);">Nenhum rastro. Sombra normal.</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════ TÉCNICAS ══════════════════════════════════ -->
+<section id="tecnicas">
+
+  <div class="sh" style="margin-top:32px;"><h2>Técnicas</h2></div>
+  <div class="tc-filters">
+    <button class="tf on" data-f="all">Todas</button>
+    <button class="tf" data-f="c">Cinério</button>
+    <button class="tf" data-f="u">Umbra</button>
+    <button class="tf" data-f="j">Conjunto</button>
+    <button class="tf" data-f="p">Passivo</button>
+  </div>
+
+  <div class="tc-grid">
+
+    <div class="tc tc-c" data-tp="c">
+      <div class="tc-hd">
+        <div><span class="badge bc">CINÉRIO</span><div class="tc-nm">Manifestar Umbra</div></div>
+        <div class="tc-acts"><div class="dia c"></div></div>
+      </div>
+      <div class="traits"><span class="trait">Sombra</span><span class="trait">Mágico</span><span class="trait">Monge</span></div>
+      <p class="tc-desc">Projeta Umbra a até 4,5m. Dura até o fim do encontro. A partir daí, Umbra age com 2 ações no turno de Cinério automaticamente.</p>
+      <div class="effs">
+        <div class="eff"><strong>Alcance:</strong> Umbra não pode ficar a mais de 9m. Se terminar além, retorna como ação livre.</div>
+      </div>
+    </div>
+
+    <div class="tc tc-u" data-tp="u">
+      <div class="tc-hd">
+        <div><span class="badge bu">UMBRA</span><div class="tc-nm">Golpe de Sombra</div></div>
+        <div class="tc-acts"><div class="dia u"></div></div>
+      </div>
+      <div class="traits"><span class="trait">Ágil</span><span class="trait">Desarmado</span><span class="trait">Sombra</span><span class="trait">Mágico</span></div>
+      <p class="tc-desc">Ataque básico de Umbra. Usa o mesmo bônus de ataque desarmado de Cinério. Tipo de dano escolhido ao desbloquear — não muda por ataque.</p>
+      <div class="effs">
+        <div class="eff"><strong>Dano base:</strong> 1d6 + FOR · Contundente ou Vazio/Sombra</div>
+        <div class="eff"><strong>Nível 5:</strong> sobe para 1d8 + FOR</div>
+      </div>
+    </div>
+
+    <div class="tc tc-p" data-tp="p">
+      <div class="tc-hd">
+        <div><span class="badge bp">PASSIVO</span><div class="tc-nm">Pinça da Penumbra</div></div>
+        <div class="tc-acts" style="color:var(--td);font-size:12px;">—</div>
+      </div>
+      <p class="tc-desc">Umbra conta como aliado para flanquear se pelo menos uma condição for verdadeira no turno:</p>
+      <div class="effs">
+        <div class="eff">Cinério fez uma ação ofensiva neste turno.</div>
+        <div class="eff">Cinério e Umbra atacaram o mesmo alvo desde o último turno de Cinério.</div>
+        <div class="eff">O alvo está com condição aplicada por uma habilidade do duo.</div>
+      </div>
+    </div>
+
+    <div class="tc tc-j" data-tp="j">
+      <div class="tc-hd">
+        <div><span class="badge bj">CONJUNTO</span><div class="tc-nm">Golpe Cruzado</div></div>
+        <div class="tc-acts"><div class="dia j"></div><div class="dia j"></div></div>
+      </div>
+      <div class="traits"><span class="trait">Monge</span><span class="trait">Sombra</span></div>
+      <p class="tc-desc">Cinério e Umbra atacam o mesmo alvo em sequência. Faça um Golpe com cada um aplicando MAP normalmente entre eles.</p>
+      <div class="effs">
+        <div class="eff"><strong>Ambos acertam:</strong> Desprevenido + sem reações até o próximo turno do alvo.</div>
+        <div class="eff"><strong>Um crítico:</strong> + dano de sombra igual ao nível de Cinério.</div>
+        <div class="eff"><strong>Ambos críticos:</strong> + dobro do nível + Abalado 1.</div>
+      </div>
+      <div class="tc-ps">+1 PS ao usar</div>
+    </div>
+
+    <div class="tc tc-p" data-tp="p">
+      <div class="tc-hd">
+        <div><span class="badge bp">PASSIVO</span><div class="tc-nm">Sincronismo</div></div>
+        <div class="tc-acts" style="color:var(--td);font-size:12px;">AUTO</div>
+      </div>
+      <p class="tc-desc">Quando Cinério e Umbra ambos acertam um ataque no mesmo turno, os próximos ataques de cada um não aumentam o MAP entre si — só o MAP interno de cada um continua.</p>
+      <div class="effs">
+        <div class="eff">Recompensa coordenação real. O segundo ataque de Cinério e o segundo de Umbra naquele turno não se penalizam mutuamente.</div>
+      </div>
+    </div>
+
+    <div class="tc tc-c" data-tp="c">
+      <div class="tc-hd">
+        <div><span class="badge br_">REAÇÃO</span><div class="tc-nm">Guarda Contraluz</div></div>
+        <div class="tc-acts"><span style="color:var(--danger);font-size:18px;">↻</span></div>
+      </div>
+      <div class="traits"><span class="trait">Sombra</span></div>
+      <p class="tc-desc">Gatilho: criatura adjacente a Umbra ataca Cinério ou aliado a até 1,5m. Umbra se ergue como barreira. O alvo recebe +1 de circunstância na CA contra esse ataque.</p>
+      <div class="effs">
+        <div class="eff"><strong>Gaste 1 Sincronia:</strong> bônus sobe para +2. Se o ataque errar, Umbra causa dano de sombra ao atacante igual ao nível de Cinério.</div>
+      </div>
+    </div>
+
+    <div class="tc tc-c" data-tp="c">
+      <div class="tc-hd">
+        <div><span class="badge bc">CINÉRIO</span><div class="tc-nm">Passo da Segunda Sombra</div></div>
+        <div class="tc-acts"><div class="dia c"></div></div>
+      </div>
+      <div class="traits"><span class="trait">Teleporte</span><span class="trait">Sombra</span><span class="trait">Monge</span></div>
+      <p class="tc-desc">Cinério troca de posição com Umbra instantaneamente. Não provoca reações de movimento. Se aparecer adjacente a alvo que Umbra flanqueava, esse alvo fica Desprevenido.</p>
+      <div class="effs">
+        <div class="eff"><strong>Sem Sincronia:</strong> a técnica funciona, mas ganha +2 PS em vez de +1.</div>
+      </div>
+      <div class="tc-sin">Custa 1 Sincronia</div>
+      <div class="tc-ps">+1 PS ao usar</div>
+    </div>
+
+    <div class="tc tc-c" data-tp="c">
+      <div class="tc-hd">
+        <div><span class="badge bc">CINÉRIO</span> <span class="badge blv">NÍV. 5</span><div class="tc-nm">Reflexo de Treino</div></div>
+        <div class="tc-acts" style="color:var(--td);font-size:12px;">—</div>
+      </div>
+      <p class="tc-desc">Quando Cinério usa Rajada de Golpes, pode declarar que um dos dois ataques sai da posição de Umbra. Não adiciona ataque extra — só muda o ângulo de ataque e o ponto de flanqueio.</p>
+    </div>
+
+    <div class="tc tc-j" data-tp="j">
+      <div class="tc-hd">
+        <div><span class="badge bj">CONJUNTO</span> <span class="badge blv">NÍV. 9</span><div class="tc-nm">Ritmo Partilhado</div></div>
+        <div class="tc-acts" style="color:var(--td);font-size:12px;">MODO</div>
+      </div>
+      <p class="tc-desc">No início de cada turno, escolha um modo:</p>
+      <div class="effs">
+        <div class="eff"><strong>Modo Corpo:</strong> +1 CA enquanto Umbra estiver a até 1,5m de Cinério.</div>
+        <div class="eff"><strong>Modo Caça:</strong> Umbra dá 1 Passo gratuito após qualquer ataque de Cinério.</div>
+        <div class="eff"><strong>Modo Cerco:</strong> Primeiro alvo flanqueado fica Desprevenido automaticamente — antes de qualquer ataque.</div>
+      </div>
+    </div>
+
+    <div class="tc tc-c" data-tp="c">
+      <div class="tc-hd">
+        <div><span class="badge br_">REAÇÃO</span> <span class="badge blv">NÍV. 13</span><div class="tc-nm">Leitura de Boss</div></div>
+        <div class="tc-acts"><span style="color:var(--danger);font-size:18px;">↻</span></div>
+      </div>
+      <p class="tc-desc">Gatilho: boss usa habilidade única enquanto Umbra está manifestada. Umbra marca a técnica. Até o fim do próximo turno de Cinério, ele pode executar uma versão sombria reduzida.</p>
+      <div class="effs">
+        <div class="eff"><strong>Regra de ouro:</strong> Umbra absorve o conceito e a geometria, não os números. O GM adapta uma versão coerente e menor.</div>
+      </div>
+      <div class="tc-sin">Custa 1 Sincronia</div>
+    </div>
+
+    <div class="tc tc-j" data-tp="j">
+      <div class="tc-hd">
+        <div><span class="badge bj">CONJUNTO</span> <span class="badge blv">NÍV. 17</span><div class="tc-nm">Eclipse de Dois Corpos</div></div>
+        <div class="tc-acts"><div class="dia j"></div><div class="dia j"></div><div class="dia j"></div></div>
+      </div>
+      <div class="traits"><span class="trait">Sombra</span><span class="trait">Monge</span><span class="trait">Mágico</span><span class="trait">Aura</span></div>
+      <p class="tc-desc">Cinério e Umbra apagam o conceito de frente e costas do combate. Até o próximo turno:</p>
+      <div class="effs">
+        <div class="eff">Flanqueiam qualquer alvo entre os dois, independente do ângulo.</div>
+        <div class="eff">Primeiro Golpe de cada um contra alvos diferentes não penalizam MAP mutuamente.</div>
+        <div class="eff"><strong>Vontade (CD de Cinério):</strong> inimigos entre os dois. Falha: Abalado 1. Falha crítica: Abalado 2 + Desprevenido.</div>
+      </div>
+      <div class="tc-sin">Custa 2 Sincronia</div>
+      <div class="tc-ps">+2 PS ao usar</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ SOMBRAS ══════════════════════════════════ -->
+<section id="sombras">
+
+  <div class="sh" style="margin-top:32px;"><h2>Ceifar Silhueta</h2></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px;">
+    <div class="card" style="text-align:center;">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--td);margin-bottom:8px;">FRAGMENTO</div>
+      <div style="font-size:15px;color:var(--tm);line-height:1.5;">Mini-boss, elite,<br>rival menor</div>
+    </div>
+    <div class="card" style="text-align:center;border-color:var(--u-br);">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--u);margin-bottom:8px;">NÚCLEO</div>
+      <div style="font-size:15px;color:var(--tm);line-height:1.5;">Boss real,<br>antagonista de arco</div>
+    </div>
+    <div class="card" style="text-align:center;border-color:var(--j-br);">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--j);margin-bottom:8px;">COROA</div>
+      <div style="font-size:15px;color:var(--tm);line-height:1.5;">Boss lendário<br>ou entidade</div>
+    </div>
+  </div>
+  <p style="color:var(--tm);margin-bottom:24px;font-size:16px;">Após 10 minutos de ritual pós-combate, Umbra devora a sombra residual. Cada sombra dá 3 coisas: Sussurro (passivo), Gesto (ativo) e Ruptura (finalização forte).</p>
+
+  <div class="acc">
+
+    <div class="boss">
+      <div class="boss-hd" onclick="toggleBoss(this)">
+        <div><div class="boss-title">Sombra do Duelista</div><div class="boss-sub">Espadachim de elite · combate singular</div></div>
+        <div class="chev">▶</div>
+      </div>
+      <div class="boss-bd">
+        <div class="shadow-parts">
+          <div class="sp ss"><div class="sp-lbl ss">◆ SUSSURRO</div><div class="sp-name">Leitura de Lâmina</div><div class="sp-desc">+1 de circunstância em Percepção e Reflexos contra criaturas do mesmo tipo do boss absorvido.</div></div>
+          <div class="sp sg"><div class="sp-lbl sg">◆ GESTO</div><div class="sp-name">Contralâmina de Umbra ↻</div><div class="sp-desc">Gatilho: inimigo erra ataque corpo a corpo. Umbra avança e Golpeia o atacante. Custa 1 Sincronia.</div></div>
+          <div class="sp sr"><div class="sp-lbl sr">◆◆ RUPTURA</div><div class="sp-name">Corte Entre Guardas</div><div class="sp-desc">Cinério e Umbra atacam juntos. Se ambos acertam: Desprevenido + sem reações + −2 em Reflexos. Custa 1 Sin, +1 PS.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boss">
+      <div class="boss-hd" onclick="toggleBoss(this)">
+        <div><div class="boss-title">Sombra do Colosso</div><div class="boss-sub">Força bruta · tamanho superior</div></div>
+        <div class="chev">▶</div>
+      </div>
+      <div class="boss-bd">
+        <div class="shadow-parts">
+          <div class="sp ss"><div class="sp-lbl ss">◆ SUSSURRO</div><div class="sp-name">Peso Herdado</div><div class="sp-desc">Umbra pode Derrubar ou Empurrar criaturas até 2 categorias de tamanho maior que Cinério.</div></div>
+          <div class="sp sg"><div class="sp-lbl sg">◆ GESTO</div><div class="sp-name">Punho de Massa</div><div class="sp-desc">Próximo Golpe de Umbra: +1d8 de dano contundente e empurra 3m em acerto.</div></div>
+          <div class="sp sr"><div class="sp-lbl sr">◆◆ RUPTURA</div><div class="sp-name">Piso Sem Dono</div><div class="sp-desc">Emanação 3m — Reflexos vs CD de Classe. Falha: Prostrado. Falha crítica: Prostrado + Lento 1. +2 PS.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boss">
+      <div class="boss-hd" onclick="toggleBoss(this)">
+        <div><div class="boss-title">Sombra do Predador</div><div class="boss-sub">Caçador · assassino de elite</div></div>
+        <div class="chev">▶</div>
+      </div>
+      <div class="boss-bd">
+        <div class="shadow-parts">
+          <div class="sp ss"><div class="sp-lbl ss">◆ SUSSURRO</div><div class="sp-name">Cheiro da Escuridão</div><div class="sp-desc">Umbra detecta a direção de criaturas abaixo de metade dos PV a até 18m.</div></div>
+          <div class="sp sg"><div class="sp-lbl sg">◆ GESTO</div><div class="sp-name">Salto Sob a Pele</div><div class="sp-desc">Umbra teleporta adjacente a alvo a até 9m. Próximo ataque: +1 de circunstância e conta como flanqueando.</div></div>
+          <div class="sp sr"><div class="sp-lbl sr">◆◆ RUPTURA</div><div class="sp-name">Abate Sem Testemunha</div><div class="sp-desc">Só em Desprevenido abaixo de metade PV. Acerto: +2d6 sombra. Crítico: +2d6 + Abalado 1. +1 PS.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boss">
+      <div class="boss-hd" onclick="toggleBoss(this)">
+        <div><div class="boss-title">Sombra do Guardião</div><div class="boss-sub">Protetor · tanque defensivo</div></div>
+        <div class="chev">▶</div>
+      </div>
+      <div class="boss-bd">
+        <div class="shadow-parts">
+          <div class="sp ss"><div class="sp-lbl ss">◆ SUSSURRO</div><div class="sp-name">Silhueta Protetora</div><div class="sp-desc">Aliados adjacentes a Umbra: +1 de circunstância na CA contra tentativas de flanqueamento.</div></div>
+          <div class="sp sg"><div class="sp-lbl sg">↻ GESTO</div><div class="sp-name">Interposição Escura</div><div class="sp-desc">Gatilho: aliado adjacente sofre dano. Gaste 1 Sin. Reduz o dano em nível + mod. de Sab/Con.</div></div>
+          <div class="sp sr"><div class="sp-lbl sr">◆◆◆ RUPTURA</div><div class="sp-name">Muralha Sem Luz</div><div class="sp-desc">Umbra forma barreira 4,5m. Aliados recebem Cobertura Padrão até o próximo turno. +2 PS.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boss">
+      <div class="boss-hd" onclick="toggleBoss(this)">
+        <div><div class="boss-title">Sombra do Arcanista</div><div class="boss-sub">Usuário de magia · conjurador de arco</div></div>
+        <div class="chev">▶</div>
+      </div>
+      <div class="boss-bd">
+        <div class="shadow-parts">
+          <div class="sp ss"><div class="sp-lbl ss">◆ SUSSURRO</div><div class="sp-name">Fome de Fórmula</div><div class="sp-desc">Umbra detecta resíduos mágicos em luz fraca ou escuridão. +1 em Identificar Magia.</div></div>
+          <div class="sp sg"><div class="sp-lbl sg">↻ GESTO</div><div class="sp-name">Roubar Brilho</div><div class="sp-desc">Gatilho: magia causa dano. Cinério ganha resistência ao tipo de dano igual a metade do nível até o fim do próximo turno.</div></div>
+          <div class="sp sr"><div class="sp-lbl sr">◆◆ RUPTURA</div><div class="sp-name">Punho Antimagia</div><div class="sp-desc">Golpe em alvo com magia ativa. Acerto: Ocultismo vs CD da magia para encerrar um efeito. +1 PS.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ PROGRESSÃO ══════════════════════════════════ -->
+<section id="progressao">
+
+  <div class="sh" style="margin-top:32px;"><h2>Progressão por Estágio</h2></div>
+  <div class="prog">
+
+    <div class="pi">
+      <div class="pdot c"></div>
+      <div class="p-lvl">NÍVEL 3 – 4</div>
+      <div class="p-name">Latente</div>
+      <div class="p-desc">A sombra existe e luta. O jogador aprende que Cinério e Umbra são um sistema — não um personagem e uma invocação.</div>
+      <div class="p-unlocks">
+        <div class="p-ul">Economia 2+2 ações completa, reação de Cinério</div>
+        <div class="p-ul">Golpe Cruzado, Sincronismo, Passo da Sombra, Guarda Contraluz</div>
+        <div class="p-ul">Sistema de Peso da Sombra (0-5) e Rastro de Vazio (1-4) ativos</div>
+        <div class="p-ul">1 Ponto de Sincronia</div>
+      </div>
+    </div>
+
+    <div class="pi">
+      <div class="pdot u"></div>
+      <div class="p-lvl">NÍVEL 5 – 8</div>
+      <div class="p-name">Tangível</div>
+      <div class="p-desc">Umbra começa a pesar no mundo. Ela não é só pressão visual — empurra, derruba, protege. E come sombras.</div>
+      <div class="p-unlocks">
+        <div class="p-ul">Dano sobe para 1d8 + FOR</div>
+        <div class="p-ul">Manobras contra criaturas até 1 categoria maior</div>
+        <div class="p-ul">Reflexo de Treino: Rajada de Golpes com ângulo de Umbra</div>
+        <div class="p-ul">2 Pontos de Sincronia (nível 7) + primeira sombra de boss</div>
+      </div>
+    </div>
+
+    <div class="pi">
+      <div class="pdot j"></div>
+      <div class="p-lvl">NÍVEL 9 – 12</div>
+      <div class="p-name">Manifestação</div>
+      <div class="p-desc">Os dois lutam como uma unidade. Ritmo Partilhado transforma cada turno em uma escolha tática consciente.</div>
+      <div class="p-unlocks">
+        <div class="p-ul">Ritmo Partilhado: 3 modos de combate ativos</div>
+        <div class="p-ul">Golpe de Sombra Encadeado: dano bônus automático em alvos Desprevenidos</div>
+        <div class="p-ul">Até 2 sombras de boss preparadas</div>
+      </div>
+    </div>
+
+    <div class="pi">
+      <div class="pdot d"></div>
+      <div class="p-lvl">NÍVEL 13 – 16</div>
+      <div class="p-name">Disrupção</div>
+      <div class="p-desc">Umbra fotografa bosses em tempo real. O inimigo usa uma habilidade especial — Umbra copia o esqueleto dela.</div>
+      <div class="p-unlocks">
+        <div class="p-ul">Leitura de Boss: cópia conceitual de técnicas durante o combate</div>
+        <div class="p-ul">3 Pontos de Sincronia · até 3 sombras preparadas</div>
+      </div>
+    </div>
+
+    <div class="pi">
+      <div class="pdot w"></div>
+      <div class="p-lvl">NÍVEL 17 – 20</div>
+      <div class="p-name">Horizonte de Eventos</div>
+      <div class="p-desc">Dois corpos, uma anomalia marcial. O campo dobra ao redor de Cinério e Umbra. Não há mais ângulo seguro.</div>
+      <div class="p-unlocks">
+        <div class="p-ul">Eclipse de Dois Corpos: apaga frente e costas do combate</div>
+        <div class="p-ul">4 Pontos de Sincronia · até 4 sombras preparadas</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sh" style="margin-top:44px;"><h2>Ficha Rápida — Nível 3</h2></div>
+  <div class="qr">
+    <h3>— CINÉRIO &amp; UMBRA — REFERÊNCIA NÍVEL 3 —</h3>
+    <div><span class="qrk">AÇÕES    </span><span class="qrc">Cinério: 2 + ↻</span> <span class="qrl"> | </span> <span class="qru">Umbra: 2 (sem ↻)</span></div>
+    <div><span class="qrk">MAP      </span><span class="qrl">100% compartilhado — cada ataque de qualquer um conta</span></div>
+    <div><span class="qrk">HP/CA    </span><span class="qrl">Compartilhados — Umbra usa estatísticas de Cinério</span></div>
+    <div><span class="qrk">ALCANCE  </span><span class="qrl">Umbra manifesta a 4,5m · permanece até 9m de Cinério</span></div>
+    <div class="qrl">─────────────────────────────────────────────────────────────</div>
+    <div><span class="qrk">DANO U   </span><span class="qru">1d6 + FOR</span><span class="qrl"> — contundente ou vazio/sombra (escolha permanente)</span></div>
+    <div><span class="qrk">SINCRONIA</span><span class="qrj"> 1 ponto</span><span class="qrl"> — recarrega em Descanso Curto ou Longo</span></div>
+    <div class="qrl">─────────────────────────────────────────────────────────────</div>
+    <div><span class="qrk">PS ▲     </span><span class="qrl">Golpe Cruzado +1 | Passo Sombra +1 | Ruptura +1 | Eclipse +2</span></div>
+    <div><span class="qrk">RASTROS  </span><span class="qrl">PS2→1R | PS3→2R | PS4→3R | PS5→4R · persistem entre combates</span></div>
+    <div class="qrl">─────────────────────────────────────────────────────────────</div>
+    <div><span class="qrk">REMOVER  </span><span class="qrl">D. Curto: −1 rastro | D. Longo: todos menos 1 | Luz natural: todos</span></div>
+    <div><span class="qrk">PS3 BÔNUS</span><span class="qrj"> +2 Iniciativa</span><span class="qrl"> — Umbra está acordada antes do combate</span></div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+const psText = {
+  0:{cls:'',txt:'<span style="color:var(--tm);font-style:italic;">Nenhum segmento ativo. Umbra está em estado normal — ela parece apenas uma sombra deslocada.</span>'},
+  1:{cls:'s12',txt:'<strong style="color:var(--u)">PS 1 — Silhueta Normal.</strong> Combate padrão. Umbra parece uma sombra deslocada. Sem efeitos especiais ativos ainda.'},
+  2:{cls:'s12',txt:'<strong style="color:var(--u)">PS 2 — Penumbra Densa.</strong> Umbra começa a parecer espessa demais para qualquer sombra natural. Inimigos que entram adjacentes a Umbra pela primeira vez no turno fazem Vontade contra CD de Cinério. <em>Falha:</em> Abalado 1. <em>Falha crítica:</em> Abalado 1 + Lento 1 até o fim do próprio turno.'},
+  3:{cls:'s12',txt:'<strong style="color:var(--u)">PS 3 — Penumbra Densa (intensificada).</strong> O efeito do PS 2 permanece. Umbra começa a parecer algo que escolheu ser sombra — não uma sombra que existe por acidente.'},
+  4:{cls:'s34',txt:'<strong style="color:var(--j)">PS 4 — Dissociação.</strong> Umbra para de mover como sombra. Cinério ganha <strong>+1 CA</strong> enquanto Umbra estiver a até 1,5m. Ataques de Umbra causam <strong>+1d4 de dano vazio adicional</strong>. Aliados que veem Cinério e rolam Percepção CD 15 percebem que a sombra dele está errada.'},
+  5:{cls:'s5',txt:'<strong style="color:var(--danger)">PS 5 — LIMITE DA SILHUETA.</strong> Umbra escapa do controle por 1 rodada inteira. No <em>início</em> do turno, antes de Cinério agir, Umbra age com 2 ações livres de forma autônoma — o GM descreve com base no inimigo mais próximo que ela "decidiu" era uma ameaça. Depois, Umbra desaparece até o fim do combate. Cinério age normalmente nesse turno, mas sozinho.'}
+};
+
+const rastroText = {
+  0:'<span style="color:var(--tm);">Nenhum rastro. Sombra normal, combate limpo.</span>',
+  1:'<strong>Sombra Fina.</strong> A sombra de Cinério está visivelmente fina, quase translúcida. −1 em Diplomacia e Enganação. Animais ficam inquietos perto dele.',
+  2:'<strong>Corpo Frio.</strong> Cinério irradia frio perceptível ao toque. −1 em saves de Fortitude. Chamas tremelicam ao seu redor.',
+  3:'<strong>Rastro Profundo.</strong> −1 em <em>todos</em> os saves. <strong style="color:var(--j)">+2 em Iniciativa</strong> — Umbra está acordada antes do combate começar. Os sonhos de Cinério são das batalhas de Umbra.',
+  4:'<strong>Dissolução da Silhueta.</strong> −1 em todos os saves. Uma vez antes do próximo Descanso Longo, o GM pode fazer Umbra agir por conta própria — uma situação social inesperada, uma proteção não solicitada, ou uma resposta que Cinério não autorizou.'
+};
+
+let ps = 0, rv = 0;
+
+function setPS(l) {
+  ps = ps === l ? 0 : l;
+  document.querySelectorAll('.ps-cell').forEach(c => {
+    c.classList.toggle('on', parseInt(c.dataset.l) <= ps && ps > 0);
+  });
+  const b = document.getElementById('ps-box');
+  const d = psText[ps];
+  b.className = 'ps-box' + (d.cls ? ' ' + d.cls : '');
+  b.innerHTML = d.txt;
+}
+
+function setR(n) {
+  rv = rv === n ? 0 : n;
+  document.querySelectorAll('.rdot').forEach(d => {
+    d.classList.toggle('on', parseInt(d.dataset.n) <= rv);
+  });
+  const b = document.getElementById('r-box');
+  b.innerHTML = rastroText[rv];
+  b.style.borderColor = rv >= 3 ? 'var(--d-br)' : rv > 0 ? 'var(--u-br)' : 'var(--br)';
+}
+
+function toggleBoss(hd) {
+  const bd = hd.nextElementSibling;
+  const ch = hd.querySelector('.chev');
+  const was = bd.classList.contains('open');
+  document.querySelectorAll('.boss-bd').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.chev').forEach(c => c.classList.remove('open'));
+  if (!was) { bd.classList.add('open'); ch.classList.add('open'); }
+}
+
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(btn.dataset.t).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+document.querySelectorAll('.tf').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tf').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const f = btn.dataset.f;
+    document.querySelectorAll('.tc').forEach(tc => {
+      tc.style.display = f === 'all' || tc.dataset.tp === f ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

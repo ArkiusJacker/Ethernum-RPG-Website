@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Mestre — ETHERNUM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #e8d5c4;
+      font-family: 'Cinzel', serif;
+      overflow: hidden;
+    }
+
+    .master-container {
+      display: flex;
+      height: 100vh;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .master-panel {
+      width: 25%;
+      background: linear-gradient(135deg, rgba(45, 107, 48, 0.1), rgba(200, 168, 75, 0.05));
+      border: 1px solid rgba(200, 168, 75, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .player-view {
+      flex: 1;
+      border: 1px solid rgba(200, 168, 75, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #08090a;
+    }
+
+    .master-panel h2 {
+      font-size: 18px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c8a84b;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(200, 168, 75, 0.2);
+      padding-bottom: 10px;
+    }
+
+    .control-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .control-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8a836a;
+      margin-bottom: 5px;
+    }
+
+    button {
+      background: rgba(200, 168, 75, 0.15);
+      border: 1px solid rgba(200, 168, 75, 0.3);
+      color: #c8a84b;
+      padding: 10px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(200, 168, 75, 0.3);
+      border-color: rgba(200, 168, 75, 0.6);
+      transform: translateY(-2px);
+    }
+
+    button.active {
+      background: rgba(74, 158, 78, 0.3);
+      border-color: rgba(74, 158, 78, 0.6);
+      color: #4a9e4e;
+    }
+
+    .section-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .section-buttons button {
+      font-size: 10px;
+      padding: 8px;
+    }
+
+    .status-box {
+      background: rgba(200, 168, 75, 0.08);
+      border: 1px solid rgba(200, 168, 75, 0.2);
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .status-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-label {
+      color: #8a836a;
+    }
+
+    .status-value {
+      color: #c8a84b;
+      font-weight: 600;
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .toggle-group button {
+      flex: 1;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(200, 168, 75, 0.1);
+      margin: 10px 0;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .warning {
+      background: rgba(196, 43, 43, 0.15);
+      border: 1px solid rgba(196, 43, 43, 0.3);
+      color: #e05555;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .success {
+      background: rgba(74, 158, 78, 0.15);
+      border: 1px solid rgba(74, 158, 78, 0.3);
+      color: #4a9e4e;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .character-data {
+      background: rgba(45, 107, 48, 0.1);
+      border: 1px solid rgba(45, 107, 48, 0.3);
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 11px;
+    }
+
+    .character-data h4 {
+      color: #4a9e4e;
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1024px) {
+      .master-container {
+        flex-direction: column;
+      }
+
+      .master-panel {
+        width: 100%;
+        height: 200px;
+        max-height: 200px;
+      }
+
+      .player-view {
+        flex: 1;
+      }
+
+      .section-buttons {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="master-container">
+    <!-- MASTER CONTROL PANEL -->
+    <div class="master-panel">
+      <h2>🎭 Painel do Mestre</h2>
+
+      <!-- MODE CONTROL -->
+      <div class="control-section">
+        <div class="control-label">Modo de Visibilidade</div>
+        <div class="toggle-group">
+          <button id="btn-master-on" class="active" onclick="setMasterMode(true)">👁️ Modo Mestre</button>
+          <button id="btn-master-off" onclick="setMasterMode(false)">🔒 Modo Jogador</button>
+        </div>
+        <div id="status-master" class="status-box">
+          <div class="status-item">
+            <span class="status-label">Status:</span>
+            <span class="status-value" id="master-status">Ativo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- SECTION NAVIGATION -->
+      <div class="control-section">
+        <div class="control-label">Navegar para Seção</div>
+        <div class="section-buttons">
+          <button onclick="switchSection('s-sp')">SP</button>
+          <button onclick="switchSection('s-ikons')">IKONs</button>
+          <button onclick="switchSection('s-palmas')">Palmas</button>
+          <button onclick="switchSection('s-tecnicas')">Técnicas</button>
+          <button onclick="switchSection('s-ranking')">Ranking</button>
+          <button onclick="switchSection('s-risco')">Execução</button>
+          <button onclick="switchSection('s-bb')">BB</button>
+          <button onclick="switchSection('s-prog')">Progressão</button>
+          <button onclick="switchSection('s-npcs')">NPCs</button>
+          <button onclick="switchSection('s-quest')">Quest</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- SOUND CONTROL -->
+      <div class="control-section">
+        <div class="control-label">Áudio</div>
+        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Ligar Sons</button>        <button onclick="window.location.href='audio-config.html'" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
+          ⚙️ Configurar Música
+        </button>      </div>
+
+      <div class="divider"></div>
+
+      <!-- CHARACTER INFO -->
+      <div class="character-data">
+        <h4>📋 Personagem Ativo</h4>
+        <div class="status-item">
+          <span class="status-label">Nome:</span>
+          <span class="status-value" id="char-name">Gyro Zeppeli</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Nível:</span>
+          <span class="status-value" id="char-level">3</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Seção:</span>
+          <span class="status-value" id="char-section">Sistema SP</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- NOTIFICATIONS -->
+      <div id="notification-container" style="display: flex; flex-direction: column; gap: 8px; min-height: 40px;"></div>
+    </div>
+
+    <!-- PLAYER VIEW -->
+    <div class="player-view">
+      <iframe id="player-iframe" src="gyro_zeppeli.html"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const playerFrame = document.getElementById('player-iframe');
+    let isMasterMode = true;
+    let isSoundEnabled = true;
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        syncPlayerState();
+      }, 1000);
+    });
+
+    /**
+     * Send message to player iframe
+     */
+    function sendToPlayer(action, data = {}) {
+      playerFrame.contentWindow.postMessage(
+        { action, ...data },
+        '*'
+      );
+      console.log('📤 Enviado para jogador:', action, data);
+    }
+
+    /**
+     * Set master mode
+     */
+    function setMasterMode(enabled) {
+      isMasterMode = enabled;
+      document.getElementById('btn-master-on').classList.toggle('active', enabled);
+      document.getElementById('btn-master-off').classList.toggle('active', !enabled);
+      document.getElementById('master-status').textContent = enabled ? '✓ Ativo' : '✗ Desativo';
+
+      sendToPlayer('TOGGLE_MASTER', { value: enabled });
+      showNotification(
+        enabled ? '👁️ Modo Mestre ativado - NPCs visíveis' : '🔒 Modo Jogador - Conteúdo bloqueado',
+        enabled ? 'success' : 'warning'
+      );
+    }
+
+    /**
+     * Switch section in player iframe
+     */
+    function switchSection(sectionId) {
+      sendToPlayer('SWITCH_SECTION', { sectionId });
+
+      const sectionNames = {
+        's-sp': 'Sistema SP',
+        's-ikons': 'IKONs',
+        's-palmas': 'Palmas do Diabo',
+        's-tecnicas': 'Técnicas',
+        's-ranking': 'Ranking',
+        's-risco': 'Execução & Risco',
+        's-bb': 'Ball Breaker',
+        's-prog': 'Progressão',
+        's-npcs': 'NPCs',
+        's-quest': 'Questline',
+      };
+
+      document.getElementById('char-section').textContent = sectionNames[sectionId] || sectionId;
+      showNotification(`→ Navegando para: ${sectionNames[sectionId]}`, 'success');
+    }
+
+    /**
+     * Toggle sound in player
+     */
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      document.getElementById('btn-sound').classList.toggle('active', isSoundEnabled);
+      document.getElementById('btn-sound').textContent = isSoundEnabled ? '🔊 Ligar Sons' : '🔇 Desligar Sons';
+
+      sendToPlayer('TOGGLE_SOUND', { enabled: isSoundEnabled });
+      showNotification(
+        isSoundEnabled ? '🔊 Sons ativados' : '🔇 Sons desativados',
+        'success'
+      );
+    }
+
+    /**
+     * Sync player state with master panel
+     */
+    function syncPlayerState() {
+      // Try to get character data from player
+      if (playerFrame.contentWindow.EthernumAPI) {
+        const data = playerFrame.contentWindow.EthernumAPI.getCharacterData();
+        if (data) {
+          document.getElementById('char-name').textContent = data.name || 'Gyro Zeppeli';
+          document.getElementById('char-level').textContent = data.level || 3;
+        }
+      }
+    }
+
+    /**
+     * Show notification
+     */
+    function showNotification(message, type = 'success') {
+      const container = document.getElementById('notification-container');
+
+      const notif = document.createElement('div');
+      notif.className = type;
+      notif.textContent = message;
+      notif.style.fontSize = '11px';
+      notif.style.padding = '8px';
+      notif.style.borderRadius = '4px';
+
+      container.appendChild(notif);
+
+      setTimeout(() => {
+        notif.style.opacity = '0';
+        notif.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => notif.remove(), 300);
+      }, 3000);
+    }
+
+    /**
+     * Listen for messages from player
+     */
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'PLAYER_UPDATE') {
+        console.log('📥 Update do jogador:', event.data);
+        if (event.data.currentSection) {
+          document.getElementById('char-section').textContent = event.data.currentSection;
+        }
+      }
+    });
+
+    // Initial setup
+    setMasterMode(true);
+    showNotification('✓ Painel do Mestre carregado', 'success');
+  </script>
+</body>
+</html>

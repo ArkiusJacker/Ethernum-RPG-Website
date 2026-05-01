@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configurações Gerais - ETHERNUM</title>
-  <link rel="stylesheet" href="ethernum-shared.css?v=3.6">
+  <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.7">
   <style>
     * {
       margin: 0;
@@ -255,8 +255,8 @@
 
     <div class="config-group">
       <label for="musicUrl">URL da Música de Fundo</label>
-      <input type="text" id="musicUrl" placeholder="media/audio/audio%20%5Bmusic%5D.mp3 ou https://...">
-      <p class="help-text">Cole aqui o caminho local em media/audio/ ou URL remota (https://...). Em branco usa a trilha local padrão.</p>
+      <input type="text" id="musicUrl" placeholder="../../assets/audio/audio%20%5Bmusic%5D.mp3 ou https://...">
+      <p class="help-text">Cole aqui o caminho local em ../../assets/audio/ ou URL remota (https://...). Em branco usa a trilha local padrão.</p>
     </div>
 
     <div class="section-divider"></div>
@@ -315,7 +315,7 @@
   <script>
     class AudioConfigManager {
       constructor() {
-        this.defaultTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
+        this.defaultTrack = '../../assets/audio/audio%20%5Bmusic%5D.mp3';
         this.legacyTracks = new Set([
           './audio/ambient-synth.mp3',
           './audio/piano-classical.mp3',
@@ -352,7 +352,7 @@
         document.getElementById('testBtn').addEventListener('click', () => this.test());
         document.getElementById('resetBtn').addEventListener('click', () => this.reset());
         document.getElementById('backPanelBtn').addEventListener('click', () => window.location.href = this.returnTo);
-        document.getElementById('backIndexBtn').addEventListener('click', () => window.location.href = 'index.html');
+        document.getElementById('backIndexBtn').addEventListener('click', () => window.location.href = '../../index.html');
         document.getElementById('audioTarget').addEventListener('change', (event) => {
           this.target = event.target.value;
           localStorage.setItem('ethernum-audio-target', this.target);

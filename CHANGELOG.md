@@ -1,3 +1,13 @@
+## v3.7 - Organizacao Estrutural
+
+- Reorganizada a estrutura em `css/`, `js/`, `assets/`, `pages/`, `data/` e `pdfs/`.
+- Padronizados nomes de paginas principais em minusculo e com hifen.
+- Mantido `index.html` na raiz para compatibilidade com GitHub Pages.
+- Atualizados links relativos de CSS, JS, imagens, audio e navegacao entre paginas.
+- Criados `data/characters.js`, `data/mechanics.js` e `data/world.js`.
+- Atualizados `AGENTS.md`, `agents.md` e `README.md` para refletir a estrutura atual.
+- Ajustado `js/site-selftest.js` para validar HTMLs em subpastas.
+
 ## 📋 SUMÁRIO EXECUTIVO - ETHERNUM v2.1
 
 **Status:** ✅ **8 DE 8 PROBLEMAS CORRIGIDOS**
@@ -8,20 +18,20 @@
 
 | # | Problema | Solução | Status | Arquivo |
 |---|----------|---------|--------|---------|
-| 1 | NPCs visíveis mesmo em modo mestre | Adicionado else-branch em setupLockedContent() | ✅ | app.js:475 |
-| 2 | Texto não editável ao clicar | Refatorado setupEditableElements() com event listeners | ✅ | app.js:300-350 |
-| 3 | Hero image muito colada nas abas | Aumentado margin-bottom para 5rem | ✅ | styles-extended.css:22 |
-| 4 | Transições muito simples | Adicionados scale(0.97) + rotateX(2deg) | ✅ | styles-extended.css:28-38 |
-| 5 | Sem opção para múltiplos cards abertos | Criado setupCardToggle() + config flag | ✅ | app.js:375-450 |
-| 6 | Dificuldade em alocar música | Criado audio-config.html com UI completa | ✅ | audio-config.html |
-| 7 | Volume de música ainda alto | Volume já em 0.08 (confirmado) | ✅ | app.js:153 |
-| 8 | Arquitetura não pronta para múltiplos personagens | Config system implementado, estrutura preparada | 🟡 | app.js:1-30 |
+| 1 | NPCs visíveis mesmo em modo mestre | Adicionado else-branch em setupLockedContent() | ✅ | js/app.js:475 |
+| 2 | Texto não editável ao clicar | Refatorado setupEditableElements() com event listeners | ✅ | js/app.js:300-350 |
+| 3 | Hero image muito colada nas abas | Aumentado margin-bottom para 5rem | ✅ | css/styles-extended.css:22 |
+| 4 | Transições muito simples | Adicionados scale(0.97) + rotateX(2deg) | ✅ | css/styles-extended.css:28-38 |
+| 5 | Sem opção para múltiplos cards abertos | Criado setupCardToggle() + config flag | ✅ | js/app.js:375-450 |
+| 6 | Dificuldade em alocar música | Criado pages/ferramentas/audio-config.html com UI completa | ✅ | pages/ferramentas/audio-config.html |
+| 7 | Volume de música ainda alto | Volume já em 0.08 (confirmado) | ✅ | js/app.js:153 |
+| 8 | Arquitetura não pronta para múltiplos personagens | Config system implementado, estrutura preparada | 🟡 | js/app.js:1-30 |
 
 ---
 
 ## 📦 Arquivos Modificados
 
-### ✏️ app.js (+150 linhas)
+### ✏️ js/app.js (+150 linhas)
 ```
 ANTES: 600 linhas, edição básica, sem card toggle
 DEPOIS: 750 linhas, edição melhorada, card toggle sistema completo
@@ -36,7 +46,7 @@ DEPOIS: 750 linhas, edição melhorada, card toggle sistema completo
 - `setupBackgroundTrack()`: Melhorado, agora carrega do localStorage
 - `toggleSound()`: Melhorado para pausar/retomar áudio
 
-### ✏️ styles-extended.css (+30 linhas)
+### ✏️ css/styles-extended.css (+30 linhas)
 ```
 ANTES: 500+ linhas, transições básicas
 DEPOIS: 530+ linhas, transições aprimoradas
@@ -50,7 +60,7 @@ DEPOIS: 530+ linhas, transições aprimoradas
 - `.edit-mode-indicator`: Refinado
 - Editable outline: Aumentado de 1px para 2px (mais visível)
 
-### 🆕 audio-config.html (215 linhas - NOVO!)
+### 🆕 pages/ferramentas/audio-config.html (215 linhas - NOVO!)
 ```
 Primeira vez que existe!
 Interface completa de configuração de áudio.
@@ -67,17 +77,17 @@ Interface completa de configuração de áudio.
 ### 🆕 IMPROVEMENTS.md (180 linhas - NOVO!)
 Documentação detalhada de cada correção com exemplos de código.
 
-### 🆕 TESTS.html (400+ linhas - NOVO!)
+### 🆕 pages/ferramentas/tests.html (400+ linhas - NOVO!)
 Interface interativa para testar todas as 8 correções.
 
 ### 📝 README.md (+60 linhas)
 Adicionadas seções sobre:
 - Sistema de áudio customizado
 - Múltiplos cards abertos
-- Instruções de uso do audio-config.html
+- Instruções de uso do pages/ferramentas/audio-config.html
 
-### ✏️ mestre-panel.html (+1 botão)
-Adicionado botão "⚙️ Configurar Música" que leva a audio-config.html
+### ✏️ pages/ferramentas/mestre-panel.html (+1 botão)
+Adicionado botão "⚙️ Configurar Música" que leva a pages/ferramentas/audio-config.html
 
 ---
 
@@ -236,7 +246,7 @@ class AudioConfigManager {
 
 | Métrica | Antes | Depois | Δ |
 |---------|-------|--------|---|
-| Linhas de código (app.js) | 600 | 750 | +150 |
+| Linhas de código (js/app.js) | 600 | 750 | +150 |
 | Linhas de CSS | 500+ | 530+ | +30 |
 | Arquivos HTML | 3 | 5 | +2 |
 | Funcionalidades | 7 | 15 | +8 |
@@ -249,17 +259,17 @@ class AudioConfigManager {
 
 ### Opção 1: Teste Interativo Automatizado
 ```
-Abra: TESTS.html
+Abra: pages/ferramentas/tests.html
 Siga os passos para cada um dos 8 testes
 Marca checkboxes para validar cada correção
 ```
 
 ### Opção 2: Teste Manual
 ```
-1. Abra gyro_zeppeli.html?master=true
+1. Abra pages/personagens/gyro-zeppeli.html?master=true
 2. Verifique cada um dos 8 problemas
-3. Abra audio-config.html para música
-4. Abra mestre-panel.html para integração
+3. Abra pages/ferramentas/audio-config.html para música
+4. Abra pages/ferramentas/mestre-panel.html para integração
 ```
 
 ### Opção 3: Validação de Código
@@ -353,10 +363,10 @@ Se algum teste falhar:
 ## 🎓 Documentação Adicional
 
 - 📖 **README.md**: Guia geral de uso
-- 🧪 **TESTS.html**: Testes interativos
+- 🧪 **pages/ferramentas/tests.html**: Testes interativos
 - 📋 **IMPROVEMENTS.md**: Detalhes técnicos de cada correção
-- 💾 **API-REFERENCE.js**: Referência de métodos públicos
-- ⚙️ **audio-config.html**: Interface de configuração
+- 💾 **js/api-reference.js**: Referência de métodos públicos
+- ⚙️ **pages/ferramentas/audio-config.html**: Interface de configuração
 
 ---
 

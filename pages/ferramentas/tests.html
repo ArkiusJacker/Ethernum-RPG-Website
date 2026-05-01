@@ -1,11 +1,11 @@
-<!-- TESTE INTERATIVO - ETHERNUM v3.6 -->
+<!-- TESTE INTERATIVO - ETHERNUM v3.7 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v3.6</title>
-  <link rel="stylesheet" href="ethernum-shared.css?v=3.6">
+  <title>Teste - ETHERNUM v3.7</title>
+  <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.7">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -223,10 +223,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v3.6</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v3.7</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
-      Siga os passos abaixo para validar a rodada v3.6. Testes marcados ficam compactos automaticamente.
+      Siga os passos abaixo para validar a rodada v3.7. Testes marcados ficam compactos automaticamente.
     </p>
 
     <!-- TESTE 1: Section Lock -->
@@ -240,7 +240,7 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>mestre-panel.html?character=gyro</code> e entre no modo mestre</li>
+          <li>Abra <code>pages/ferramentas/mestre-panel.html?character=gyro</code> e entre no modo mestre</li>
           <li>Em <strong>Bloquear para Jogadores</strong>, clique em <strong>Fechar · NPCs</strong> ou outra seção</li>
           <li>Clique em <strong>Modo Jogador</strong></li>
           <li>Confirme que o botão e o conteúdo bloqueados desapareceram da página do jogador</li>
@@ -268,7 +268,7 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>mestre-panel.html?character=gyro</code> e informe a senha mestre</li>
+          <li>Abra <code>pages/ferramentas/mestre-panel.html?character=gyro</code> e informe a senha mestre</li>
           <li>Pressione <code>Ctrl+E</code> ou clique no botão <strong>Modo Edicao</strong> da barra superior</li>
           <li>Procure pelo indicador <strong>"✎ Modo Edição Ativo"</strong> no canto superior</li>
           <li>Clique em um título, descrição de IKON, texto de Palma e campo da ficha PF2e</li>
@@ -299,7 +299,7 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code> normalmente</li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code> normalmente</li>
           <li>Scroll para cima até ver o hero image</li>
           <li>Verifique o <strong>espaço branco entre a imagem e os botões das abas</strong></li>
           <li>Se está confortável (não grudado), marque</li>
@@ -326,7 +326,7 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code></li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code></li>
           <li>Clique em diferentes abas (SP → IKONs → Palmas → etc)</li>
           <li>Observe a <strong>animação de entrada</strong> de cada seção</li>
           <li>Verifique se há: <strong>fade-in + escala + movimento</strong></li>
@@ -355,11 +355,11 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code> e vá para <strong>Palmas do Diabo</strong></li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code> e vá para <strong>Palmas do Diabo</strong></li>
           <li>Clique em Palma I; ela deve permanecer aberta</li>
           <li>Clique em outra Palma; a anterior pode fechar, mas a nova deve abrir</li>
           <li>Repita em <strong>Técnicas</strong>, <strong>IKONs</strong> e <strong>Progressão</strong></li>
-          <li>Opcional: ative múltiplos cards em <code>audio-config.html</code> e confirme 2+ cards abertos</li>
+          <li>Opcional: ative múltiplos cards em <code>pages/ferramentas/audio-config.html</code> e confirme 2+ cards abertos</li>
         </ol>
       </div>
 
@@ -383,7 +383,7 @@
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>audio-config.html?target=pipping&return=mestre-panel.html</code></li>
+          <li>Abra <code>pages/ferramentas/audio-config.html?target=pipping&return=pages/ferramentas/mestre-panel.html</code></li>
           <li>Você deve ver:
             <ul style="margin: 0.5rem 0; margin-left: 1rem;">
               <li>✓ Campo de URL de música</li>
@@ -405,7 +405,7 @@
       </div>
       <label class="check-item">
         <input type="checkbox" onchange="validateTest6()">
-        <span>audio-config.html salva por personagem e retorna ao painel</span>
+        <span>pages/ferramentas/audio-config.html salva por personagem e retorna ao painel</span>
       </label>
     </div>
 
@@ -415,15 +415,15 @@
       <div class="test-title">🎭 Verificar painel do mestre</div>
       <div class="test-desc">
         O painel do mestre deve ter acesso fácil à configuração de áudio.
-        Deve haver botão claro apontando para audio-config.html.
+        Deve haver botão claro apontando para pages/ferramentas/audio-config.html.
       </div>
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>mestre-panel.html</code></li>
+          <li>Abra <code>pages/ferramentas/mestre-panel.html</code></li>
           <li>Na seção de Áudio (esquerda), procure pelo botão</li>
           <li>Você deve ver: <strong>"⚙️ Configurações Gerais"</strong></li>
-          <li>Clique no botão - deve abrir <code>audio-config.html</code> preservando o personagem ativo</li>
+          <li>Clique no botão - deve abrir <code>pages/ferramentas/audio-config.html</code> preservando o personagem ativo</li>
           <li>Se funciona, marque</li>
         </ol>
       </div>
@@ -444,17 +444,17 @@
       <div class="test-desc">
         O volume foi reduzido para 0.05 na música de fundo e 0.12 no teste.
         Isso é propositalmente bem baixo, como você pediu.
-        Se quiser aumentar, pode ajustar em audio-config.html.
+        Se quiser aumentar, pode ajustar em pages/ferramentas/audio-config.html.
       </div>
 
       <div class="test-steps">
         <ol>
-          <li>Abra <code>audio-config.html</code></li>
+          <li>Abra <code>pages/ferramentas/audio-config.html</code></li>
           <li>Clique em qualquer preset (ex: "Ambient Synth")</li>
           <li>Clique em <strong>"🔊 Testar Áudio"</strong></li>
           <li>A música deve tocar <strong>baixa</strong> (≈12% no teste)</li>
           <li>Se está baixo como esperado, marque</li>
-          <li>Se quiser aumentar: ajuste a configuração no futuro ou altere <code>audio.volume = 0.05</code> em <code>app.js</code></li>
+          <li>Se quiser aumentar: ajuste a configuração no futuro ou altere <code>audio.volume = 0.05</code> em <code>../../js/app.js</code></li>
         </ol>
       </div>
 
@@ -476,7 +476,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code></li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code></li>
           <li>Clique em SP, IKONs, Palmas e Técnicas</li>
           <li>Confirme que a ficha PF2e não fica aparecendo no meio dessas abas</li>
           <li>Clique em <strong>Ficha PF2e</strong> e confirme que a ficha aparece ali</li>
@@ -500,7 +500,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>mestre-panel.html</code></li>
+          <li>Abra <code>pages/ferramentas/mestre-panel.html</code></li>
           <li>Troque de Gyro para Pipping e confirme que aparecem apenas Ficha, Habilidades e Progressão</li>
           <li>Troque para Bayle e confirme Visão, Estágios, Humanidade, Arquivista e Ficha</li>
           <li>Clique em <strong>Painel Mestre</strong> dentro da visualização do personagem; ele deve abrir no topo, não dentro do iframe</li>
@@ -524,7 +524,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code> pelo servidor local</li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code> pelo servidor local</li>
           <li>Entre na aba <strong>IKONs</strong> e abra um IKON</li>
           <li>Pressione <code>Ctrl+E</code></li>
           <li>Clique em uma linha interna, como passivo, custo ou transcendência</li>
@@ -549,7 +549,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>gyro_zeppeli.html</code> pelo servidor local, não por arquivo direto</li>
+          <li>Abra <code>../personagens/gyro-zeppeli.html</code> pelo servidor local, não por arquivo direto</li>
           <li>Clique uma vez em qualquer lugar da página</li>
           <li>Aguarde alguns segundos e confira se a música começa em volume baixo</li>
           <li>Se não tocar, abra o console e procure por erro de áudio ou arquivo não encontrado</li>
@@ -573,7 +573,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>audio-config.html?target=gyro&return=gyro_zeppeli.html</code></li>
+          <li>Abra <code>pages/ferramentas/audio-config.html?target=gyro&return=../personagens/gyro-zeppeli.html</code></li>
           <li>Marque <strong>Permitir múltiplos cards abertos</strong> e salve</li>
           <li>No Gyro, abra dois IKONs ou duas Palmas</li>
           <li>Confirme que os dois permanecem abertos ao mesmo tempo</li>
@@ -644,7 +644,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>pipping-expressao-da-noite.html</code></li>
+          <li>Abra <code>pages/personagens/pipping-baldwin-black.html</code></li>
           <li>Clique em <strong>Painel Mestre</strong> na barra superior</li>
           <li>Confirme que a URL contém <code>?character=pipping</code></li>
           <li>Repita em Bayle e Cinério se quiser validar a matriz toda</li>
@@ -664,12 +664,12 @@
     <div class="test-item warning">
       <div class="test-title">🎚️ Validar fallback para banco local</div>
       <div class="test-desc">
-        URLs antigas de presets inexistentes devem cair para <code>media/audio/audio [music].mp3</code>.
+        URLs antigas de presets inexistentes devem cair para <code>../../assets/audio/audio [music].mp3</code>.
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra <code>audio-config.html?target=gyro&return=gyro_zeppeli.html</code></li>
-          <li>Confirme que o campo de URL usa <code>media/audio/audio%20%5Bmusic%5D.mp3</code> quando está vazio</li>
+          <li>Abra <code>pages/ferramentas/audio-config.html?target=gyro&return=../personagens/gyro-zeppeli.html</code></li>
+          <li>Confirme que o campo de URL usa <code>../../assets/audio/audio%20%5Bmusic%5D.mp3</code> quando está vazio</li>
           <li>Clique em um preset e depois em <strong>Testar Áudio</strong></li>
           <li>Salve, abra o Gyro, clique na página e confirme que a trilha local tenta tocar</li>
         </ol>
@@ -822,7 +822,7 @@
     <div class="test-item">
       <p style="line-height: 1.8;">
         <strong>Se todos os testes passaram:</strong> ✅<br>
-        Parabéns! A bateria v3.6 está funcionando.<br>
+        Parabéns! A bateria v3.7 está funcionando.<br>
         <br>
         <strong>Próxima fase:</strong><br>
         → Criar um mini painel de áudio dentro do Painel Mestre com play/pause/volume<br>
@@ -839,7 +839,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v3.6 - Teste Completo<br>
+        ETHERNUM v3.7 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>

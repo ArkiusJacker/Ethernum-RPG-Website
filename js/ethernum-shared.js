@@ -2,7 +2,16 @@
   const MASTER_KEY = 'ethernum-master-authenticated';
   const DEFAULT_PASSWORD = 'ethernum-master';
   const LOCK_PREFIX = 'ethernum-section-locks-';
-  const DEFAULT_AUDIO = 'media/audio/audio%20%5Bmusic%5D.mp3';
+  function rootPrefix() {
+    const path = window.location.pathname.toLowerCase();
+    return path.includes('/pages/') ? '../../' : '';
+  }
+
+  function rootPath(path) {
+    return `${rootPrefix()}${path}`;
+  }
+
+  const DEFAULT_AUDIO = rootPath('assets/audio/audio%20%5Bmusic%5D.mp3');
   const LEGACY_AUDIO_PATHS = new Set([
     './audio/ambient-synth.mp3',
     './audio/piano-classical.mp3',
@@ -17,7 +26,7 @@
   const characters = {
     gyro: {
       label: 'Gyro Zeppeli',
-      file: 'gyro_zeppeli.html',
+      file: rootPath('pages/personagens/gyro-zeppeli.html'),
       klass: 'Gunslinger',
       level: '3',
       ancestry: 'Humano',
@@ -25,7 +34,7 @@
       ac: '19',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/characters/gyro/gyro1.png',
+      art: rootPath('assets/images/characters/gyro/gyro1.png'),
       overview: {
         line: 'Mecanica unica - Rotacao Sagrada',
         first: 'Gyro',
@@ -43,7 +52,7 @@
     },
     cinerio: {
       label: 'Cinerio & Umbra',
-      file: 'cinerio_umbra_visual.html',
+      file: rootPath('pages/personagens/cinerio-umbra.html'),
       klass: 'Ficha Especial',
       level: '-',
       ancestry: 'Dupla',
@@ -51,7 +60,7 @@
       ac: '--',
       heroPoints: '1',
       speed: '--',
-      art: 'imagem/characters/cinerio/cinerio1.png',
+      art: rootPath('assets/images/characters/cinerio/cinerio1.png'),
       overview: {
         line: 'Arquivo especial - Vinculo Umbra',
         first: 'Cinerio',
@@ -66,7 +75,7 @@
     },
     pipping: {
       label: 'Pipping Baldwin Black',
-      file: 'pipping-expressao-da-noite.html',
+      file: rootPath('pages/personagens/pipping-baldwin-black.html'),
       klass: 'Bardo',
       level: '3',
       ancestry: 'Fetchling',
@@ -74,7 +83,7 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/characters/pipping/PBB1.png',
+      art: rootPath('assets/images/characters/pipping/PBB1.png'),
       overview: {
         line: 'Mecanica unica - Expressao da Noite',
         first: 'Pipping',
@@ -92,7 +101,7 @@
     },
     bayle: {
       label: 'Bayle, O Horror',
-      file: 'bayle_draconico (1).html',
+      file: rootPath('pages/personagens/bayle-o-horror.html'),
       klass: 'Barbaro',
       level: '3',
       ancestry: 'Draconico',
@@ -100,7 +109,7 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/characters/bayle/bayle1.png',
+      art: rootPath('assets/images/characters/bayle/bayle1.png'),
       overview: {
         line: 'Mecanica unica - Ardor Draconico',
         first: 'Bayle',
@@ -219,13 +228,13 @@
   function ensureShell() {
     if (document.querySelector('.ethernum-shell-nav')) return;
     const characterId = pageCharacter();
-    const panelHref = characterId ? `mestre-panel.html?character=${encodeURIComponent(characterId)}` : 'mestre-panel.html';
+    const panelHref = characterId ? `${rootPath('pages/ferramentas/mestre-panel.html')}?character=${encodeURIComponent(characterId)}` : rootPath('pages/ferramentas/mestre-panel.html');
     const nav = document.createElement('div');
     nav.className = 'ethernum-shell-nav';
     nav.innerHTML = `
       <div class="ethernum-shell-brand">Ethernum Company</div>
       <div class="ethernum-shell-links">
-        <a href="index.html" target="_top">Index</a>
+        <a href="${rootPath('index.html')}" target="_top">Index</a>
         <a href="${panelHref}" target="_top">Painel Mestre</a>
         <button type="button" class="ethernum-edit-btn">Modo Edicao</button>
         <button type="button" class="ethernum-master-btn">${isMaster() ? 'Sair Mestre' : 'Modo Mestre'}</button>

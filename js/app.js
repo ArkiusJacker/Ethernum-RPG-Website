@@ -1,5 +1,5 @@
 /**
- * ETHERNUM v3.6 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v3.7 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
@@ -15,7 +15,7 @@ function detectEthernumCharacter() {
   return 'gyro';
 }
 
-const ETHERNUM_DEFAULT_AUDIO = 'media/audio/audio%20%5Bmusic%5D.mp3';
+const ETHERNUM_DEFAULT_AUDIO = '../../assets/audio/audio%20%5Bmusic%5D.mp3';
 const ETHERNUM_LEGACY_AUDIO_PATHS = [
   './audio/ambient-synth.mp3',
   './audio/piano-classical.mp3',
@@ -102,7 +102,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v3.6 initialized', {
+    console.log('🎯 ETHERNUM v3.7 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,

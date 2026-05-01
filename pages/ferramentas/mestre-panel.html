@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Mestre — ETHERNUM</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="ethernum-shared.css?v=3.6">
+  <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.7">
   <style>
     * {
       margin: 0;
@@ -325,11 +325,11 @@
 
     <!-- PLAYER VIEW -->
     <div class="player-view">
-      <iframe id="player-iframe" src="gyro_zeppeli.html"></iframe>
+      <iframe id="player-iframe" src="../personagens/gyro-zeppeli.html"></iframe>
     </div>
   </div>
 
-  <script src="ethernum-shared.js?v=3.6"></script>
+  <script src="../../js/ethernum-shared.js?v=3.7"></script>
   <script>
     if (window.self !== window.top) {
       window.top.location.href = window.location.href;
@@ -337,10 +337,10 @@
 
     const playerFrame = document.getElementById('player-iframe');
     const characterFiles = {
-      gyro: { name: 'Gyro Zeppeli', level: '3', file: 'gyro_zeppeli.html' },
-      cinerio: { name: 'Cinério & Umbra', level: '-', file: 'cinerio_umbra_visual.html' },
-      pipping: { name: 'Pipping Baldwin Black', level: '3', file: 'pipping-expressao-da-noite.html' },
-      bayle: { name: 'Bayle, O Horror', level: '3', file: 'bayle_draconico (1).html' },
+      gyro: { name: 'Gyro Zeppeli', level: '3', file: '../personagens/gyro-zeppeli.html' },
+      cinerio: { name: 'Cinério & Umbra', level: '-', file: '../personagens/cinerio-umbra.html' },
+      pipping: { name: 'Pipping Baldwin Black', level: '3', file: '../personagens/pipping-baldwin-black.html' },
+      bayle: { name: 'Bayle, O Horror', level: '3', file: '../personagens/bayle-o-horror.html' },
     };
     let activeCharacter = new URLSearchParams(window.location.search).get('character') || 'gyro';
     let isMasterMode = localStorage.getItem('ethernum-master-authenticated') === 'true';

@@ -1,13 +1,58 @@
 /**
- * ETHERNUM v2.4 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v2.7 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
+function detectEthernumCharacter() {
+  const sharedCharacter = window.EthernumShared?.currentCharacter;
+  if (sharedCharacter) return sharedCharacter;
+  const file = window.location.pathname.toLowerCase();
+  if (file.includes('pipping')) return 'pipping';
+  if (file.includes('bayle')) return 'bayle';
+  if (file.includes('cinerio')) return 'cinerio';
+  if (file.includes('gyro')) return 'gyro';
+  if (file.includes('index')) return 'index';
+  return 'gyro';
+}
+
+const ETHERNUM_EDITABLE_SELECTORS = [
+  '.hero-title',
+  '.hero-sub',
+  '.hero-tag',
+  '.sec-title',
+  '.rank-name',
+  '.rank-body',
+  '.bb-card-name',
+  '.bb-desc',
+  '.ikon-name',
+  '.ikon-sub',
+  '.ikon-row',
+  '.ikon-section-lbl',
+  '.ikon-cost',
+  '.ikon-trans-name',
+  '.ikon-trans-cost',
+  '.ikon-trans-body',
+  '.palma-name',
+  '.tec-name',
+  '.prog-title',
+  '.prog-body',
+  '.rank-cell',
+  '.palma-block-text',
+  '.palma-reward-text',
+  '.tec-desc',
+  '.bb-detail',
+  '.sec-note',
+  '.card p',
+  '.card td',
+  '.card li',
+];
+
 class EthernumApp {
   constructor(config = {}) {
+    const character = config.character || detectEthernumCharacter();
     this.config = {
-      character: config.character || 'gyro',
-      backgroundMusicUrl: config.backgroundMusicUrl || localStorage.getItem('ethernum-music-url') || null,
+      character,
+      backgroundMusicUrl: config.backgroundMusicUrl || localStorage.getItem(`ethernum-music-url-${character}`) || localStorage.getItem('ethernum-music-url') || 'media/audio/audio%20%5Bmusic%5D.mp3',
       enableCustomAudio: config.enableCustomAudio !== false,
       allowMultipleOpenCards: config.allowMultipleOpenCards || (localStorage.getItem('ethernum-allow-multiple') === 'true'),
       ...config
@@ -38,7 +83,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v2.4 initialized', {
+    console.log('🎯 ETHERNUM v2.7 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,
@@ -55,7 +100,7 @@ class EthernumApp {
       // Master gain
       this.masterGain = this.audioContext.createGain();
       this.masterGain.connect(this.audioContext.destination);
-      this.masterGain.gain.value = 0.4;
+      this.masterGain.gain.value = 0.28;
 
       // Click sound
       this.clickGain = this.audioContext.createGain();
@@ -64,7 +109,7 @@ class EthernumApp {
       // Background music gain (baixo, conforme pedido)
       this.bgGain = this.audioContext.createGain();
       this.bgGain.connect(this.masterGain);
-      this.bgGain.gain.value = 0.08;
+      this.bgGain.gain.value = 0.05;
     } catch (e) {
       console.warn('⚠️ Web Audio API não suportado:', e);
     }
@@ -144,6 +189,9 @@ class EthernumApp {
   }
 
   setupBackgroundTrack() {
+    if (!this.config.enableCustomAudio || localStorage.getItem('ethernum-enable-custom') === 'false') {
+      return;
+    }
     if (!this.config.backgroundMusicUrl) {
       this.createAmbientLoop();
       return;
@@ -155,15 +203,16 @@ class EthernumApp {
       const audio = new Audio();
       audio.src = this.config.backgroundMusicUrl;
       audio.loop = true;
-      audio.volume = 0.08;
+      audio.volume = 0.05;
 
       const source = this.audioContext.createMediaElementAudioSource(audio);
       source.connect(this.bgGain);
       
       this.bgAudio = audio;
       
-      document.addEventListener('click', () => {
+      document.addEventListener('click', async () => {
         if (this.isSoundEnabled && this.bgAudio && this.bgAudio.paused) {
+          if (this.audioContext?.state === 'suspended') await this.audioContext.resume();
           this.bgAudio.play().catch(e => console.log('Audio play failed:', e));
         }
       }, { once: true });
@@ -289,6 +338,7 @@ class EthernumApp {
       'Progressão': 's-prog',
       'NPCs': 's-npcs',
       'Questline': 's-quest',
+      'Ficha PF2e': 's-ficha',
     };
     return sectionMap[text] || 's-sp';
   }
@@ -302,24 +352,11 @@ class EthernumApp {
         this.toggleEditMode();
       }
     });
+    document.addEventListener('ethernum:toggle-edit', () => this.toggleEditMode());
   }
 
   setupEditableElements() {
-    const editableSelectors = [
-      '.hero-title',
-      '.hero-sub',
-      '.hero-tag',
-      '.sec-title',
-      '.rank-name',
-      '.rank-body',
-      '.bb-card-name',
-      '.bb-desc',
-      '.ikon-name',
-      '.ikon-sub',
-      '.palma-name',
-      '.tec-name',
-      '.prog-title',
-    ];
+    const editableSelectors = ETHERNUM_EDITABLE_SELECTORS;
 
     editableSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el) => {
@@ -357,18 +394,15 @@ class EthernumApp {
       indicator.classList.toggle('active');
       indicator.innerHTML = this.isEditMode ? '✎ Edição de Jogador Ativa' : 'Modo Visualização';
     }
+    document.body.classList.toggle('ethernum-edit-mode', this.isEditMode);
+    document.querySelector('.ethernum-edit-btn')?.classList.toggle('is-active', this.isEditMode);
 
     console.log(this.isEditMode ? '✎ Modo edição ativado' : '🔒 Modo visualização');
     this.saveEditState();
   }
 
   saveEditState() {
-    const editableSelectors = [
-      '.hero-title',
-      '.hero-sub',
-      '.hero-tag',
-      '.sec-title',
-    ];
+    const editableSelectors = ETHERNUM_EDITABLE_SELECTORS;
 
     editableSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el, idx) => {
@@ -379,12 +413,7 @@ class EthernumApp {
   }
 
   loadEditState() {
-    const editableSelectors = [
-      '.hero-title',
-      '.hero-sub',
-      '.hero-tag',
-      '.sec-title',
-    ];
+    const editableSelectors = ETHERNUM_EDITABLE_SELECTORS;
 
     editableSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el, idx) => {
@@ -413,7 +442,7 @@ class EthernumApp {
       const palmaHead = e.target.closest('.palma-head');
       if (palmaHead) {
         const palmaCard = palmaHead.closest('.palma-card');
-        if (palmaCard) {
+        if (palmaCard && !palmaCard.dataset.localToggle) {
           this.toggleCard(palmaCard, 'palma-card', this.config.allowMultipleOpenCards);
           this.playSound();
         }
@@ -422,7 +451,7 @@ class EthernumApp {
       const tecHead = e.target.closest('.tec-head');
       if (tecHead) {
         const tecCard = tecHead.closest('.tec-card');
-        if (tecCard) {
+        if (tecCard && !tecCard.dataset.localToggle) {
           this.toggleCard(tecCard, 'tec-card', this.config.allowMultipleOpenCards);
           this.playSound();
         }
@@ -431,7 +460,7 @@ class EthernumApp {
       const progHead = e.target.closest('.prog-head');
       if (progHead) {
         const progCard = progHead.closest('.prog-card');
-        if (progCard) {
+        if (progCard && !progCard.dataset.localToggle) {
           this.toggleCard(progCard, 'prog-card', this.config.allowMultipleOpenCards);
           this.playSound();
         }
@@ -596,12 +625,28 @@ class EthernumApp {
         localStorage.setItem('masterMode', this.masterMode ? 'true' : 'false');
         this.setupLockedContent();
       }
+      if (event.data.action === 'TOGGLE_SOUND') {
+        this.isSoundEnabled = Boolean(event.data.enabled);
+        if (this.bgAudio) {
+          if (this.isSoundEnabled) {
+            if (this.audioContext?.state === 'suspended') this.audioContext.resume().catch(() => null);
+            this.bgAudio.play().catch(() => null);
+          }
+          else this.bgAudio.pause();
+        }
+      }
+      if (event.data.action === 'APPLY_LOCKS') {
+        window.EthernumShared?.applySectionLocks?.(this.config.character);
+      }
     });
 
     console.log('🔗 Multi-site integration ready');
   }
 
   switchSection(sectionId) {
+    if (window.EthernumShared?.sectionDefinitions?.[this.config.character]?.some((section) => section.id === sectionId)) {
+      window.EthernumShared?.applySectionLocks?.(this.config.character);
+    }
     const section = document.getElementById(sectionId);
     if (section) {
       section.classList.add('on');
@@ -615,8 +660,8 @@ class EthernumApp {
 
   getCharacterData() {
     return {
-      name: document.querySelector('.hero-title')?.innerText || 'Gyro Zeppeli',
-      level: 3,
+      name: document.querySelector('.hero-title')?.innerText || window.EthernumShared?.characters?.[this.config.character]?.label || 'Ethernum',
+      level: window.EthernumShared?.characters?.[this.config.character]?.level || '-',
       masterMode: this.masterMode,
       currentSection: this.currentSection,
     };

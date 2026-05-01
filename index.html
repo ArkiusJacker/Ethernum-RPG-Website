@@ -1,10 +1,10 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.4 -->
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.7 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethernum Company v2.4 - Arquivo Operacional</title>
+  <title>Ethernum Company v2.7 - Arquivo Operacional</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     :root {
@@ -318,7 +318,7 @@
 </head>
 <body class="ethernum-page-ready">
   <header class="topbar">
-    <div class="brand">Ethernum Company · v2.4</div>
+    <div class="brand">Ethernum Company · v2.7</div>
     <nav class="nav" aria-label="Navegacao principal">
       <a href="#personagens">Personagens</a>
       <a href="#alteracoes">Alteracoes</a>
@@ -349,7 +349,7 @@
       </div>
 
       <aside class="terminal">
-        <p class="eyebrow">Status v2.4</p>
+        <p class="eyebrow">Status v2.7</p>
         <div class="terminal-grid">
           <div class="signal"><strong>4</strong><span>fichas registradas</span></div>
           <div class="signal"><strong>PF2e</strong><span>ficha + inventario</span></div>
@@ -412,7 +412,7 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Lista de alteracoes</p>
-          <h2>v2.4</h2>
+          <h2>v2.7</h2>
         </div>
         <p class="section-note">Toda rodada de alteracao sobe a versao do site.</p>
       </div>
@@ -423,7 +423,16 @@
         <article class="change"><h3>Navegacao na mesma aba</h3><p>Links do indice deixam de abrir novas abas por padrao.</p></article>
         <article class="change"><h3>IKONs corrigidos</h3><p>Removida duplicidade de handlers que abria e fechava cards no mesmo clique.</p></article>
         <article class="change"><h3>Ficha PF2e expandida</h3><p>HP, AC, Hero Points, atributos, proficiencias, strikes e inventario.</p></article>
-        <article class="change"><h3>Conflitos limpos</h3><p>Arquivos duplicados por merge foram normalizados para uma unica versao legivel.</p></article>
+        <article class="change"><h3>Bloqueio por secao</h3><p>O mestre pode ocultar abas inteiras para jogadores por personagem.</p></article>
+        <article class="change"><h3>Audio por pagina</h3><p>Index e personagens agora podem receber trilhas diferentes.</p></article>
+        <article class="change"><h3>Cards corrigidos</h3><p>Palmas, tecnicas e progresso deixam de sofrer conflito de duplo clique.</p></article>
+        <article class="change"><h3>IKONs editaveis</h3><p>Linhas internas, custos e transcendencias entram no modo de edicao.</p></article>
+        <article class="change"><h3>Audio do Gyro revisado</h3><p>Fallback local e desbloqueio do AudioContext no primeiro clique.</p></article>
+        <article class="change"><h3>Nova bateria de testes</h3><p>Testes 12 a 15 cobrem IKONs, audio, multiplos cards e Cartola offline.</p></article>
+        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao, testes e Cartola.</p></article>
+        <article class="change"><h3>Asset do Gyro local</h3><p>Removida dependencia de caminho absoluto do Foundry para evitar quebra no GitHub Pages.</p></article>
+        <article class="change"><h3>Codigo mais limpo</h3><p>Seletores editaveis foram centralizados para evitar duplicidade no <code>app.js</code>.</p></article>
+        <article class="change"><h3>Botao de edicao</h3><p>A navegacao compartilhada ganhou controle visual para alternar o modo edicao.</p></article>
       </div>
     </section>
 
@@ -436,7 +445,7 @@
       </div>
       <div class="tools">
         <article class="tool-card"><h3>Painel Mestre</h3><p>Controle multi-personagem com senha.</p><div class="record-actions"><a class="button" href="mestre-panel.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Audio</h3><p>Configurador de trilha e preferencias.</p><div class="record-actions"><a class="button" href="audio-config.html">Abrir</a></div></article>
+        <article class="tool-card"><h3>Audio</h3><p>Configurador de trilha e preferencias.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Testes</h3><p>Validacao manual das funcionalidades.</p><div class="record-actions"><a class="button" href="TESTS.html">Abrir</a></div></article>
         <article class="tool-card"><h3>API</h3><p>Referencia de integracao entre paginas.</p><div class="record-actions"><a class="button" href="API-REFERENCE.js">Abrir</a></div></article>
       </div>
@@ -448,13 +457,23 @@
           <p class="eyebrow">Proximas fases</p>
           <h2>Roadmap</h2>
         </div>
-        <p class="section-note">Proxima rodada sera v2.5, mantendo esse padrao de versionamento incremental.</p>
+        <p class="section-note">Proxima rodada sera v2.8, mantendo esse padrao de versionamento incremental.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.4
+    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.7
   </footer>
+  <script>
+    (() => {
+      const src = localStorage.getItem('ethernum-music-url-index');
+      if (!src) return;
+      const audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 0.05;
+      document.addEventListener('click', () => audio.play().catch(() => null), { once: true });
+    })();
+  </script>
 </body>
 </html>

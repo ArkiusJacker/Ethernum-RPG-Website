@@ -207,6 +207,20 @@
 
     <!-- Método 1: URL da Música -->
     <div class="config-group">
+      <label for="audioTarget">Página / Personagem</label>
+      <select id="audioTarget">
+        <option value="index">Index</option>
+        <option value="gyro">Gyro Zeppeli</option>
+        <option value="cinerio">Cinério & Umbra</option>
+        <option value="pipping">Pipping Baldwin Black</option>
+        <option value="bayle">Bayle, O Horror</option>
+      </select>
+      <p class="help-text">Cada página pode ter uma trilha própria. O modo mestre usa esta escolha ao salvar.</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="config-group">
       <label for="musicUrl">URL da Música de Fundo</label>
       <input type="text" id="musicUrl" placeholder="./audio/background-music.mp3 ou https://...">
       <p class="help-text">Cole aqui o caminho local (./audio/music.mp3) ou URL remota (https://...)</p>
@@ -254,6 +268,8 @@
       <button class="btn-test" id="testBtn">🔊 Testar Áudio</button>
       <button class="btn-save" id="saveBtn">💾 Salvar Configuração</button>
       <button class="btn-reset" id="resetBtn">🔄 Resetar Padrão</button>
+      <button class="btn-test" id="backPanelBtn" type="button">Voltar ao Painel</button>
+      <button class="btn-test" id="backIndexBtn" type="button">Voltar ao Index</button>
     </div>
 
     <div class="status-message" id="statusMessage"></div>
@@ -262,7 +278,10 @@
   <script>
     class AudioConfigManager {
       constructor() {
-        this.musicUrl = localStorage.getItem('ethernum-music-url') || '';
+        const params = new URLSearchParams(window.location.search);
+        this.target = params.get('target') || localStorage.getItem('ethernum-audio-target') || 'index';
+        this.returnTo = params.get('return') || 'mestre-panel.html';
+        this.musicUrl = localStorage.getItem(`ethernum-music-url-${this.target}`) || localStorage.getItem('ethernum-music-url') || '';
         this.allowMultiple = localStorage.getItem('ethernum-allow-multiple') === 'true';
         this.enableCustomAudio = localStorage.getItem('ethernum-enable-custom') !== 'false';
         this.audioContext = null;
@@ -271,6 +290,7 @@
       }
 
       loadUI() {
+        document.getElementById('audioTarget').value = this.target;
         document.getElementById('musicUrl').value = this.musicUrl;
         document.getElementById('allowMultiple').checked = this.allowMultiple;
         document.getElementById('enableCustomAudio').checked = this.enableCustomAudio;
@@ -280,6 +300,14 @@
         document.getElementById('saveBtn').addEventListener('click', () => this.save());
         document.getElementById('testBtn').addEventListener('click', () => this.test());
         document.getElementById('resetBtn').addEventListener('click', () => this.reset());
+        document.getElementById('backPanelBtn').addEventListener('click', () => window.location.href = 'mestre-panel.html');
+        document.getElementById('backIndexBtn').addEventListener('click', () => window.location.href = 'index.html');
+        document.getElementById('audioTarget').addEventListener('change', (event) => {
+          this.target = event.target.value;
+          localStorage.setItem('ethernum-audio-target', this.target);
+          document.getElementById('musicUrl').value = localStorage.getItem(`ethernum-music-url-${this.target}`) || '';
+          this.showStatus(`Alvo alterado para ${this.target}.`, 'success');
+        });
         document.getElementById('audioFile').addEventListener('change', (e) => this.handleFileUpload(e));
 
         document.querySelectorAll('.preset-btn').forEach(btn => {
@@ -301,11 +329,12 @@
       }
 
       loadPreset(preset) {
+        const localTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
         const presets = {
-          ambient: './audio/ambient-synth.mp3',
-          piano: './audio/piano-classical.mp3',
-          orchestral: './audio/orchestral-bg.mp3',
-          desert: './audio/desert-wind.mp3'
+          ambient: localTrack,
+          piano: localTrack,
+          orchestral: localTrack,
+          desert: localTrack
         };
         document.getElementById('musicUrl').value = presets[preset] || '';
         this.showStatus(`📻 Preset "${preset}" carregado. Clique em Salvar para aplicar.`, 'success');
@@ -313,17 +342,20 @@
 
       save() {
         const musicUrl = document.getElementById('musicUrl').value.trim();
+        const target = document.getElementById('audioTarget').value;
         const allowMultiple = document.getElementById('allowMultiple').checked;
         const enableCustomAudio = document.getElementById('enableCustomAudio').checked;
 
-        localStorage.setItem('ethernum-music-url', musicUrl);
+        localStorage.setItem(`ethernum-music-url-${target}`, musicUrl);
+        localStorage.setItem('ethernum-audio-target', target);
+        if (target === 'gyro') localStorage.setItem('ethernum-music-url', musicUrl);
         localStorage.setItem('ethernum-allow-multiple', allowMultiple);
         localStorage.setItem('ethernum-enable-custom', enableCustomAudio);
 
-        this.showStatus('✅ Configurações salvas! Atualize a página do personagem para aplicar.', 'success');
+        this.showStatus('✅ Configurações salvas! Voltando para o painel...', 'success');
         setTimeout(() => {
-          window.location.href = './mestre-panel.html';
-        }, 2000);
+          window.location.href = this.returnTo;
+        }, 900);
       }
 
       test() {
@@ -335,9 +367,9 @@
 
         const audio = new Audio();
         audio.src = musicUrl;
-        audio.volume = 0.3;
+        audio.volume = 0.12;
         audio.play()
-          .then(() => this.showStatus('🎵 Tocando... Volume em 30%', 'success'))
+          .then(() => this.showStatus('🎵 Tocando... Volume em 12%', 'success'))
           .catch(() => this.showStatus('❌ Erro ao reproduzir. Verifique a URL ou formato.', 'error'));
 
         setTimeout(() => audio.pause(), 3000);
@@ -346,6 +378,7 @@
       reset() {
         if (confirm('Resetar todas as configurações de áudio?')) {
           localStorage.removeItem('ethernum-music-url');
+          ['index', 'gyro', 'cinerio', 'pipping', 'bayle'].forEach((target) => localStorage.removeItem(`ethernum-music-url-${target}`));
           localStorage.removeItem('ethernum-allow-multiple');
           localStorage.removeItem('ethernum-enable-custom');
           this.loadUI();

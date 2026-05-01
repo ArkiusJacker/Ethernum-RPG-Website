@@ -97,6 +97,12 @@
       color: #4a9e4e;
     }
 
+    button.locked {
+      background: rgba(196, 43, 43, 0.2);
+      border-color: rgba(196, 43, 43, 0.55);
+      color: #efb0aa;
+    }
+
     select {
       width: 100%;
       background: rgba(8, 9, 10, 0.92);
@@ -275,19 +281,12 @@
       <!-- SECTION NAVIGATION -->
       <div class="control-section">
         <div class="control-label">Navegar para Seção</div>
-        <div class="section-buttons">
-          <button onclick="switchSection('s-sp')">SP</button>
-          <button onclick="switchSection('s-ikons')">IKONs</button>
-          <button onclick="switchSection('s-palmas')">Palmas</button>
-          <button onclick="switchSection('s-tecnicas')">Técnicas</button>
-          <button onclick="switchSection('s-ranking')">Ranking</button>
-          <button onclick="switchSection('s-risco')">Execução</button>
-          <button onclick="switchSection('s-bb')">BB</button>
-          <button onclick="switchSection('s-prog')">Progressão</button>
-          <button onclick="switchSection('s-ficha')">Ficha</button>
-          <button onclick="switchSection('s-npcs')">NPCs</button>
-          <button onclick="switchSection('s-quest')">Quest</button>
-        </div>
+        <div class="section-buttons" id="section-buttons"></div>
+      </div>
+
+      <div class="control-section">
+        <div class="control-label">Bloquear para Jogadores</div>
+        <div class="section-buttons" id="lock-buttons"></div>
       </div>
 
       <div class="divider"></div>
@@ -295,7 +294,7 @@
       <!-- SOUND CONTROL -->
       <div class="control-section">
         <div class="control-label">Áudio</div>
-        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Ligar Sons</button>        <button onclick="window.location.href='audio-config.html'" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
+        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="window.location.href='audio-config.html?target=' + activeCharacter + '&return=mestre-panel.html'" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
           ⚙️ Configurar Música
         </button>      </div>
 
@@ -332,6 +331,10 @@
 
   <script src="ethernum-shared.js"></script>
   <script>
+    if (window.self !== window.top) {
+      window.top.location.href = window.location.href;
+    }
+
     const playerFrame = document.getElementById('player-iframe');
     const characterFiles = {
       gyro: { name: 'Gyro Zeppeli', level: '3', file: 'gyro_zeppeli.html' },
@@ -342,6 +345,40 @@
     let activeCharacter = new URLSearchParams(window.location.search).get('character') || 'gyro';
     let isMasterMode = localStorage.getItem('ethernum-master-authenticated') === 'true';
     let isSoundEnabled = true;
+    const sectionDefinitions = {
+      gyro: [
+        { id: 's-sp', label: 'SP' },
+        { id: 's-ikons', label: 'IKONs' },
+        { id: 's-palmas', label: 'Palmas' },
+        { id: 's-tecnicas', label: 'Técnicas' },
+        { id: 's-ranking', label: 'Ranking' },
+        { id: 's-risco', label: 'Execução' },
+        { id: 's-bb', label: 'BB' },
+        { id: 's-prog', label: 'Progressão' },
+        { id: 's-ficha', label: 'Ficha' },
+        { id: 's-npcs', label: 'NPCs' },
+        { id: 's-quest', label: 'Quest' }
+      ],
+      cinerio: [
+        { id: 'fundacao', label: 'Fundação' },
+        { id: 'recursos', label: 'Recursos' },
+        { id: 'tecnicas', label: 'Técnicas' },
+        { id: 'sombras', label: 'Sombras' },
+        { id: 'progressao', label: 'Progressão' }
+      ],
+      pipping: [
+        { id: 'sheet', label: 'Ficha' },
+        { id: 'tiers', label: 'Habilidades' },
+        { id: 'progression', label: 'Progressão' }
+      ],
+      bayle: [
+        { id: 'visao', label: 'Visão' },
+        { id: 'estagios', label: 'Estágios' },
+        { id: 'humanidade', label: 'Humanidade' },
+        { id: 'arquivista', label: 'Arquivista' },
+        { id: 'ficha', label: 'Ficha' }
+      ]
+    };
 
     // Initialize on load
     window.addEventListener('load', () => {
@@ -381,6 +418,8 @@
       document.getElementById('master-status').textContent = isMasterMode ? '✓ Ativo' : '✗ Desativo';
 
       sendToPlayer('TOGGLE_MASTER', { value: isMasterMode });
+      sendToPlayer('APPLY_LOCKS');
+      renderSectionControls();
       showNotification(
         isMasterMode ? '👁️ Modo Mestre ativado para o personagem atual' : '🔒 Modo Jogador - conteúdo bloqueado',
         isMasterMode ? 'success' : 'warning'
@@ -394,7 +433,57 @@
       document.getElementById('char-name').textContent = data.name;
       document.getElementById('char-level').textContent = data.level;
       document.getElementById('char-section').textContent = 'Inicial';
+      renderSectionControls();
       if (notify) showNotification(`Personagem carregado: ${data.name}`, 'success');
+    }
+
+    function lockKey(character = activeCharacter) {
+      return `ethernum-section-locks-${character}`;
+    }
+
+    function getLocks(character = activeCharacter) {
+      try {
+        return JSON.parse(localStorage.getItem(lockKey(character)) || '{}') || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function toggleSectionLock(sectionId) {
+      const locks = getLocks();
+      if (locks[sectionId]) delete locks[sectionId];
+      else locks[sectionId] = true;
+      localStorage.setItem(lockKey(), JSON.stringify(locks));
+      renderSectionControls();
+      sendToPlayer('APPLY_LOCKS');
+      showNotification(`${locks[sectionId] ? 'Bloqueado' : 'Liberado'}: ${sectionLabel(sectionId)}`, locks[sectionId] ? 'warning' : 'success');
+    }
+
+    function sectionLabel(sectionId) {
+      return (sectionDefinitions[activeCharacter] || []).find((section) => section.id === sectionId)?.label || sectionId;
+    }
+
+    function renderSectionControls() {
+      const defs = sectionDefinitions[activeCharacter] || sectionDefinitions.gyro;
+      const locks = getLocks();
+      const navHost = document.getElementById('section-buttons');
+      const lockHost = document.getElementById('lock-buttons');
+      navHost.innerHTML = '';
+      lockHost.innerHTML = '';
+      defs.forEach((section) => {
+        const navBtn = document.createElement('button');
+        navBtn.type = 'button';
+        navBtn.textContent = section.label;
+        navBtn.onclick = () => switchSection(section.id);
+        navHost.appendChild(navBtn);
+
+        const lockBtn = document.createElement('button');
+        lockBtn.type = 'button';
+        lockBtn.className = locks[section.id] ? 'locked' : '';
+        lockBtn.textContent = `${locks[section.id] ? 'Fechado' : 'Aberto'} · ${section.label}`;
+        lockBtn.onclick = () => toggleSectionLock(section.id);
+        lockHost.appendChild(lockBtn);
+      });
     }
 
     /**
@@ -403,22 +492,9 @@
     function switchSection(sectionId) {
       sendToPlayer('SWITCH_SECTION', { sectionId });
 
-      const sectionNames = {
-        's-sp': 'Sistema SP',
-        's-ikons': 'IKONs',
-        's-palmas': 'Palmas do Diabo',
-        's-tecnicas': 'Técnicas',
-        's-ranking': 'Ranking',
-        's-risco': 'Execução & Risco',
-        's-bb': 'Ball Breaker',
-        's-prog': 'Progressão',
-        's-ficha': 'Ficha PF2e',
-        's-npcs': 'NPCs',
-        's-quest': 'Questline',
-      };
-
-      document.getElementById('char-section').textContent = sectionNames[sectionId] || sectionId;
-      showNotification(`→ Navegando para: ${sectionNames[sectionId]}`, 'success');
+      const label = sectionLabel(sectionId);
+      document.getElementById('char-section').textContent = label;
+      showNotification(`→ Navegando para: ${label}`, 'success');
     }
 
     /**
@@ -427,7 +503,7 @@
     function toggleSound() {
       isSoundEnabled = !isSoundEnabled;
       document.getElementById('btn-sound').classList.toggle('active', isSoundEnabled);
-      document.getElementById('btn-sound').textContent = isSoundEnabled ? '🔊 Ligar Sons' : '🔇 Desligar Sons';
+      document.getElementById('btn-sound').textContent = isSoundEnabled ? '🔊 Sons Ativos' : '🔇 Sons Mutados';
 
       sendToPlayer('TOGGLE_SOUND', { enabled: isSoundEnabled });
       showNotification(

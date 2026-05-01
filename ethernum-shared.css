@@ -104,7 +104,8 @@
 .ethernum-shell-links a,
 .ethernum-shell-links button,
 .ethernum-tab-btn,
-.ethernum-master-btn {
+.ethernum-master-btn,
+.ethernum-lock-btn {
   min-height: 34px;
   padding: 7px 11px;
   border: 1px solid var(--ethernum-line);
@@ -122,7 +123,8 @@
 .ethernum-shell-links a:hover,
 .ethernum-shell-links button:hover,
 .ethernum-tab-btn:hover,
-.ethernum-master-btn:hover {
+.ethernum-master-btn:hover,
+.ethernum-lock-btn:hover {
   border-color: var(--ethernum-gold);
   background: rgba(200, 168, 75, 0.18);
   transform: translateY(-1px);
@@ -133,6 +135,16 @@
   border-color: rgba(110, 163, 111, 0.7);
   background: rgba(110, 163, 111, 0.18);
   color: #d9f0d8;
+}
+
+.ethernum-lock-btn.is-locked {
+  border-color: rgba(196, 43, 43, 0.58);
+  background: rgba(196, 43, 43, 0.18);
+  color: #efb0aa;
+}
+
+.ethernum-player-hidden {
+  display: none !important;
 }
 
 .ethernum-tabs {
@@ -191,6 +203,14 @@
   background-size: 100% 4px, auto;
   color: var(--ethernum-text);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.ethernum-pf2-sheet.section {
+  display: none;
+}
+
+.ethernum-pf2-sheet.section.on {
+  display: block;
 }
 
 .ethernum-pf2-sheet h2 {

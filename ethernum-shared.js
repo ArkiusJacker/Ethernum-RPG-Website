@@ -1,6 +1,7 @@
 (function () {
   const MASTER_KEY = 'ethernum-master-authenticated';
   const DEFAULT_PASSWORD = 'ethernum-master';
+  const LOCK_PREFIX = 'ethernum-section-locks-';
 
   const characters = {
     gyro: {
@@ -77,6 +78,62 @@
     return document.body.dataset.character || '';
   }
 
+  const sectionDefinitions = {
+    gyro: [
+      { id: 's-sp', label: 'SP' },
+      { id: 's-ikons', label: 'IKONs' },
+      { id: 's-palmas', label: 'Palmas' },
+      { id: 's-tecnicas', label: 'Tecnicas' },
+      { id: 's-ranking', label: 'Ranking' },
+      { id: 's-risco', label: 'Execucao' },
+      { id: 's-bb', label: 'Ball Breaker' },
+      { id: 's-prog', label: 'Progressao' },
+      { id: 's-ficha', label: 'Ficha PF2e' },
+      { id: 's-npcs', label: 'NPCs' },
+      { id: 's-quest', label: 'Quest' }
+    ],
+    cinerio: [
+      { id: 'fundacao', label: 'Fundacao' },
+      { id: 'recursos', label: 'Recursos' },
+      { id: 'tecnicas', label: 'Tecnicas' },
+      { id: 'sombras', label: 'Sombras' },
+      { id: 'progressao', label: 'Progressao' }
+    ],
+    pipping: [
+      { id: 'sheet', label: 'Ficha' },
+      { id: 'tiers', label: 'Habilidades' },
+      { id: 'progression', label: 'Progressao' }
+    ],
+    bayle: [
+      { id: 'visao', label: 'Visao Geral' },
+      { id: 'estagios', label: 'Estagios' },
+      { id: 'humanidade', label: 'Humanidade' },
+      { id: 'arquivista', label: 'Arquivista' },
+      { id: 'ficha', label: 'Ficha PF2e' }
+    ]
+  };
+
+  function lockKey(characterId) {
+    return `${LOCK_PREFIX}${characterId || pageCharacter()}`;
+  }
+
+  function getSectionLocks(characterId = pageCharacter()) {
+    try {
+      return JSON.parse(localStorage.getItem(lockKey(characterId)) || '{}') || {};
+    } catch {
+      return {};
+    }
+  }
+
+  function setSectionLock(characterId, sectionId, locked) {
+    const locks = getSectionLocks(characterId);
+    if (locked) locks[sectionId] = true;
+    else delete locks[sectionId];
+    localStorage.setItem(lockKey(characterId), JSON.stringify(locks));
+    applySectionLocks(characterId);
+    return locks;
+  }
+
   function passwordValue() {
     return localStorage.getItem('ethernum-master-password') || DEFAULT_PASSWORD;
   }
@@ -111,11 +168,16 @@
     nav.innerHTML = `
       <div class="ethernum-shell-brand">Ethernum Company</div>
       <div class="ethernum-shell-links">
-        <a href="index.html">Index</a>
-        <a href="mestre-panel.html">Painel Mestre</a>
+        <a href="index.html" target="_top">Index</a>
+        <a href="mestre-panel.html" target="_top">Painel Mestre</a>
+        <button type="button" class="ethernum-edit-btn">Modo Edicao</button>
         <button type="button" class="ethernum-master-btn">${isMaster() ? 'Sair Mestre' : 'Modo Mestre'}</button>
       </div>`;
     document.body.prepend(nav);
+    nav.querySelector('.ethernum-edit-btn').addEventListener('click', (event) => {
+      document.dispatchEvent(new CustomEvent('ethernum:toggle-edit'));
+      event.currentTarget.classList.toggle('is-active', document.body.classList.contains('ethernum-edit-mode'));
+    });
     nav.querySelector('.ethernum-master-btn').addEventListener('click', (event) => {
       if (isMaster()) leaveMaster();
       else requestMaster();
@@ -133,6 +195,66 @@
     });
   }
 
+  function sectionElements(characterId, sectionId) {
+    if (characterId === 'gyro') {
+      return [
+        document.getElementById(sectionId),
+        ...Array.from(document.querySelectorAll(`.nav-btn[onclick*="'${sectionId.replace('s-', '')}'"]`)),
+        ...(sectionId === 's-ficha' ? Array.from(document.querySelectorAll('[data-ethernum-sheet-tab]')) : [])
+      ].filter(Boolean);
+    }
+    if (characterId === 'pipping') {
+      const selectors = {
+        sheet: '.ethernum-pf2-sheet',
+        tiers: '.pulso-box, .tier-section',
+        progression: '.progression, .footer-quote'
+      };
+      return [
+        ...(selectors[sectionId] ? Array.from(document.querySelectorAll(selectors[sectionId])) : []),
+        ...Array.from(document.querySelectorAll(`.ethernum-tab-btn[data-filter="${sectionId}"]`))
+      ];
+    }
+    if (characterId === 'bayle') {
+      const indexMap = { visao: 0, estagios: 1, humanidade: 2, arquivista: 3, ficha: 4 };
+      const tabButton = Array.from(document.querySelectorAll('.tab-btn'))[indexMap[sectionId]];
+      return [
+        document.getElementById(`tab-${sectionId}`),
+        tabButton
+      ].filter(Boolean);
+    }
+    if (characterId === 'cinerio') {
+      return [
+        ...Array.from(document.querySelectorAll(`[data-t="${sectionId}"], [data-panel="${sectionId}"], #${sectionId}`))
+      ];
+    }
+    return [];
+  }
+
+  function chooseFirstVisible(characterId) {
+    const defs = sectionDefinitions[characterId] || [];
+    const first = defs.find((section) => !getSectionLocks(characterId)[section.id]);
+    if (first) routeSection(first.id);
+  }
+
+  function applySectionLocks(characterId = pageCharacter()) {
+    const defs = sectionDefinitions[characterId] || [];
+    const locks = getSectionLocks(characterId);
+    defs.forEach((section) => {
+      const hidden = !isMaster() && Boolean(locks[section.id]);
+      sectionElements(characterId, section.id).forEach((el) => {
+        el.classList.toggle('ethernum-player-hidden', hidden);
+        if (hidden) el.setAttribute('aria-hidden', 'true');
+        else el.removeAttribute('aria-hidden');
+      });
+    });
+
+    if (isMaster()) return;
+    const active = document.querySelector('.section.on, .tab-panel.active, .ethernum-tab-btn.is-active');
+    if (active?.classList.contains('ethernum-player-hidden') || active?.closest('.ethernum-player-hidden')) {
+      chooseFirstVisible(characterId);
+    }
+  }
+
   function editable(key, value, tag = 'strong') {
     return `<${tag} class="ethernum-editable" contenteditable="true" data-edit-key="${key}">${value}</${tag}>`;
   }
@@ -143,7 +265,9 @@
     if (!data) return;
     const sheet = document.createElement('section');
     sheet.className = 'ethernum-pf2-sheet';
-    sheet.id = 'ethernum-pf2-sheet';
+    sheet.id = characterId === 'gyro' ? 's-ficha' : 'ethernum-pf2-sheet';
+    sheet.dataset.pf2Sheet = 'true';
+    if (characterId === 'gyro') sheet.classList.add('section');
     const attrs = data.attributes || { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' };
     const list = (items = []) => items.map((item, index) => `
       <tr>
@@ -216,6 +340,65 @@
     else document.body.prepend(portrait);
   }
 
+  function setupSharedBackgroundAudio(characterId) {
+    if (!characterId || document.querySelector('script[src*="app.js"]')) return;
+    const src = localStorage.getItem(`ethernum-music-url-${characterId}`) || localStorage.getItem('ethernum-music-url') || '';
+    if (!src) return;
+    const audio = new Audio(src);
+    audio.loop = true;
+    audio.volume = 0.05;
+    window.EthernumBackgroundAudio = audio;
+    document.addEventListener('click', () => {
+      if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
+      audio.play().catch(() => null);
+    }, { once: true });
+  }
+
+  function setupSharedEditMode(characterId) {
+    if (!characterId || document.querySelector('script[src*="app.js"]')) return;
+    let editMode = false;
+    const selectors = 'h1, h2, h3, h4, p, li, td, th, .pill, .tag, .badge, .ethernum-editable';
+    const save = (el, index) => {
+      const key = `edit-${characterId}-shared-${index}`;
+      localStorage.setItem(key, el.innerText);
+    };
+    const elements = () => Array.from(document.querySelectorAll(selectors))
+      .filter((el) => !el.closest('script, style, .ethernum-shell-nav, .ethernum-tabs'));
+
+    elements().forEach((el, index) => {
+      const saved = localStorage.getItem(`edit-${characterId}-shared-${index}`);
+      if (saved) el.innerText = saved;
+      el.addEventListener('click', (event) => {
+        if (!editMode || el.closest('.ethernum-master-locked')) return;
+        event.stopPropagation();
+        el.contentEditable = 'true';
+        el.focus();
+        el.style.outline = '2px solid var(--ethernum-gold, #c8a84b)';
+        el.style.outlineOffset = '2px';
+        el.addEventListener('blur', () => {
+          el.contentEditable = 'false';
+          el.style.outline = '';
+          el.style.outlineOffset = '';
+          save(el, index);
+        }, { once: true });
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'e') {
+        event.preventDefault();
+        toggleEditMode();
+      }
+    });
+    document.addEventListener('ethernum:toggle-edit', toggleEditMode);
+
+    function toggleEditMode() {
+      editMode = !editMode;
+      document.body.classList.toggle('ethernum-edit-mode', editMode);
+      document.querySelector('.ethernum-edit-btn')?.classList.toggle('is-active', editMode);
+    }
+  }
+
   function makePippingTabs() {
     if (!location.pathname.toLowerCase().includes('pipping') || document.querySelector('.ethernum-tabs')) return;
     const hero = document.querySelector('.hero');
@@ -239,6 +422,7 @@
         const isProgress = el.classList.contains('progression') || el.classList.contains('footer-quote');
         el.style.display = filter === 'all' || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
       });
+      applySectionLocks(pageCharacter());
     });
   }
 
@@ -251,10 +435,8 @@
       btn.dataset.ethernumSheetTab = 'true';
       btn.textContent = 'Ficha PF2e';
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.section').forEach((s) => s.classList.remove('on'));
-        document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('on'));
-        document.getElementById('ethernum-pf2-sheet')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        btn.classList.add('on');
+        if (typeof window.showSection === 'function') window.showSection('ficha', btn);
+        else document.getElementById('s-ficha')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
       navInner.appendChild(btn);
     }
@@ -279,16 +461,20 @@
     panel.className = 'tab-panel';
     panel.id = 'tab-ficha';
     body.appendChild(panel);
-    panel.appendChild(document.getElementById('ethernum-pf2-sheet'));
+    panel.appendChild(document.querySelector('[data-pf2-sheet="true"]'));
   }
 
   function exposeApi(characterId) {
     window.EthernumShared = {
       characters,
+      sectionDefinitions,
       currentCharacter: characterId,
       isMaster,
       requestMaster,
-      leaveMaster
+      leaveMaster,
+      getSectionLocks,
+      setSectionLock,
+      applySectionLocks
     };
     window.EthernumAPI = window.EthernumAPI || {
       getCurrentSection: () => document.querySelector('.tab-panel.active, .section.on, section.active')?.id || 'initial',
@@ -307,11 +493,11 @@
   }
 
   function routeSection(sectionId) {
-    if (sectionId === 'ethernum-pf2-sheet' || sectionId === 's-ficha') {
-      document.getElementById('ethernum-pf2-sheet')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
-    }
+    const characterId = pageCharacter();
     const pippingMap = {
+      sheet: 'sheet',
+      tiers: 'tiers',
+      progression: 'progression',
       's-sp': 'sheet',
       's-tecnicas': 'tiers',
       's-prog': 'progression',
@@ -323,6 +509,11 @@
       return;
     }
     const bayleMap = {
+      visao: 'visao',
+      estagios: 'estagios',
+      humanidade: 'humanidade',
+      arquivista: 'arquivista',
+      ficha: 'ficha',
       's-sp': 'visao',
       's-tecnicas': 'estagios',
       's-prog': 'humanidade',
@@ -337,6 +528,18 @@
       btn?.click();
       return;
     }
+    if (characterId === 'gyro' && sectionId === 's-ficha' && typeof window.showSection === 'function') {
+      const btn = document.querySelector('[data-ethernum-sheet-tab]');
+      window.showSection('ficha', btn);
+      return;
+    }
+    if (characterId === 'cinerio') {
+      const btn = document.querySelector(`[data-t="${sectionId}"]`);
+      if (btn) {
+        btn.click();
+        return;
+      }
+    }
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -346,12 +549,16 @@
     if (characterId) ensureShell();
     addCharacterArt(characterId);
     addPf2Sheet(characterId);
+    setupSharedBackgroundAudio(characterId);
+    setupSharedEditMode(characterId);
     makePippingTabs();
     addGyroSheetTab();
     addBayleSheetTab();
     applyMasterLocks();
     exposeApi(characterId);
+    applySectionLocks(characterId);
     document.addEventListener('ethernum:master-change', applyMasterLocks);
+    document.addEventListener('ethernum:master-change', () => applySectionLocks(characterId));
     window.addEventListener('message', (event) => {
       if (event.data?.action === 'TOGGLE_MASTER') {
         if (event.data.value) requestMaster();
@@ -359,6 +566,11 @@
         applyMasterLocks();
       }
       if (event.data?.action === 'SWITCH_SECTION') routeSection(event.data.sectionId);
+      if (event.data?.action === 'APPLY_LOCKS') applySectionLocks(characterId);
+      if (event.data?.action === 'TOGGLE_SOUND' && window.EthernumBackgroundAudio) {
+        if (event.data.enabled) window.EthernumBackgroundAudio.play().catch(() => null);
+        else window.EthernumBackgroundAudio.pause();
+      }
     });
   });
 })();

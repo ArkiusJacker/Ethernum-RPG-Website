@@ -6,6 +6,7 @@
 <title>Gyro Zeppeli — Via da Rotação Sagrada</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles-extended.css">
+<link rel="stylesheet" href="ethernum-shared.css">
 <style>
 :root {
   --gold: #c8a84b;
@@ -959,7 +960,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
 
   <div class="hero-image-container">
     <div class="hero-image-wrapper">
-      <img src="c:\Users\Titan\AppData\Local\FoundryVTT\Data\assets\PARTY\GYRO ZEPPELI\Gyro.png" alt="Gyro Zeppeli" class="hero-image" />
+      <img src="backgrounds/gyro-placeholder.svg" alt="Marca visual de Gyro Zeppeli" class="hero-image" />
     </div>
   </div>
 
@@ -1383,11 +1384,13 @@ const tierLabel = { n:'Normal', l:'Lendário', t:'Transcendental' };
 const tierPill = { n:'pill-steel', l:'pill-gold', t:'pill-red' };
 const numCls = { n:'n-norm', l:'n-lend', t:'n-tran' };
 const cardCls = { n:'', l:'lend', t:'tran' };
+const allowMultipleCards = () => localStorage.getItem('ethernum-allow-multiple') === 'true';
 
 const ig = document.getElementById('ikon-grid');
 ikons.forEach((d, i) => {
   const div = document.createElement('div');
   div.className = `ikon-card ${cardCls[d.tier]}`;
+  div.dataset.localToggle = 'true';
   const passHtml = d.passivos.map(([n, desc]) =>
     `<div class="ikon-row"><b>${n}:</b> ${desc}</div>`).join('');
   const ativoHtml = d.ativos.map(([n, c, desc]) =>
@@ -1416,8 +1419,9 @@ ikons.forEach((d, i) => {
     </div>`;
   div.querySelector('.ikon-head').addEventListener('click', () => {
     const was = div.classList.contains('open');
-    document.querySelectorAll('.ikon-card').forEach(c => c.classList.remove('open'));
+    if (!allowMultipleCards()) document.querySelectorAll('.ikon-card').forEach(c => c.classList.remove('open'));
     if (!was) div.classList.add('open');
+    else if (allowMultipleCards()) div.classList.remove('open');
   });
   ig.appendChild(div);
 });
@@ -1493,6 +1497,7 @@ const pl = document.getElementById('palmas-list');
 palmas.forEach((p, i) => {
   const div = document.createElement('div');
   div.className = 'palma-card';
+  div.dataset.localToggle = 'true';
   const tipoPill = p.tipo === 'Transcendental' ? 'pill-red' :
                    p.tipo === 'Guardião' ? 'pill-green' :
                    p.tipo === 'Labirinto + Guardião' ? 'pill-gold' : 'pill-steel';
@@ -1530,8 +1535,9 @@ palmas.forEach((p, i) => {
     </div>`;
   div.querySelector('.palma-head').addEventListener('click', () => {
     const was = div.classList.contains('open');
-    document.querySelectorAll('.palma-card').forEach(c => c.classList.remove('open'));
+    if (!allowMultipleCards()) document.querySelectorAll('.palma-card').forEach(c => c.classList.remove('open'));
     if (!was) div.classList.add('open');
+    else if (allowMultipleCards()) div.classList.remove('open');
   });
   pl.appendChild(div);
 });
@@ -1554,6 +1560,7 @@ const tl = document.getElementById('tec-list');
 tecnicas.forEach(t => {
   const div = document.createElement('div');
   div.className = 'tec-card';
+  div.dataset.localToggle = 'true';
   div.innerHTML = `
     <div class="tec-head">
       <div class="tec-num">${t.num}</div>
@@ -1568,8 +1575,9 @@ tecnicas.forEach(t => {
     </div>`;
   div.querySelector('.tec-head').addEventListener('click', () => {
     const was = div.classList.contains('open');
-    document.querySelectorAll('.tec-card').forEach(c => c.classList.remove('open'));
+    if (!allowMultipleCards()) document.querySelectorAll('.tec-card').forEach(c => c.classList.remove('open'));
     if (!was) div.classList.add('open');
+    else if (allowMultipleCards()) div.classList.remove('open');
   });
   tl.appendChild(div);
 });
@@ -1720,6 +1728,7 @@ const pglist = document.getElementById('prog-list');
 progs.forEach(p => {
   const div = document.createElement('div');
   div.className = 'prog-card';
+  div.dataset.localToggle = 'true';
   div.innerHTML = `
     <div class="prog-head">
       <div class="prog-lv" style="background:${p.bg};color:${p.tc}">Lv ${p.lv}</div>
@@ -1743,8 +1752,9 @@ progs.forEach(p => {
     </div>`;
   div.querySelector('.prog-head').addEventListener('click', () => {
     const was = div.classList.contains('open');
-    document.querySelectorAll('.prog-card').forEach(c => c.classList.remove('open'));
+    if (!allowMultipleCards()) document.querySelectorAll('.prog-card').forEach(c => c.classList.remove('open'));
     if (!was) div.classList.add('open');
+    else if (allowMultipleCards()) div.classList.remove('open');
   });
   pglist.appendChild(div);
 });
@@ -1788,6 +1798,7 @@ arcs.forEach(a => {
   arc.appendChild(div);
 });
 </script>
+<script src="ethernum-shared.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

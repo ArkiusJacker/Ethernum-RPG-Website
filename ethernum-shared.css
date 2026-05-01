@@ -86,6 +86,7 @@
   border-bottom: 1px solid var(--overview-line);
   background: #050608;
   color: #f2eee6;
+  clear: both;
 }
 
 .ethernum-theme-gyro {
@@ -140,10 +141,10 @@
 .ethernum-overview-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 44vw);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 38vw);
   align-items: end;
-  min-height: calc(100vh - 54px);
-  padding: clamp(58px, 8vw, 96px) clamp(18px, 6vw, 72px) clamp(38px, 6vw, 70px);
+  min-height: calc(100vh - 55px);
+  padding: clamp(58px, 8vw, 96px) clamp(18px, 4vw, 70px) clamp(38px, 6vw, 70px);
   overflow: hidden;
   background:
     radial-gradient(circle at 82% 40%, var(--overview-glow), transparent 32%),
@@ -169,6 +170,11 @@
   z-index: 2;
 }
 
+.ethernum-overview-left {
+  align-self: end;
+  padding-bottom: clamp(12px, 4vh, 34px);
+}
+
 .ethernum-overview-eyebrow {
   margin: 0 0 14px;
   color: var(--overview-accent);
@@ -178,20 +184,20 @@
 }
 
 .ethernum-overview-name {
-  max-width: 7.4ch;
   margin: 0;
   color: #f4f0e8;
-  font: 900 clamp(56px, 10vw, 132px)/0.82 Impact, "Arial Black", sans-serif;
+  font: 900 clamp(68px, 9vw, 140px)/0.82 Impact, "Arial Black", sans-serif;
   letter-spacing: 0;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .ethernum-overview-name span {
   display: block;
-  margin-top: 16px;
+  margin-top: 18px;
   color: var(--overview-accent-2);
-  font-size: 0.46em;
+  font-size: 0.44em;
+  white-space: nowrap;
 }
 
 .ethernum-overview-sub {
@@ -224,11 +230,12 @@
   display: flex;
   justify-content: center;
   align-self: stretch;
+  overflow: visible;
 }
 
 .ethernum-overview-right img {
-  width: min(100%, 560px);
-  max-height: calc(100vh - 92px);
+  width: min(100%, 520px);
+  max-height: calc(100vh - 72px);
   object-fit: contain;
   object-position: bottom center;
   filter: saturate(0.96) contrast(1.05) drop-shadow(0 28px 44px rgba(0, 0, 0, 0.62));
@@ -598,6 +605,10 @@ body.has-hero-scroll-bg .section {
   .ethernum-overview-right {
     margin-top: 28px;
     max-height: 58vh;
+  }
+
+  .ethernum-overview-name {
+    font-size: clamp(54px, 18vw, 92px);
   }
 
   .ethernum-overview-story {

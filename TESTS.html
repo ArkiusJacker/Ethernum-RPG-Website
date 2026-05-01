@@ -1,10 +1,10 @@
-<!-- TESTE INTERATIVO - ETHERNUM v3.0 -->
+<!-- TESTE INTERATIVO - ETHERNUM v3.1 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v3.0</title>
+  <title>Teste - ETHERNUM v3.1</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -223,10 +223,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v3.0</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v3.1</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
-      Siga os passos abaixo para validar a rodada v3.0. Testes marcados ficam compactos automaticamente.
+      Siga os passos abaixo para validar a rodada v3.1. Testes marcados ficam compactos automaticamente.
     </p>
 
     <!-- TESTE 1: Section Lock -->
@@ -683,18 +683,18 @@
       </label>
     </div>
 
-    <!-- TESTE 20: Visão Geral Full Page -->
-    <h2>✅ TESTE 20: Visão Geral Full Page por Personagem</h2>
+    <!-- TESTE 20: Abertura Full Page -->
+    <h2>✅ TESTE 20: Abertura Full Page por Personagem</h2>
     <div class="test-item warning">
       <div class="test-title">🎭 Validar lógica visual estilo Yu sem virar card</div>
       <div class="test-desc">
-        A visão geral deve ocupar a área da aba como uma abertura inteira, sem moldura de card no Bayle/Pipping/Gyro/Cinério.
+        A apresentação deve aparecer antes das abas mecânicas como uma abertura inteira, sem virar aba ou card.
       </div>
       <div class="test-steps">
         <ol>
           <li>Abra cada personagem: Gyro, Cinério, Pipping e Bayle</li>
-          <li>Entre na aba <strong>Visão Geral</strong></li>
-          <li>Confirme que a abertura ocupa a aba inteira, com nome grande, tags e imagem quando existir</li>
+          <li>Confirme que a primeira tela já mostra o personagem, com nome grande, tags e imagem quando existir</li>
+          <li>Confirme que as abas mecânicas aparecem somente depois da abertura</li>
           <li>Confirme que não há um bloco/card envolvendo a abertura como na falha anterior</li>
         </ol>
       </div>
@@ -703,7 +703,7 @@
       </div>
       <label class="check-item">
         <input type="checkbox" onchange="validateTest20()">
-        <span>Visão geral não está mais como bloco/card</span>
+        <span>Abertura não está mais como aba/bloco/card</span>
       </label>
     </div>
 
@@ -716,7 +716,7 @@
       </div>
       <div class="test-steps">
         <ol>
-          <li>Compare a aba Visão Geral com as cores já usadas no HTML original do personagem</li>
+          <li>Compare a abertura com as cores já usadas no HTML original do personagem</li>
           <li>Confirme que Pipping não parece Bayle, Bayle não parece Yu genérico e Gyro não usa vermelho como cor principal</li>
           <li>Confirme que as tags e acentos acompanham a paleta correta</li>
         </ol>
@@ -735,11 +735,11 @@
     <div class="test-item">
       <div class="test-title">📜 Validar expansão narrativa da aba</div>
       <div class="test-desc">
-        A Visão Geral agora deve ter espaços de Origem e Caminho para expandir a história sem misturar com mecânica.
+        A abertura agora deve ter espaços de Origem e Caminho para expandir a história sem misturar com mecânica.
       </div>
       <div class="test-steps">
         <ol>
-          <li>Abra a Visão Geral de qualquer personagem</li>
+          <li>Abra qualquer personagem</li>
           <li>Role abaixo da abertura principal</li>
           <li>Edite os campos <strong>Origem</strong> e <strong>Caminho</strong></li>
           <li>Recarregue a página e confirme que o texto permanece no navegador</li>
@@ -777,19 +777,19 @@
       </label>
     </div>
 
-    <!-- TESTE 24: Aba Inicial Correta -->
-    <h2>✅ TESTE 24: Aba Inicial Correta nos Personagens</h2>
+    <!-- TESTE 24: Entrada Inicial Correta -->
+    <h2>✅ TESTE 24: Entrada Inicial Correta nos Personagens</h2>
     <div class="test-item warning">
       <div class="test-title">🧭 Garantir que cada ficha abre na Visão Geral</div>
       <div class="test-desc">
-        Ao abrir um personagem, a primeira coisa visível deve ser a Visão Geral, não a ficha mecânica ou uma lista de habilidades.
+        Ao abrir um personagem, a primeira coisa visível deve ser a apresentação dele, não a ficha mecânica ou uma lista de habilidades.
       </div>
       <div class="test-steps">
         <ol>
           <li>Abra Gyro, Cinério, Pipping e Bayle em carregamento limpo</li>
-          <li>Confirme que a Visão Geral está ativa primeiro</li>
-          <li>No Pipping, confirme que não começa em "Tudo"</li>
-          <li>No Bayle, confirme que a aba Visão Geral não mantém padding/moldura de conteúdo mecânico</li>
+          <li>Confirme que a apresentação aparece antes de qualquer navegação interna</li>
+          <li>No Pipping, confirme que a barra "Tudo/Ficha/Habilidades" vem abaixo da abertura</li>
+          <li>No Bayle, confirme que a abertura vem antes do bloco de abas do arquivo dracônico</li>
         </ol>
       </div>
       <div class="result" id="test24-result" style="display:none;">
@@ -797,7 +797,7 @@
       </div>
       <label class="check-item">
         <input type="checkbox" onchange="validateTest24()">
-        <span>Personagens abrem pela Visão Geral correta</span>
+        <span>Personagens abrem pela apresentação correta</span>
       </label>
     </div>
 
@@ -822,7 +822,7 @@
     <div class="test-item">
       <p style="line-height: 1.8;">
         <strong>Se todos os testes passaram:</strong> ✅<br>
-        Parabéns! A bateria v3.0 está funcionando.<br>
+        Parabéns! A bateria v3.1 está funcionando.<br>
         <br>
         <strong>Próxima fase:</strong><br>
         → Criar um mini painel de áudio dentro do Painel Mestre com play/pause/volume<br>
@@ -839,7 +839,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v3.0 - Teste Completo<br>
+        ETHERNUM v3.1 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>

@@ -134,7 +134,6 @@
 
   const sectionDefinitions = {
     gyro: [
-      { id: 's-overview', label: 'Visao Geral' },
       { id: 's-sp', label: 'SP' },
       { id: 's-ikons', label: 'IKONs' },
       { id: 's-palmas', label: 'Palmas' },
@@ -148,7 +147,6 @@
       { id: 's-quest', label: 'Quest' }
     ],
     cinerio: [
-      { id: 'overview', label: 'Visao Geral' },
       { id: 'fundacao', label: 'Fundacao' },
       { id: 'recursos', label: 'Recursos' },
       { id: 'tecnicas', label: 'Tecnicas' },
@@ -156,7 +154,6 @@
       { id: 'progressao', label: 'Progressao' }
     ],
     pipping: [
-      { id: 'overview', label: 'Visao Geral' },
       { id: 'sheet', label: 'Ficha' },
       { id: 'tiers', label: 'Habilidades' },
       { id: 'progression', label: 'Progressao' }
@@ -264,7 +261,6 @@
     }
     if (characterId === 'pipping') {
       const selectors = {
-        overview: '.ethernum-character-overview',
         sheet: '.ethernum-pf2-sheet',
         tiers: '.pulso-box, .tier-section',
         progression: '.progression, .footer-quote'
@@ -470,7 +466,7 @@
     if (!characterId || document.querySelector('.ethernum-character-overview')) return;
     const html = overviewMarkup(characterId);
     if (!html) return;
-    const overview = document.createElement('section');
+    const overview = document.createElement('header');
     overview.className = `ethernum-character-overview ethernum-theme-${characterId}`;
     overview.dataset.overview = characterId;
     overview.innerHTML = html;
@@ -481,66 +477,8 @@
       el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
     });
 
-    if (characterId === 'gyro') {
-      overview.id = 's-overview';
-      overview.classList.add('section', 'on');
-      document.querySelectorAll('.section.on').forEach((section) => {
-        if (section !== overview) section.classList.remove('on');
-      });
-      const host = document.querySelector('main') || document.querySelector('.container') || document.body;
-      host.prepend(overview);
-      const navInner = document.querySelector('.nav-inner');
-      if (navInner && !document.querySelector('[data-overview-tab]')) {
-        const btn = document.createElement('button');
-        btn.className = 'nav-btn on';
-        btn.dataset.overviewTab = 'true';
-        btn.textContent = 'Visao Geral';
-        btn.addEventListener('click', () => {
-          if (typeof window.showSection === 'function') window.showSection('overview', btn);
-        });
-        navInner.prepend(btn);
-      }
-      return;
-    }
-
-    if (characterId === 'cinerio') {
-      overview.id = 'overview';
-      overview.classList.add('active');
-      document.querySelectorAll('main > section.active').forEach((section) => section.classList.remove('active'));
-      document.querySelectorAll('[data-t].active').forEach((item) => item.classList.remove('active'));
-      const host = document.querySelector('.panels') || document.querySelector('main') || document.body;
-      host.prepend(overview);
-      const tabs = document.querySelector('.tabs, .nav-tabs, [data-tabs]');
-      const nav = document.querySelector('[data-t="fundacao"]')?.parentElement || tabs;
-      if (nav && !document.querySelector('[data-t="overview"]')) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.dataset.t = 'overview';
-        btn.textContent = 'Visao Geral';
-        btn.classList.add('active');
-        nav.prepend(btn);
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('[data-panel], .ethernum-character-overview').forEach((panel) => panel.classList.remove('active'));
-          document.querySelectorAll('[data-t]').forEach((item) => item.classList.remove('active'));
-          overview.classList.add('active');
-          btn.classList.add('active');
-        });
-      }
-      return;
-    }
-
-    if (characterId === 'bayle') {
-      const panel = document.getElementById('tab-visao');
-      if (panel) {
-        panel.classList.add('ethernum-overview-panel');
-        panel.prepend(overview);
-      }
-      else (document.querySelector('main') || document.body).prepend(overview);
-      return;
-    }
-
-    const hero = document.querySelector('.hero, .site-header');
-    if (hero) hero.insertAdjacentElement('afterend', overview);
+    const shell = document.querySelector('.ethernum-shell-nav');
+    if (shell) shell.insertAdjacentElement('afterend', overview);
     else document.body.prepend(overview);
   }
 
@@ -617,7 +555,7 @@
     const tabs = document.createElement('div');
     tabs.className = 'ethernum-tabs';
     tabs.innerHTML = `
-      <button class="ethernum-tab-btn is-active" data-filter="overview">Visao Geral</button>
+      <button class="ethernum-tab-btn is-active" data-filter="all">Tudo</button>
       <button class="ethernum-tab-btn" data-filter="sheet">Ficha</button>
       <button class="ethernum-tab-btn" data-filter="tiers">Habilidades</button>
       <button class="ethernum-tab-btn" data-filter="progression">Progressao</button>`;
@@ -628,16 +566,14 @@
       tabs.querySelectorAll('.ethernum-tab-btn').forEach((b) => b.classList.remove('is-active'));
       btn.classList.add('is-active');
       const filter = btn.dataset.filter;
-      document.querySelectorAll('.ethernum-character-overview, .pulso-box, .tier-section, .progression, .footer-quote, .ethernum-pf2-sheet').forEach((el) => {
-        const isOverview = el.classList.contains('ethernum-character-overview');
+      document.querySelectorAll('.pulso-box, .tier-section, .progression, .footer-quote, .ethernum-pf2-sheet').forEach((el) => {
         const isSheet = el.classList.contains('ethernum-pf2-sheet');
         const isTier = el.classList.contains('tier-section') || el.classList.contains('pulso-box');
         const isProgress = el.classList.contains('progression') || el.classList.contains('footer-quote');
-        el.style.display = (filter === 'overview' && isOverview) || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
+        el.style.display = filter === 'all' || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
       });
       applySectionLocks(pageCharacter());
     });
-    tabs.querySelector('[data-filter="overview"]')?.click();
   }
 
   function addGyroSheetTab() {
@@ -710,7 +646,6 @@
     const characterId = pageCharacter();
     const pippingMap = {
       sheet: 'sheet',
-      overview: 'overview',
       tiers: 'tiers',
       progression: 'progression',
       's-sp': 'sheet',
@@ -746,11 +681,6 @@
     if (characterId === 'gyro' && sectionId === 's-ficha' && typeof window.showSection === 'function') {
       const btn = document.querySelector('[data-ethernum-sheet-tab]');
       window.showSection('ficha', btn);
-      return;
-    }
-    if (characterId === 'gyro' && sectionId === 's-overview' && typeof window.showSection === 'function') {
-      const btn = document.querySelector('[data-overview-tab]');
-      window.showSection('overview', btn);
       return;
     }
     if (characterId === 'cinerio') {

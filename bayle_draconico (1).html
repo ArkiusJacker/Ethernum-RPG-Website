@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayle — O Horror Dracônico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ethernum-shared.css">
+<style>
+  :root {
+    --gold: #C4A020;
+    --gold-light: #E8C84A;
+    --gold-pale: #F5E090;
+    --gold-dim: #7A6010;
+    --crimson: #B01820;
+    --crimson-bright: #E02030;
+    --crimson-glow: #FF3040;
+    --iron: #1A1410;
+    --iron-mid: #2A2018;
+    --iron-light: #3A3028;
+    --marble: #F0EAD8;
+    --marble-dim: #C8C0A8;
+    --marble-dark: #8A8070;
+    --electric: #4090D0;
+    --electric-gold: #D4B020;
+    --text: #E8D8B0;
+    --text-dim: #A09080;
+    --text-dark: #605040;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--iron);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === BACKGROUND === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(196,160,32,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(176,24,32,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, rgba(26,20,16,0) 0%, #0D0A08 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Dragon scale SVG pattern overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cellipse cx='30' cy='26' rx='28' ry='24' fill='none' stroke='rgba(196,160,32,0.04)' stroke-width='1'/%3E%3Cellipse cx='0' cy='0' rx='28' ry='24' fill='none' stroke='rgba(196,160,32,0.04)' stroke-width='1'/%3E%3Cellipse cx='60' cy='0' rx='28' ry='24' fill='none' stroke='rgba(196,160,32,0.04)' stroke-width='1'/%3E%3Cellipse cx='0' cy='52' rx='28' ry='24' fill='none' stroke='rgba(196,160,32,0.04)' stroke-width='1'/%3E%3Cellipse cx='60' cy='52' rx='28' ry='24' fill='none' stroke='rgba(196,160,32,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  /* === HEADER === */
+  .site-header {
+    text-align: center;
+    padding: 56px 0 40px;
+    position: relative;
+  }
+
+  .site-header::before {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    margin: 0 auto 24px;
+  }
+
+  .header-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 40%, var(--crimson-bright) 70%, var(--gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 30px rgba(196,160,32,0.3));
+    animation: titlePulse 4s ease-in-out infinite;
+  }
+
+  @keyframes titlePulse {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(196,160,32,0.3)); }
+    50% { filter: drop-shadow(0 0 40px rgba(196,160,32,0.5)) drop-shadow(0 0 80px rgba(176,24,32,0.2)); }
+  }
+
+  .header-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .header-divider::before,
+  .header-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim));
+  }
+  .header-divider::after {
+    background: linear-gradient(to left, transparent, var(--gold-dim));
+  }
+  .header-divider-gem {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+  }
+
+  /* === TABS === */
+  .tabs-nav {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .tab-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    background: var(--iron-mid);
+    border: 1px solid rgba(196,160,32,0.15);
+    border-bottom: none;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    bottom: -1px;
+  }
+
+  .tab-btn:hover {
+    color: var(--gold-pale);
+    background: var(--iron-light);
+  }
+
+  .tab-btn.active {
+    background: var(--iron-light);
+    color: var(--gold-light);
+    border-color: rgba(196,160,32,0.4);
+    border-bottom: 1px solid var(--iron-light);
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--crimson));
+  }
+
+  .tabs-body {
+    background: var(--iron-light);
+    border: 1px solid rgba(196,160,32,0.2);
+    border-radius: 0 4px 4px 4px;
+    padding: 36px 32px;
+    min-height: 400px;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.35s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === TYPOGRAPHY === */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(196,160,32,0.3), transparent);
+  }
+
+  .lore-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-dim);
+  }
+  .lore-text strong { color: var(--text); font-weight: 500; }
+  .lore-text em { color: var(--gold-pale); font-style: italic; }
+
+  /* === GRID CARDS === */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+
+  .card {
+    background: rgba(10,8,6,0.6);
+    border: 1px solid rgba(196,160,32,0.12);
+    border-radius: 4px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(196,160,32,0.3); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,160,32,0.4), transparent);
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .card-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+  .card-body strong { color: var(--text); }
+
+  .pill {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 8px;
+    margin-right: 4px;
+    text-transform: uppercase;
+  }
+  .pill-gold { background: rgba(196,160,32,0.15); color: var(--gold); border: 1px solid rgba(196,160,32,0.3); }
+  .pill-red { background: rgba(176,24,32,0.15); color: #E08080; border: 1px solid rgba(176,24,32,0.3); }
+  .pill-blue { background: rgba(64,144,208,0.12); color: #80B8E0; border: 1px solid rgba(64,144,208,0.25); }
+  .pill-gray { background: rgba(90,80,70,0.3); color: var(--marble-dark); border: 1px solid rgba(90,80,70,0.4); }
+  .pill-green { background: rgba(61,158,106,0.12); color: #70C090; border: 1px solid rgba(61,158,106,0.25); }
+
+  .scale-note {
+    font-size: 12px;
+    color: var(--text-dark);
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* === STAGE CARDS === */
+  .stage-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(196,160,32,0.15);
+  }
+
+  .stage-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold-dim));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    flex-shrink: 0;
+  }
+
+  .stage-info { flex: 1; }
+  .stage-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .stage-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .sb-stage { background: rgba(196,160,32,0.1); color: var(--gold); border: 1px solid rgba(196,160,32,0.3); }
+  .sb-level { background: rgba(61,158,106,0.1); color: #70C090; border: 1px solid rgba(61,158,106,0.25); }
+  .sb-active { background: rgba(176,24,32,0.1); color: #E08080; border: 1px solid rgba(176,24,32,0.3); }
+  .sb-marco { background: rgba(90,80,70,0.2); color: var(--marble-dark); border: 1px solid rgba(90,80,70,0.3); }
+
+  .stage-title-text {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    margin-bottom: 4px;
+  }
+  .stage-sub-text {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-dark);
+  }
+
+  /* === COUNTER TABLE === */
+  .counter-table {
+    background: rgba(10,8,6,0.5);
+    border: 1px solid rgba(196,160,32,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .counter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(196,160,32,0.08);
+    font-size: 14px;
+  }
+  .counter-row:last-child { border-bottom: none; }
+  .counter-trigger { color: var(--text-dim); }
+  .counter-val {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  /* === DESPERTAR CARDS === */
+  .despertar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+
+  .dc {
+    background: rgba(10,8,6,0.5);
+    border: 1px solid rgba(196,160,32,0.1);
+    border-radius: 4px;
+    padding: 14px 16px;
+    border-left-width: 3px;
+    border-left-style: solid;
+    transition: transform 0.2s;
+  }
+  .dc:hover { transform: translateY(-2px); }
+  .dc-fogo { border-left-color: var(--crimson-bright); }
+  .dc-raio { border-left-color: var(--electric); }
+  .dc-rage { border-left-color: #7F77DD; }
+  .dc-mov { border-left-color: #1D9E75; }
+  .dc-escama { border-left-color: #9B8B6E; }
+  .dc-placidu { border-left-color: var(--electric-gold); }
+
+  .dc-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .dc-body { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .dc-body strong { color: var(--text); }
+
+  /* === SPECIAL BOXES === */
+  .finish-box {
+    background: linear-gradient(160deg, #120800, #080510);
+    border: 1px solid rgba(176,24,32,0.4);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .finish-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--crimson-bright), var(--electric));
+    margin-bottom: 16px;
+  }
+
+  .sopro-box {
+    background: linear-gradient(160deg, #180500, #100800);
+    border: 1px solid rgba(176,24,32,0.35);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sopro-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--crimson-bright), var(--gold));
+    margin-bottom: 16px;
+  }
+
+  .lancas-box {
+    background: linear-gradient(160deg, #020c18, #080810);
+    border: 1px solid rgba(64,144,208,0.35);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .lancas-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--electric), var(--electric-gold));
+    margin-bottom: 16px;
+  }
+
+  .rugido-box {
+    background: linear-gradient(160deg, #0c0c00, #100a00);
+    border: 1px solid rgba(196,160,32,0.35);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .rugido-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), #8B6010);
+    margin-bottom: 16px;
+  }
+
+  .special-title {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    margin-bottom: 6px;
+  }
+  .special-traits { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .special-body { font-size: 14px; color: #C8B89A; line-height: 1.7; }
+  .special-body strong { color: var(--gold-pale); }
+  .special-note {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+    color: var(--text-dark);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .special-upgrade {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(61,158,106,0.08);
+    border: 1px solid rgba(61,158,106,0.2);
+    border-radius: 3px;
+    font-size: 12px;
+    color: #5DC090;
+  }
+
+  .colapso-box {
+    background: rgba(100,10,10,0.2);
+    border: 1px solid rgba(176,24,32,0.3);
+    border-radius: 4px;
+    padding: 16px 20px;
+  }
+  .colapso-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C05050;
+    margin-bottom: 8px;
+  }
+  .colapso-body { font-size: 14px; color: #A05050; line-height: 1.65; }
+  .colapso-body strong { color: #D07070; }
+  .colapso-note { font-size: 12px; color: #804040; font-style: italic; margin-top: 8px; }
+
+  .reaction-card {
+    background: rgba(10,8,6,0.5);
+    border: 1px solid rgba(224,128,96,0.3);
+    border-left: 3px solid #E08060;
+    border-radius: 4px;
+    padding: 14px 18px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(196,160,32,0.1);
+    margin: 24px 0;
+  }
+
+  /* === STAGE ACCORDION TABS === */
+  .stage-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 20px; }
+  .stage-tab-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    background: rgba(10,8,6,0.5);
+    border: 1px solid rgba(196,160,32,0.15);
+    color: var(--text-dark);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+  .stage-tab-btn:hover { color: var(--gold); border-color: rgba(196,160,32,0.35); }
+  .stage-tab-btn.active {
+    background: rgba(196,160,32,0.1);
+    color: var(--gold-light);
+    border-color: rgba(196,160,32,0.5);
+  }
+  .stage-panel { display: none; }
+  .stage-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* === LORE / ARQUIVISTA === */
+  .arquivista-box {
+    background: linear-gradient(160deg, #0a0a12, #12080a);
+    border: 1px solid rgba(100,80,160,0.3);
+    border-radius: 4px;
+    padding: 24px 28px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .arquivista-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--electric), var(--crimson-bright));
+    margin-bottom: 20px;
+  }
+  .arquivista-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--marble);
+    margin-bottom: 4px;
+  }
+  .arquivista-epithet {
+    font-size: 14px;
+    font-style: italic;
+    color: #9080A0;
+    margin-bottom: 16px;
+  }
+  .arquivista-body { font-size: 15px; color: #B0A090; line-height: 1.8; }
+  .arquivista-body strong { color: var(--marble); }
+
+  /* Revelation timeline */
+  .timeline { position: relative; padding-left: 36px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold-dim), var(--crimson), transparent);
+  }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-dot {
+    position: absolute;
+    left: -30px;
+    top: 4px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .td-1 { background: #1a1428; color: #9080C0; border: 1px solid #5A4080; }
+  .td-2 { background: #1e1008; color: #C08040; border: 1px solid #8A5020; }
+  .td-3 { background: #180808; color: #E08060; border: 1px solid #8A2010; }
+  .td-4 { background: #080818; color: #6090D0; border: 1px solid #204080; }
+  .timeline-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  .timeline-body { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .timeline-body strong { color: var(--text); }
+
+  /* === HUMANITY TABLE === */
+  .humanity-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(196,160,32,0.08);
+    align-items: start;
+  }
+  .humanity-row:last-child { border-bottom: none; }
+  .h-stage-col { text-align: center; }
+  .h-stage-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .h-stage-name { font-size: 11px; color: var(--text-dark); }
+  .h-gain { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .h-gain strong { color: var(--text); }
+  .h-loss { font-size: 13px; line-height: 1.55; }
+  .h-loss strong { display: block; margin-bottom: 2px; }
+  .loss-none { color: var(--text-dark); }
+  .loss-mild { color: #B08830; }
+  .loss-mod { color: #C05030; }
+  .loss-heavy { color: #A01828; }
+
+  .secret-box {
+    background: linear-gradient(160deg, #060c06, #080c08);
+    border: 1px solid rgba(61,158,106,0.25);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .secret-box::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, #3D9E6A, var(--gold));
+    margin-bottom: 20px;
+  }
+  .secret-seal {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #2D6040;
+    margin-bottom: 8px;
+  }
+  .secret-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: #80D0A0;
+    margin-bottom: 12px;
+  }
+  .secret-body { font-size: 14px; color: #508060; line-height: 1.8; }
+  .secret-body strong { color: #90D0A8; }
+  .secret-block {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .secret-trigger-block { background: rgba(61,158,106,0.07); border: 1px solid rgba(61,158,106,0.2); color: #507060; }
+  .secret-trigger-block strong { color: #70C090; display: block; margin-bottom: 4px; }
+  .secret-cost-block { background: rgba(196,160,32,0.06); border: 1px solid rgba(196,160,32,0.15); color: #806040; }
+  .secret-cost-block strong { color: #C0A060; display: block; margin-bottom: 4px; }
+  .secret-reward-block { background: rgba(64,144,208,0.06); border: 1px solid rgba(64,144,208,0.15); color: #507080; }
+  .secret-reward-block strong { color: #70A8C8; display: block; margin-bottom: 4px; }
+
+  /* Fragmentos table */
+  .frag-row {
+    display: grid;
+    grid-template-columns: 60px 100px 1fr 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(196,160,32,0.08);
+    align-items: center;
+    font-size: 13px;
+  }
+  .frag-row:first-child {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    padding-bottom: 8px;
+  }
+  .frag-row:last-child { border-bottom: none; }
+  .frag-e { color: var(--gold); font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; }
+  .frag-pecado { color: var(--crimson-bright); font-style: italic; }
+  .frag-nome { color: var(--text-dim); }
+  .frag-traco { color: var(--text-dark); }
+
+  /* Overview map */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .overview-card {
+    background: rgba(10,8,6,0.5);
+    border: 1px solid rgba(196,160,32,0.1);
+    border-radius: 4px;
+    padding: 14px 16px;
+    position: relative;
+    cursor: default;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .overview-card:hover { border-color: rgba(196,160,32,0.3); transform: translateY(-2px); }
+  .overview-card.locked { opacity: 0.5; }
+  .ov-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 28px;
+    color: var(--gold-dim);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .ov-title {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .ov-pecado { font-size: 12px; font-style: italic; color: var(--crimson-bright); margin-bottom: 4px; }
+  .ov-desc { font-size: 12px; color: var(--text-dark); line-height: 1.5; }
+  .ov-level {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #3D7050;
+    margin-top: 8px;
+  }
+  .ov-active-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--crimson-bright));
+    border-radius: 4px 4px 0 0;
+  }
+  .ov-locked-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--iron-light);
+    border-radius: 4px 4px 0 0;
+  }
+
+  /* Theme split */
+  .theme-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .theme-card { border-radius: 4px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
+  .theme-bayle { background: rgba(176,24,32,0.08); border: 1px solid rgba(176,24,32,0.25); color: var(--text-dim); }
+  .theme-placidu { background: rgba(64,144,208,0.08); border: 1px solid rgba(64,144,208,0.25); color: var(--text-dim); }
+  .theme-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tl-bayle { color: var(--crimson-bright); }
+  .tl-placidu { color: var(--electric); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .humanity-row { grid-template-columns: 80px 1fr; }
+    .humanity-row .h-gain { display: none; }
+    .frag-row { grid-template-columns: 40px 90px 1fr; }
+    .frag-row .frag-traco { display: none; }
+    .theme-split { grid-template-columns: 1fr; }
+    .tabs-body { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-eyebrow">Ethernum · Stingol · Dimensão Dracônica</div>
+    <h1 class="header-title">Bayle, O Horror</h1>
+    <p class="header-subtitle">Uma heresia viva. O conflito de duas eras que nunca deveriam ter se misturado.</p>
+    <div class="header-divider"><div class="header-divider-gem"></div></div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('visao')">Visão Geral</button>
+    <button class="tab-btn" onclick="switchTab('estagios')">Estágios</button>
+    <button class="tab-btn" onclick="switchTab('humanidade')">Humanidade</button>
+    <button class="tab-btn" onclick="switchTab('arquivista')">O Arquivista</button>
+  </nav>
+
+  <div class="tabs-body">
+
+    <!-- ===================== VISÃO GERAL ===================== -->
+    <div class="tab-panel active" id="tab-visao">
+
+      <div class="section-title">O Personagem</div>
+      <p class="lore-text" style="margin-bottom:24px">
+        Bayle não é apenas um guerreiro — é uma <strong>heresia viva</strong>. No universo onde o sangue define o destino, ele nasceu como uma anomalia estatística e mística. Carrega em suas veias o conflito de duas eras que nunca deveriam ter se misturado: a <em>Eletricidade Dourada de Placidusax</em> e as <em>Chamas Primordiais dos Draco</em>. Para seu clã, ele é "O Horror" — uma abominação que desafia a ordem natural da evolução.
+      </p>
+
+      <div class="theme-split">
+        <div class="theme-card theme-bayle">
+          <div class="theme-label"><span style="color:var(--crimson-bright)">●</span><span class="tl-bayle">Linhagem Draco — Chamas Primordiais</span></div>
+          Fogo rubro e destrutivo. Força bruta, território, emanação. O lorde que irradia devastação. Quanto mais perto, mais perigoso.
+        </div>
+        <div class="theme-card theme-placidu">
+          <div class="theme-label"><span style="color:var(--electric)">●</span><span class="tl-placidu">Linhagem Pura — Eletricidade Dourada</span></div>
+          Raios dourados e divinos. Precisão, velocidade, golpes cirúrgicos. A herança antiga que nunca errou. Lanças que não perdoam.
+        </div>
+      </div>
+
+      <div class="section-title">Os 8 Estágios — Mapa da Transformação</div>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="ov-active-bar"></div>
+          <div class="ov-num">I</div>
+          <div class="ov-title">Pele, Sangue e Coração</div>
+          <div class="ov-pecado">— (Não pode ser roubado)</div>
+          <div class="ov-desc">O substrato físico da herança. O que os companheiros não conseguiram levar.</div>
+          <div class="ov-level">✦ Ativo · Nível 3</div>
+        </div>
+        <div class="overview-card">
+          <div class="ov-active-bar"></div>
+          <div class="ov-num">II</div>
+          <div class="ov-title">Garras e Movimento</div>
+          <div class="ov-pecado">Ira recuperada</div>
+          <div class="ov-desc">O instinto de caça retorna. Ação, agressão, presença predatória.</div>
+          <div class="ov-level">✦ Ativo · Nível 6</div>
+        </div>
+        <div class="overview-card">
+          <div class="ov-active-bar"></div>
+          <div class="ov-num">III</div>
+          <div class="ov-title">Escama e Espinha</div>
+          <div class="ov-pecado">Soberba recuperada</div>
+          <div class="ov-desc">A primeira armadura real emerge. O mundo começa a recuar.</div>
+          <div class="ov-level">✦ Ativo · Nível 8</div>
+        </div>
+        <div class="overview-card">
+          <div class="ov-active-bar"></div>
+          <div class="ov-num">IV</div>
+          <div class="ov-title">O Rugido</div>
+          <div class="ov-pecado">Inveja recuperada</div>
+          <div class="ov-desc">A voz do dragão retorna. Medo, autoridade, território declarado.</div>
+          <div class="ov-level">✦ Ativo · Nível 10</div>
+        </div>
+        <div class="overview-card locked">
+          <div class="ov-locked-bar"></div>
+          <div class="ov-num">V</div>
+          <div class="ov-title">Asas Quebradas</div>
+          <div class="ov-pecado">Luxúria recuperada</div>
+          <div class="ov-desc">O estágio onde ele estava antes da Porta. Memória fragmentada, poder pela metade.</div>
+          <div class="ov-level">⬡ Bloqueado · Nível 12</div>
+        </div>
+        <div class="overview-card locked">
+          <div class="ov-locked-bar"></div>
+          <div class="ov-num">VI</div>
+          <div class="ov-title">A Chama e o Raio</div>
+          <div class="ov-pecado">Gula recuperada</div>
+          <div class="ov-desc">As duas linhagens param de coexistir e começam a fundir. Imunidade elemental.</div>
+          <div class="ov-level">⬡ Bloqueado · Nível 14</div>
+        </div>
+        <div class="overview-card locked">
+          <div class="ov-locked-bar"></div>
+          <div class="ov-num">VII</div>
+          <div class="ov-title">A Coroa do Dragão</div>
+          <div class="ov-pecado">Cobiça recuperada</div>
+          <div class="ov-desc">Identidade recuperada. Ele sabe quem foi — e escolhe quem é.</div>
+          <div class="ov-level">⬡ Bloqueado · Nível 16</div>
+        </div>
+        <div class="overview-card locked">
+          <div class="ov-locked-bar"></div>
+          <div class="ov-num">VIII</div>
+          <div class="ov-title">Além da Porta</div>
+          <div class="ov-pecado">Preguiça recuperada</div>
+          <div class="ov-desc">A transformação completa. A Porta foi paga. Magnífico e irrecuperável.</div>
+          <div class="ov-level">⬡ Bloqueado · Nível 18–20</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="section-title">Os 7 Fragmentos — Os Portadores</div>
+      <div class="frag-row">
+        <div>Estágio</div>
+        <div>Pecado</div>
+        <div>Nome do estágio</div>
+        <div>Traço de Bayle</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E2</div>
+        <div class="frag-pecado">Ira</div>
+        <div class="frag-nome">Garras e Movimento</div>
+        <div class="frag-traco">O instinto predatório, a fúria de caçar</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E3</div>
+        <div class="frag-pecado">Soberba</div>
+        <div class="frag-nome">Escama e Espinha</div>
+        <div class="frag-traco">O desprezo pelo clã, a certeza de ser superior</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E4</div>
+        <div class="frag-pecado">Inveja</div>
+        <div class="frag-nome">O Rugido</div>
+        <div class="frag-traco">O ódio de não ser reconhecido, a voz que exige território</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E5</div>
+        <div class="frag-pecado">Luxúria</div>
+        <div class="frag-nome">Asas Quebradas</div>
+        <div class="frag-traco">O desejo obsessivo de superar Placidusax</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E6</div>
+        <div class="frag-pecado">Gula</div>
+        <div class="frag-nome">A Chama e o Raio</div>
+        <div class="frag-traco">A voracidade de carregar duas heranças que se repelem</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E7</div>
+        <div class="frag-pecado">Cobiça</div>
+        <div class="frag-nome">A Coroa do Dragão</div>
+        <div class="frag-traco">A ambição de ser uma força incompreensível</div>
+      </div>
+      <div class="frag-row">
+        <div class="frag-e">E8</div>
+        <div class="frag-pecado">Preguiça</div>
+        <div class="frag-nome">Além da Porta</div>
+        <div class="frag-traco">A aceitação — a paz que nunca teve</div>
+      </div>
+
+    </div>
+
+    <!-- ===================== ESTÁGIOS ===================== -->
+    <div class="tab-panel" id="tab-estagios">
+
+      <div class="stage-tabs">
+        <button class="stage-tab-btn active" onclick="switchStage('e1')">I · Pele e Sangue</button>
+        <button class="stage-tab-btn" onclick="switchStage('e2')">II · Garras</button>
+        <button class="stage-tab-btn" onclick="switchStage('e3')">III · Escama</button>
+        <button class="stage-tab-btn" onclick="switchStage('e4')">IV · O Rugido</button>
+      </div>
+
+      <!-- E1 -->
+      <div class="stage-panel active" id="stage-e1">
+        <div class="stage-header">
+          <div class="stage-num">I</div>
+          <div class="stage-info">
+            <div class="stage-badges">
+              <span class="stage-badge sb-stage">Estágio 1</span>
+              <span class="stage-badge sb-active">Ativo</span>
+              <span class="stage-badge sb-level">Nível 3</span>
+              <span class="stage-badge" style="background:rgba(176,24,32,0.1);color:#E08080;border:1px solid rgba(176,24,32,0.3);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.12em;padding:3px 10px;border-radius:2px;text-transform:uppercase;">Sem armas ou armaduras externas</span>
+            </div>
+            <div class="stage-title-text">Pele, Sangue e Coração Dracônico</div>
+            <div class="stage-sub-text">Transformação quase imperceptível — só a pele mais rígida. Bayle é a arma. Bayle é a armadura.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Benefícios Passivos</div>
+        <div class="card-grid" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-title">Handwraps Integradas</div>
+            <div class="card-body">+1 Potency + Striking nos ataques desarmados. <strong>Permanente, inseparável.</strong> Não pode ser removida ou desencantada. Cresce com os estágios.</div>
+            <span class="pill pill-gold">Passivo</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Pele Dracônica</div>
+            <div class="card-body">+1 à CA contra ataques físicos não-mágicos. <strong>Resistência 3</strong> a fogo e eletricidade.</div>
+            <span class="pill pill-gold">Passivo</span>
+            <div class="scale-note">→ Resistência escala por estágio → imunidade no E6</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Sangue Dracônico</div>
+            <div class="card-body">+1 em Fortitude. Conta como tamanho maior para resistir a <strong>Shove, Trip e Grapple.</strong></div>
+            <span class="pill pill-gold">Passivo</span>
+          </div>
+        </div>
+
+        <div class="section-title">Ardor Dracônico — Contador</div>
+        <div class="counter-table" style="margin-bottom:24px">
+          <div class="counter-row"><span class="counter-trigger">Realizar um Strike (acerto ou erro)</span><span class="counter-val">+1 ponto</span></div>
+          <div class="counter-row"><span class="counter-trigger">Sofrer um golpe que cause dano</span><span class="counter-val">+1 ponto</span></div>
+          <div class="counter-row"><span class="counter-trigger">Ativar o Despertar</span><span class="counter-val">3 pontos → zera</span></div>
+          <div class="counter-row"><span class="counter-trigger">Rage terminar</span><span class="counter-val">contador zera</span></div>
+        </div>
+
+        <div class="section-title">O Despertar (dura enquanto em Rage)</div>
+        <div class="despertar-grid" style="margin-bottom:24px">
+          <div class="dc dc-fogo">
+            <div class="dc-title">Chama dos Draco</div>
+            <div class="dc-body">+<strong>1d4</strong> de dano de fogo em todos os Strikes.</div>
+            <div class="scale-note">+1d4 por estágio</div>
+          </div>
+          <div class="dc dc-raio">
+            <div class="dc-title">Eletricidade de Placidusax</div>
+            <div class="dc-body">Ação livre ao acertar: Fortitude <strong>CD 17</strong> ou Stunned 1. <strong>1 carga</strong> por Despertar.</div>
+            <div class="scale-note">CD +1 por estágio · 2ª carga no E3</div>
+          </div>
+          <div class="dc dc-rage">
+            <div class="dc-title">Instinto Amplificado</div>
+            <div class="dc-body">Bônus de dano da Rage sobe de +2 para <strong>+4.</strong></div>
+            <div class="scale-note">+2 ao bônus por estágio</div>
+          </div>
+        </div>
+
+        <div class="section-title">Habilidade Especial</div>
+        <div class="finish-box" style="margin-bottom:24px">
+          <div class="special-title">⚔ Encerramento Dracônico</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-gold">Despertar</span>
+            <span class="pill pill-gray">1 ação</span>
+          </div>
+          <div class="special-body">
+            Escolha <strong>Chama</strong> ou <strong>Raio</strong>. Faça um Strike. Se acertar:<br><br>
+            • Dado de dano sobe um passo (d4→d6, d6→d8, d8→d10, d10→d12)<br>
+            • Dano elemental adicional igual a <strong>2× rodadas restantes na Rage</strong> (máximo 20)
+          </div>
+          <div class="special-note">
+            <strong style="color:#C89A70">Custo no E1/E2:</strong> Despertar termina e não pode ser reativado neste combate. Rage termina. Colapso com Drained 2 + Fatigued.
+          </div>
+        </div>
+
+        <div class="section-title">Colapso Dracônico</div>
+        <div class="colapso-box">
+          <div class="colapso-title">⬡ Colapso Dracônico</div>
+          <div class="colapso-body">Rage termina + Despertar ativado: <strong>Drained 1</strong> + Fatigued normal.<br>Encerramento usado: <strong>Drained 2</strong> em vez de Drained 1.</div>
+          <div class="colapso-note">O corpo ainda não sustenta o que desperta nele. O dragão se recolhe e cobra o preço.</div>
+        </div>
+      </div>
+
+      <!-- E2 -->
+      <div class="stage-panel" id="stage-e2">
+        <div class="stage-header">
+          <div class="stage-num">II</div>
+          <div class="stage-info">
+            <div class="stage-badges">
+              <span class="stage-badge sb-stage">Estágio 2</span>
+              <span class="stage-badge sb-active">Ativo</span>
+              <span class="stage-badge sb-level">Nível mínimo 6</span>
+              <span class="stage-badge sb-marco">Marco narrativo · Ira</span>
+            </div>
+            <div class="stage-title-text">Garras e Movimento</div>
+            <div class="stage-sub-text">O instinto de caça retorna — ação, agressão e presença predatória.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Benefícios Passivos</div>
+        <div class="card-grid" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-title">Garras Integradas</div>
+            <div class="card-body">+1 Potency + <strong>2 Striking dice.</strong> Slashing como tipo de dano alternativo ao contundente.</div>
+            <span class="pill pill-gold">Upgrade do E1</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Pele Dracônica</div>
+            <div class="card-body">+1 à CA contra físicos não-mágicos. Resistência <strong>6</strong> a fogo e eletricidade.</div>
+            <span class="pill pill-gold">Res 3→6</span>
+            <div class="scale-note">→ imunidade no E6</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Sangue Dracônico</div>
+            <div class="card-body">+1 em Fortitude. Tamanho maior para Shove, Trip e Grapple.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Passo do Predador</div>
+            <div class="card-body">+10 pés de velocidade base. O Step cobre <strong>10 pés</strong> em vez de 5.</div>
+            <span class="pill pill-green">Novo no E2</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Instinto de Caça</div>
+            <div class="card-body">Move 10+ pés em direção ao alvo no mesmo turno de um Strike: <strong>+1d6 de dano.</strong></div>
+            <span class="pill pill-green">Novo no E2</span>
+          </div>
+        </div>
+
+        <div class="section-title">O Despertar — Estado Acumulado no E2</div>
+        <div class="despertar-grid" style="margin-bottom:24px">
+          <div class="dc dc-fogo">
+            <div class="dc-title">Chama dos Draco</div>
+            <div class="dc-body">+<strong>2d4</strong> de dano de fogo em todos os Strikes.</div>
+            <span class="pill pill-gold">↑ +1d4→+2d4</span>
+          </div>
+          <div class="dc dc-raio">
+            <div class="dc-title">Eletricidade de Placidusax</div>
+            <div class="dc-body">Ação livre: Fortitude <strong>CD 18</strong> ou Stunned 1. 1 carga por Despertar.</div>
+            <span class="pill pill-gold">↑ CD 17→18</span>
+          </div>
+          <div class="dc dc-rage">
+            <div class="dc-title">Instinto Amplificado</div>
+            <div class="dc-body">Bônus de dano da Rage sobe para <strong>+6.</strong></div>
+            <span class="pill pill-gold">↑ +4→+6</span>
+          </div>
+          <div class="dc dc-mov">
+            <div class="dc-title">Velocidade Dracônica</div>
+            <div class="dc-body">+10 pés adicionais durante o Despertar (total +20 com o passivo).</div>
+            <span class="pill pill-green">Novo no E2</span>
+            <span class="pill pill-gray">Não escala</span>
+          </div>
+          <div class="dc dc-mov">
+            <div class="dc-title">Salto do Predador</div>
+            <div class="dc-body">Ação livre: Stride até metade da velocidade sem provocar reações antes de um Strike. 1× por Despertar.</div>
+            <span class="pill pill-green">Novo no E2</span>
+            <span class="pill pill-gray">Não escala</span>
+          </div>
+        </div>
+
+        <div class="section-title">Habilidade Especial</div>
+        <div class="finish-box" style="margin-bottom:24px">
+          <div class="special-title">⚔ Encerramento Dracônico</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-gold">Despertar</span>
+            <span class="pill pill-gray">1 ação</span>
+          </div>
+          <div class="special-body">
+            Escolha <strong>Chama</strong> ou <strong>Raio</strong>. Strike com dado subindo um passo + <strong>2× rodadas restantes</strong> de dano elemental (máximo 20).
+          </div>
+          <div class="special-note"><strong style="color:#C89A70">Custo no E2:</strong> Igual ao E1 — Despertar consome, Drained 2.</div>
+        </div>
+
+        <div class="section-title">Colapso Dracônico</div>
+        <div class="colapso-box">
+          <div class="colapso-title">⬡ Colapso Dracônico</div>
+          <div class="colapso-body">Rage termina + Despertar ativado: <strong>Drained 1</strong> + Fatigued.<br>Encerramento usado: <strong>Drained 2.</strong></div>
+          <div class="colapso-note">Inalterado. O preço ainda é alto.</div>
+        </div>
+      </div>
+
+      <!-- E3 -->
+      <div class="stage-panel" id="stage-e3">
+        <div class="stage-header">
+          <div class="stage-num">III</div>
+          <div class="stage-info">
+            <div class="stage-badges">
+              <span class="stage-badge sb-stage">Estágio 3</span>
+              <span class="stage-badge sb-active">Ativo</span>
+              <span class="stage-badge sb-level">Nível mínimo 8</span>
+              <span class="stage-badge sb-marco">Marco narrativo · Soberba</span>
+            </div>
+            <div class="stage-title-text">Escama e Espinha</div>
+            <div class="stage-sub-text">A primeira armadura real emerge. Escamas cobrem braços e costas. O mundo começa a recuar — e agora ele sabe disso.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Benefícios Passivos</div>
+        <div class="card-grid" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-title">Escamas Dracônicas</div>
+            <div class="card-body">+<strong>2</strong> à CA contra físicos não-mágicos. Resistência <strong>9</strong> a fogo e eletricidade.</div>
+            <span class="pill pill-gold">CA +1→+2 · Res 6→9</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Presença do Predador</div>
+            <div class="card-body">+2 em Intimidation. Demoralize com sucesso: resultado sobe um grau (Frightened 2 em sucesso simples).</div>
+            <span class="pill pill-green">Novo no E3</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Garras, Passo, Instinto</div>
+            <div class="card-body">Todos os passivos do E2 permanecem inalterados.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+        </div>
+
+        <div class="section-title">Reação Passiva</div>
+        <div class="reaction-card" style="margin-bottom:24px">
+          <div class="card-title" style="color:var(--gold)">⚡ Espinha Reativa — Reação</div>
+          <div class="card-body"><strong>Gatilho:</strong> Inimigo acerta Bayle com Strike corpo a corpo.<br><strong>Efeito:</strong> Strike desarmado imediato contra esse inimigo sem contar como ação do turno. 1× por rodada.</div>
+          <span class="pill pill-red">Reação · 1× por rodada</span>
+        </div>
+
+        <div class="section-title">O Despertar — Estado Acumulado no E3</div>
+        <div class="despertar-grid" style="margin-bottom:24px">
+          <div class="dc dc-fogo">
+            <div class="dc-title">Chama dos Draco</div>
+            <div class="dc-body">Ao ativar: escolha <strong>Fogo ou Eletricidade.</strong> +<strong>3d4</strong> do elemento nos Strikes.</div>
+            <span class="pill pill-gold">↑ 2d4→3d4 · Elemento escolhível</span>
+          </div>
+          <div class="dc dc-raio">
+            <div class="dc-title">Eletricidade de Placidusax</div>
+            <div class="dc-body">Fortitude <strong>CD 19</strong> ou Stunned 1. <strong>2 cargas</strong> por Despertar.</div>
+            <span class="pill pill-gold">↑ CD 18→19 · 1→2 cargas</span>
+          </div>
+          <div class="dc dc-rage">
+            <div class="dc-title">Instinto Amplificado</div>
+            <div class="dc-body">Bônus de dano da Rage sobe para <strong>+8.</strong></div>
+            <span class="pill pill-gold">↑ +6→+8</span>
+          </div>
+          <div class="dc dc-mov">
+            <div class="dc-title">Velocidade + Salto</div>
+            <div class="dc-body">Inalterados do E2.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+          <div class="dc dc-escama">
+            <div class="dc-title">Escamas em Fúria</div>
+            <div class="dc-body">+1 à CA contra <strong>todos</strong> os ataques durante o Despertar.</div>
+            <span class="pill pill-green">Novo no E3</span>
+          </div>
+        </div>
+
+        <div class="section-title">Nova Habilidade — Sopro de Bayle</div>
+        <div class="sopro-box" style="margin-bottom:16px">
+          <div class="special-title">🔥 Sopro de Bayle</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-red">Fogo</span>
+            <span class="pill pill-gray">2 ações</span>
+          </div>
+          <div class="special-body">
+            Emanação de <strong>15 pés.</strong> Todos os inimigos: Reflexos <strong>CD 19.</strong><br>
+            Em falha: <strong>4d6 de dano de fogo.</strong> Usável <strong>1× por Rage.</strong> Não requer Despertar.
+          </div>
+          <div class="special-note">O lorde não aponta. Ele simplesmente existe de forma que o espaço ao redor queima.</div>
+        </div>
+
+        <div class="section-title">Encerramento Dracônico — Evoluído</div>
+        <div class="finish-box" style="margin-bottom:24px">
+          <div class="special-title">⚔ Encerramento Dracônico</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-gold">Despertar</span>
+            <span class="pill pill-gray">1 ação</span>
+          </div>
+          <div class="special-body">
+            Strike com dado subindo um passo + <strong>2× rodadas restantes</strong> de dano elemental.
+          </div>
+          <div class="special-note">
+            <strong style="color:#C89A70">Custo no E3:</strong> Contador de Ardor zera — mas o Despertar <strong>não termina</strong> e pode ser reativado. Rage continua. Drained 2 ao fim.
+          </div>
+          <div class="special-upgrade">✦ Melhoria: antes o Despertar era consumido inteiro. No E3 ele controla o suficiente para não perder o que despertou.</div>
+        </div>
+
+        <div class="section-title">Colapso Dracônico</div>
+        <div class="colapso-box">
+          <div class="colapso-title">⬡ Colapso Dracônico</div>
+          <div class="colapso-body">Rage termina + Despertar ativado: <strong>Drained 1</strong> + Fatigued.<br>Encerramento usado: <strong>Drained 2.</strong></div>
+          <div class="colapso-note">Inalterado. O preço diminuirá no E4.</div>
+        </div>
+      </div>
+
+      <!-- E4 -->
+      <div class="stage-panel" id="stage-e4">
+        <div class="stage-header">
+          <div class="stage-num">IV</div>
+          <div class="stage-info">
+            <div class="stage-badges">
+              <span class="stage-badge sb-stage">Estágio 4</span>
+              <span class="stage-badge sb-active">Ativo</span>
+              <span class="stage-badge sb-level">Nível mínimo 10</span>
+              <span class="stage-badge sb-marco">Marco narrativo · Inveja</span>
+            </div>
+            <div class="stage-title-text">O Rugido</div>
+            <div class="stage-sub-text">A voz do dragão retorna — medo, autoridade, o mundo recua. Pela primeira vez, Bayle não precisa atacar para ser perigoso.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Benefícios Passivos</div>
+        <div class="card-grid" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-title">Escamas Dracônicas</div>
+            <div class="card-body">+2 à CA contra físicos não-mágicos. Resistência <strong>12</strong> a fogo e eletricidade.</div>
+            <span class="pill pill-gold">Res 9→12</span>
+            <div class="scale-note">→ imunidade no E6</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Autoridade do Lorde</div>
+            <div class="card-body">Inimigos Frightened <strong>não reduzem</strong> o valor de Frightened no início do turno deles enquanto Bayle estiver em Rage.</div>
+            <span class="pill pill-green">Novo no E4</span>
+          </div>
+          <div class="card">
+            <div class="card-title">Demais Passivos</div>
+            <div class="card-body">Garras, Passo, Instinto, Presença — todos inalterados do E3.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+        </div>
+
+        <div class="section-title">Reação Passiva</div>
+        <div class="reaction-card" style="margin-bottom:24px">
+          <div class="card-title" style="color:var(--gold)">⚡ Espinha Reativa — Inalterada</div>
+          <div class="card-body">Strike desarmado imediato quando acertado em corpo a corpo. 1× por rodada.</div>
+          <span class="pill pill-gray">Inalterado</span>
+        </div>
+
+        <div class="section-title">Nova Habilidade — O Rugido</div>
+        <div class="rugido-box" style="margin-bottom:16px">
+          <div class="special-title">🌑 O Rugido</div>
+          <div class="special-traits">
+            <span class="pill pill-gold">Rage</span>
+            <span class="pill pill-gold">Medo · Auditivo</span>
+            <span class="pill pill-gray">2 ações</span>
+          </div>
+          <div class="special-body">
+            Emanação de <strong>30 pés.</strong> Todos os inimigos: Vontade <strong>CD 20.</strong><br><br>
+            • <strong>Sucesso Crítico:</strong> Imune ao Rugido por 24h<br>
+            • <strong>Sucesso:</strong> Frightened 1<br>
+            • <strong>Falha:</strong> Frightened 2<br>
+            • <strong>Falha Crítica:</strong> Frightened 3 + Fleeing por 1 rodada<br><br>
+            Usável <strong>1× por Rage.</strong> Não requer Despertar. Combinado com Autoridade do Lorde: inimigos em Frightened ficam presos nele.
+          </div>
+        </div>
+
+        <div class="section-title">O Despertar — Estado Acumulado no E4</div>
+        <div class="despertar-grid" style="margin-bottom:24px">
+          <div class="dc dc-fogo">
+            <div class="dc-title">Chama dos Draco</div>
+            <div class="dc-body">Fogo ou Eletricidade. +<strong>4d4</strong> do elemento.</div>
+            <span class="pill pill-gold">↑ 3d4→4d4</span>
+          </div>
+          <div class="dc dc-raio">
+            <div class="dc-title">Eletricidade de Placidusax</div>
+            <div class="dc-body">Fortitude <strong>CD 20</strong> ou Stunned 1. 2 cargas.</div>
+            <span class="pill pill-gold">↑ CD 19→20</span>
+          </div>
+          <div class="dc dc-rage">
+            <div class="dc-title">Instinto Amplificado</div>
+            <div class="dc-body">Bônus de dano da Rage sobe para <strong>+10.</strong></div>
+            <span class="pill pill-gold">↑ +8→+10</span>
+          </div>
+          <div class="dc dc-mov">
+            <div class="dc-title">Velocidade + Salto</div>
+            <div class="dc-body">Inalterados.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+          <div class="dc dc-escama">
+            <div class="dc-title">Escamas em Fúria</div>
+            <div class="dc-body">+1 à CA contra todos os ataques.</div>
+            <span class="pill pill-gray">Inalterado</span>
+          </div>
+          <div class="dc dc-placidu">
+            <div class="dc-title">Lanças de Placidusax</div>
+            <div class="dc-body">Ver habilidade abaixo.</div>
+            <span class="pill pill-green">Novo no E4</span>
+          </div>
+        </div>
+
+        <div class="section-title">Nova Habilidade — Lanças de Placidusax</div>
+        <div class="lancas-box" style="margin-bottom:16px">
+          <div class="special-title">⚡ Lanças de Placidusax</div>
+          <div class="special-traits">
+            <span class="pill pill-blue">Eletricidade · Dourado</span>
+            <span class="pill pill-gold">Despertar</span>
+            <span class="pill pill-gray">2 ações</span>
+          </div>
+          <div class="special-body">
+            Bayle lança <strong>3 lanças</strong> de eletricidade dourada. Cada lança: Strike ranged separado, alcance <strong>60 pés,</strong> dano <strong>2d6 eletricidade.</strong><br><br>
+            As lanças podem mirar no mesmo alvo ou alvos diferentes. Penalidade de múltiplos ataques reduzida pela precisão de Placidusax: <strong>–4 / –8</strong> em vez de –5 / –10.<br><br>
+            Usável <strong>1× por Despertar.</strong>
+          </div>
+          <div class="special-note">Placidusax não destruía territórios — era um deus que escolhia onde o raio caía. As Lanças refletem isso: direcionamento, múltiplos alvos, precisão mesmo sob Rage.</div>
+        </div>
+
+        <div class="section-title">Sopro de Bayle — Escalado</div>
+        <div class="sopro-box" style="margin-bottom:16px">
+          <div class="special-title">🔥 Sopro de Bayle</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-red">Fogo</span>
+            <span class="pill pill-gray">2 ações</span>
+          </div>
+          <div class="special-body">Emanação <strong>15 pés.</strong> Reflexos <strong>CD 20.</strong> Dano: <strong>5d6 fogo.</strong> 1× por Rage.</div>
+          <div class="special-upgrade">✦ Melhoria: CD 19→20, dano 4d6→5d6.</div>
+        </div>
+
+        <div class="section-title">Encerramento Dracônico — Evoluído</div>
+        <div class="finish-box" style="margin-bottom:24px">
+          <div class="special-title">⚔ Encerramento Dracônico</div>
+          <div class="special-traits">
+            <span class="pill pill-red">Rage</span>
+            <span class="pill pill-gold">Despertar</span>
+            <span class="pill pill-gray">1 ação</span>
+          </div>
+          <div class="special-body">Strike com dado subindo um passo + <strong>2× rodadas restantes</strong> elemental.</div>
+          <div class="special-note">
+            <strong style="color:#C89A70">Custo no E4:</strong> Contador zera. Despertar não termina. Rage continua. Colapso com <strong>Drained 1.</strong>
+          </div>
+          <div class="special-upgrade">✦ Melhoria: Drained 2→1. O corpo absorve melhor o custo.</div>
+        </div>
+
+        <div class="section-title">Colapso Dracônico — Melhorado</div>
+        <div class="colapso-box">
+          <div class="colapso-title">⬡ Colapso Dracônico</div>
+          <div class="colapso-body">Rage termina + Despertar ativado: <strong>Drained 1</strong> + Fatigued.<br>Encerramento usado: <strong>Drained 1 também</strong> — sem agravante adicional.</div>
+          <div class="colapso-note">O corpo está aprendendo a pagar o preço. Melhora progressivamente nos estágios seguintes.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== HUMANIDADE ===================== -->
+    <div class="tab-panel" id="tab-humanidade">
+
+      <div class="section-title">O Custo de Ser o Horror</div>
+      <p class="lore-text" style="margin-bottom:24px">
+        Cada fragmento recuperado empurra o dragão para frente e o humano para trás. Os custos não são penalidades mecânicas frias — são <em>compulsões</em>. O dragão não é cruel. É simplesmente o que ele é, e o que ele é tem menos e menos espaço para o que Bayle poderia ter escolhido ser. <strong>No E8, ele é completo — e irrecuperável.</strong>
+      </p>
+
+      <div class="counter-table" style="margin-bottom:32px">
+        <div class="humanity-row" style="border-bottom:1px solid rgba(196,160,32,0.15)">
+          <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--text-dark);letter-spacing:0.1em;text-transform:uppercase">Estágio</div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--text-dark);letter-spacing:0.1em;text-transform:uppercase">Fragmento</div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--text-dark);letter-spacing:0.1em;text-transform:uppercase">Custo de Humanidade</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(196,160,32,0.1);color:var(--gold);border:1px solid rgba(196,160,32,0.3);">E1</span><div class="h-stage-name">Pele e Sangue</div></div>
+          <div class="h-gain"><strong>Sem fragmento.</strong> Estado inicial.</div>
+          <div class="h-loss loss-none"><strong>Sem custo.</strong> O corpo lembra sozinho.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(64,144,208,0.1);color:#80B8E0;border:1px solid rgba(64,144,208,0.25);">E2</span><div class="h-stage-name">Garras</div></div>
+          <div class="h-gain"><strong>Ira</strong> — o instinto predatório retorna.</div>
+          <div class="h-loss loss-mild"><strong>Não pode recuar voluntariamente</strong> de um combate enquanto em Rage com inimigos vivos ao alcance.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(61,158,106,0.1);color:#70C090;border:1px solid rgba(61,158,106,0.25);">E3</span><div class="h-stage-name">Escama</div></div>
+          <div class="h-gain"><strong>Soberba</strong> — o desprezo e certeza voltam.</div>
+          <div class="h-loss loss-mild"><strong>Não consegue pedir ajuda explicitamente.</strong> Pode aceitar — mas "preciso de você" é impossível. O dragão não se curva.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(196,160,32,0.1);color:var(--electric-gold);border:1px solid rgba(196,160,32,0.25);">E4</span><div class="h-stage-name">Rugido</div></div>
+          <div class="h-gain"><strong>Inveja</strong> — a voz que exige território.</div>
+          <div class="h-loss loss-mod"><strong>Não pode ignorar um desafio direto.</strong> Provocação, insulto ou desafio explícito exige resposta. Ignorar requer Vontade CD crescente.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(176,24,32,0.1);color:#D07070;border:1px solid rgba(176,24,32,0.25);">E5</span><div class="h-stage-name">Asas</div></div>
+          <div class="h-gain"><strong>Luxúria</strong> — o desejo de superar Placidusax.</div>
+          <div class="h-loss loss-mod"><strong>Não consegue mentir.</strong> Não por virtude — o dragão não vê motivo em disfarçar sua natureza. Pode omitir, calar, intimidar. Nunca afirmar falsidade.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(176,24,32,0.15);color:#E08070;border:1px solid rgba(176,24,32,0.3);">E6</span><div class="h-stage-name">Chama e Raio</div></div>
+          <div class="h-gain"><strong>Gula</strong> — voracidade das duas heranças.</div>
+          <div class="h-loss loss-mod"><strong>Não pode poupar inimigos por compaixão.</strong> Pode parar por interesse. A misericórdia genuína é inacessível.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(120,10,30,0.2);color:#C06070;border:1px solid rgba(120,10,30,0.35);">E7</span><div class="h-stage-name">A Coroa</div></div>
+          <div class="h-gain"><strong>Cobiça</strong> — ambição de ser incompreensível.</div>
+          <div class="h-loss loss-heavy"><strong>Não reconhece autoridade acima de si.</strong> Ordens são sugestões. Hierarquias não existem. Pode cooperar por interesse — nunca por obediência. Só o Arquivista ainda o alcança.</div>
+        </div>
+        <div class="humanity-row">
+          <div class="h-stage-col"><span class="h-stage-badge" style="background:rgba(80,5,5,0.4);color:#D05050;border:1px solid rgba(80,5,5,0.5);">E8</span><div class="h-stage-name">Além da Porta</div></div>
+          <div class="h-gain"><strong>Preguiça</strong> — a aceitação. A paz que nunca teve.</div>
+          <div class="h-loss loss-heavy"><strong>Bayle não é mais um ser social.</strong> Entende os aliados, pode protegê-los. Mas vínculos humanos — amizade, amor, lealdade mútua — não habitam mais nele. Ele é o Horror. Completo.</div>
+        </div>
+      </div>
+
+      <div class="secret-box">
+        <div class="secret-seal">⬡ Segredo do Mestre — Não revelar ao jogador</div>
+        <div class="secret-title">Além do Horror — A Escolha de Bayle</div>
+        <div class="secret-body">
+          Em algum ponto entre o E6 e o E8 — após a traição estar revelada, após os fragmentos reabsorvidos — o Arquivista apresenta uma escolha que não estava no acordo original. <strong>Bayle pode abrir mão da transformação completa.</strong><br><br>
+          Não reverter. Não perder o que já conquistou. Mas escolher conscientemente parar antes do E8 — aceitar ser um dragão incompleto — em troca de recuperar o que o dragão completo nunca poderia ter: a capacidade de <strong>se importar de verdade.</strong>
+        </div>
+        <div class="secret-block secret-trigger-block">
+          <strong>Como o gatilho aparece</strong>
+          Quando Bayle, a despeito de todos os custos acumulados, faz um ato genuíno de conexão. Protege alguém sem interesse. Cede algo precioso. Fica quando poderia ir embora. O Arquivista aparece e diz: "Você ainda está fazendo isso."
+        </div>
+        <div class="secret-block secret-cost-block">
+          <strong>O preço</strong>
+          Ele permanece no estágio atual para sempre. O E8 fecha. O dragão completo nunca vem. Nenhum poder já conquistado é perdido — apenas os do E8 ficam inacessíveis.
+        </div>
+        <div class="secret-block secret-reward-block">
+          <strong>O que ele ganha</strong>
+          Todos os custos de humanidade acumulados viram <em>escolhas</em>, não compulsões. Pode não recuar — mas pode escolher recuar. Prefere não pedir ajuda — mas consegue. O dragão permanece. O Horror permanece. Mas há um humano conduzindo, não sendo conduzido. Isso é algo que nem Puros nem Dracos jamais compreenderão.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== ARQUIVISTA ===================== -->
+    <div class="tab-panel" id="tab-arquivista">
+
+      <div class="arquivista-box">
+        <div class="arquivista-name">O Arquivista</div>
+        <div class="arquivista-epithet">"Você não deveria existir. Por isso eu te deixei passar."</div>
+        <div class="arquivista-body">
+          O Arquivista não é neutro. Não é maligno. Ele é <strong>possessivo</strong> — da forma que um colecionador é possessivo com sua peça mais rara.<br><br>
+          Ele existe no limiar entre mundos, onde a Porta abre e fecha. Viu incontáveis seres tentarem atravessá-la. A maioria pagou com tudo. Bayle pagou com fragmentos — e mesmo assim chegou do outro lado. Para o Arquivista, isso é <strong>impossível.</strong> E o impossível é a única coisa que ainda o interessa.<br><br>
+          Sua forma é <strong>inconstante</strong> — às vezes uma voz atrás da orelha, às vezes uma sombra em espelhos, às vezes uma presença física breve em momentos de limiar. Ele nunca explica por que aparece. Ele observa, comenta, e às vezes — por razões próprias — <strong>avisa.</strong>
+        </div>
+      </div>
+
+      <div class="section-title">Regras de Aparição</div>
+      <div class="card-grid" style="margin-bottom:28px">
+        <div class="card">
+          <div class="card-title">Momentos de Limiar</div>
+          <div class="card-body">Quando Bayle está prestes a morrer de verdade. O Arquivista aparece apenas para observar. <strong>Nunca para salvar.</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Antes de Cada Fragmento</div>
+          <div class="card-body">Antes de Bayle confrontar um portador — uma palavra, uma imagem. Nunca diz o que virá. Só confirma que <strong>ele sabe.</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Atos Impossíveis</div>
+          <div class="card-body">Quando Bayle faz algo que contradiz o dragão — um ato de humanidade genuína. O Arquivista nota. <strong>E anota.</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quando Invocado</div>
+          <div class="card-body">Se Bayle tiver algo de valor a oferecer, pode invocar o Arquivista deliberadamente. Funciona <strong>uma vez por estágio</strong> no máximo.</div>
+        </div>
+      </div>
+
+      <div class="section-title">O Que o Arquivista Cobra</div>
+      <div class="card-grid" style="margin-bottom:28px">
+        <div class="card">
+          <div class="card-title">🩸 Um Fragmento de Dor</div>
+          <div class="card-body">Uma memória de sofrimento genuíno — não poder, não glória. Dor real. O Arquivista a consome e responde uma pergunta verdadeira.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔥 Um Ato de Contenção</div>
+          <div class="card-body">Bayle escolhe não fazer o que o dragão exigiria — poupar, recuar, ceder. O Arquivista aceita como pagamento e fica em silêncio por um tempo.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Uma Verdade Sobre Si</div>
+          <div class="card-body">Bayle admite algo que preferia negar. O Arquivista recebe, arquiva — e em troca oferece um aviso sobre o próximo portador.</div>
+        </div>
+      </div>
+
+      <div class="section-title">A Revelação da Traição — Cronograma</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot td-1">E1</div>
+          <div class="timeline-label">Stingol — O Vazio</div>
+          <div class="timeline-body">Bayle acorda em Stingol sem memória da traição. Sabe que algo foi tirado. Sente o vazio onde havia poder. <strong>Não sabe por quem nem como.</strong> O Arquivista aparece pela primeira vez — só para dizer: "Interessante."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot td-2">E2</div>
+          <div class="timeline-label">Após matar o portador da Ira</div>
+          <div class="timeline-body">Ao reabsorver o primeiro fragmento, uma imagem — não uma memória, um <strong>sentimento</strong>. A sensação de confiar. O fantasma de um rosto que ele não consegue ver. O Arquivista: <em>"Você lembrou de querer. Ainda não lembrou de quem fez você esquecer."</em></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot td-3">E3–E4</div>
+          <div class="timeline-label">Soberba ou Inveja — A Traição Revelada</div>
+          <div class="timeline-body">O segundo ou terceiro fragmento quebra o véu. <strong>A memória da Porta volta inteira</strong> — os companheiros, o acordo, o momento em que entendeu o que estava acontecendo e não pôde fazer nada. O Arquivista não aparece por um tempo. Ele está esperando ver o que Bayle faz com a verdade.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot td-4">E7</div>
+          <div class="timeline-label">A Coroa do Dragão — A Pergunta do Arquivista</div>
+          <div class="timeline-body">No limiar do E7, o Arquivista aparece pela última vez de forma longa. Ele apresenta a escolha — não a explica, não a pressiona. <strong>Só a mostra.</strong> Depois disso, qualquer aparição é breve e final.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /tabs-body -->
+
+  <div style="text-align:center;padding:32px 0 0;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;color:var(--text-dark);text-transform:uppercase">
+    Ethernum · Bayle, O Horror · Pathfinder 2e Homebrew
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function switchStage(id) {
+    document.querySelectorAll('.stage-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.stage-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('stage-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+<script src="ethernum-shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expressão da Noite — Pipping Baldwin Black</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ethernum-shared.css">
+<style>
+:root {
+  --night: #07091a;
+  --night2: #0d1130;
+  --night3: #131a3e;
+  --dusk: #1c2454;
+  --dusk2: #243065;
+  --blue-mid: #2e3f8f;
+  --blue-bright: #4060d4;
+  --nyx: #6488e8;
+  --nyx-pale: #8aaef5;
+  --scarlet: #c01230;
+  --scarlet2: #e01840;
+  --scarlet-bright: #ff2a50;
+  --blood: #8a0820;
+  --crimson-pale: #ff6680;
+  --gold: #c8a84b;
+  --gold-dim: #8a7030;
+  --parchment: #c8bfa0;
+  --text: #d0cce8;
+  --text-dim: #7a7898;
+  --text-muted: #4a4868;
+  --border: rgba(100,136,232,0.18);
+  --border-red: rgba(192,18,48,0.3);
+  --glow-blue: 0 0 20px rgba(100,136,232,0.3);
+  --glow-red: 0 0 20px rgba(224,24,64,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND ATMOSPHERE ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(20,40,120,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 75%, rgba(140,8,32,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 50% 50%, rgba(10,15,50,0.4) 0%, transparent 80%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Noise grain */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none; z-index: 0;
+}
+
+.page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+/* ── HEADER ── */
+.hero {
+  text-align: center;
+  padding: 3.5rem 0 3rem;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--scarlet));
+}
+.hero::after {
+  content: '';
+  position: absolute; left: 50%; bottom: 0;
+  transform: translateX(-50%);
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--nyx), transparent);
+}
+
+.sigil {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--scarlet2);
+  filter: drop-shadow(0 0 12px rgba(224,24,64,0.7));
+  animation: pulse-sigil 4s ease-in-out infinite;
+}
+@keyframes pulse-sigil {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(224,24,64,0.7)); }
+  50% { filter: drop-shadow(0 0 24px rgba(224,24,64,0.9)) drop-shadow(0 0 48px rgba(100,136,232,0.4)); }
+}
+
+.hero-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--nyx-pale) 0%, var(--text) 40%, var(--scarlet-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+.hero-sub {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+.hero-tags {
+  display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+.hero-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border: 0.5px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-dim);
+  background: rgba(13,17,48,0.6);
+}
+
+/* ── DIVIDERS ── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 2.5rem 0 1.5rem;
+}
+.divider-line { flex: 1; height: 0.5px; background: var(--border); }
+.divider-line.red { background: var(--border-red); }
+.divider-diamond {
+  width: 6px; height: 6px;
+  border: 1px solid var(--scarlet2);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  box-shadow: var(--glow-red);
+}
+
+/* ── PULSO SOMBRIO ── */
+.pulso-box {
+  background: rgba(13,17,48,0.8);
+  border: 0.5px solid var(--border);
+  border-top: 1px solid rgba(100,136,232,0.4);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.pulso-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nyx), var(--scarlet2), var(--nyx), transparent);
+  animation: shimmer 4s linear infinite;
+}
+@keyframes shimmer {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+.pulso-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nyx);
+  margin-bottom: 0.5rem;
+}
+.pulso-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.pulso-sub {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+}
+.pips-row { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+.pip-orb {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(100,136,232,0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.pip-orb.filled {
+  background: radial-gradient(circle at 40% 35%, var(--nyx-pale), var(--blue-mid));
+  border-color: var(--nyx);
+  box-shadow: 0 0 10px rgba(100,136,232,0.5), inset 0 0 4px rgba(255,255,255,0.2);
+}
+.pip-orb:hover { transform: scale(1.15); border-color: var(--nyx); }
+.pip-count { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--text-dim); margin-left: 8px; }
+.pulso-desc {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  border-top: 0.5px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+/* ── ASPECTS ── */
+.aspects { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 2rem; }
+.aspect-card {
+  background: rgba(10,14,40,0.7);
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.aspect-card:hover { border-color: rgba(100,136,232,0.4); box-shadow: var(--glow-blue); }
+.aspect-icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+.aspect-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.aspect-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ── TIER SECTION ── */
+.tier-section { margin-bottom: 2.5rem; }
+
+.tier-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 1.25rem;
+}
+.tier-numeral {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--scarlet2);
+  white-space: nowrap;
+}
+.tier-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.tier-lvl {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.tier-bar {
+  flex: 1; height: 0.5px;
+  background: linear-gradient(to right, rgba(100,136,232,0.3), transparent);
+}
+
+/* LOCKED TIER */
+.tier-locked {
+  background: rgba(7,9,26,0.8);
+  border: 0.5px dashed rgba(100,136,232,0.15);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+}
+.tier-locked .lock-icon { font-size: 1.4rem; color: var(--text-muted); margin-bottom: 0.75rem; display: block; }
+.tier-locked-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+.tier-locked-quote {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 500px;
+  margin: 0 auto 0.75rem;
+}
+.tier-locked-key {
+  font-size: 0.72rem;
+  color: var(--scarlet);
+  letter-spacing: 0.1em;
+  border: 0.5px solid var(--border-red);
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 2px;
+}
+
+/* ── ABILITY CARD ── */
+.ability {
+  background: rgba(10,14,40,0.75);
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.ability:hover { border-color: rgba(100,136,232,0.3); }
+.ability.red-accent { border-left: 2px solid var(--scarlet); }
+.ability.blue-accent { border-left: 2px solid var(--blue-bright); }
+.ability.gold-accent { border-left: 2px solid var(--gold); }
+
+.ability-header {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 11px 16px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.ability-header:hover { background: rgba(100,136,232,0.04); }
+
+.ability-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.3;
+}
+.ability-meta {
+  display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; align-items: center;
+}
+.tag {
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 0.5px solid;
+  letter-spacing: 0.06em;
+}
+.tag-action { border-color: rgba(100,136,232,0.3); color: var(--nyx); background: rgba(100,136,232,0.06); }
+.tag-ps { border-color: rgba(192,18,48,0.35); color: var(--crimson-pale); background: rgba(192,18,48,0.08); }
+.tag-aspect { border-color: rgba(200,168,75,0.3); color: var(--gold); background: rgba(200,168,75,0.05); }
+.tag-passive { border-color: rgba(100,136,232,0.2); color: var(--text-dim); background: transparent; }
+.tag-comp { border-color: rgba(140,8,32,0.4); color: #e88; background: rgba(140,8,32,0.08); }
+
+.ability-chevron { color: var(--text-muted); font-size: 0.65rem; margin-top: 4px; flex-shrink: 0; }
+
+.ability-body {
+  display: none;
+  padding: 0 16px 16px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+  border-top: 0.5px solid var(--border);
+}
+.ability-body.open { display: block; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 14px;
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: rgba(7,9,26,0.6);
+  border-radius: 3px;
+  margin-top: 12px;
+}
+.stat-grid dt { color: var(--text-muted); }
+.stat-grid dd { color: var(--text-dim); }
+
+.ability-body p { margin-top: 10px; }
+.ability-body p:first-child { margin-top: 12px; }
+.kw { font-weight: 500; color: var(--text); }
+.mechanic {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(100,136,232,0.05);
+  border-left: 1.5px solid rgba(100,136,232,0.3);
+  border-radius: 0 3px 3px 0;
+  font-size: 0.78rem;
+}
+.mechanic.danger {
+  background: rgba(192,18,48,0.06);
+  border-left-color: rgba(192,18,48,0.4);
+}
+.note {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ── PREVIEW CARDS (locked abilities) ── */
+.preview-card {
+  background: rgba(7,9,26,0.6);
+  border: 0.5px dashed rgba(100,136,232,0.15);
+  border-radius: 4px;
+  padding: 11px 16px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+.preview-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.preview-hint { font-size: 0.72rem; color: var(--text-muted); }
+
+/* ── PROGRESSION RIBBON ── */
+.progression {
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  background: rgba(10,14,40,0.6);
+  margin-top: 2rem;
+}
+.prog-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.prog-steps { display: flex; align-items: flex-start; gap: 0; position: relative; }
+.prog-step {
+  flex: 1; text-align: center; position: relative;
+  cursor: pointer;
+}
+.prog-step::before {
+  content: '';
+  position: absolute;
+  top: 12px; left: 50%; right: -50%;
+  height: 1px;
+  background: var(--border);
+}
+.prog-step:last-child::before { display: none; }
+.prog-dot {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--night);
+  margin: 0 auto 8px;
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem;
+  transition: all 0.2s;
+}
+.prog-step.active .prog-dot {
+  border-color: var(--nyx);
+  box-shadow: 0 0 10px rgba(100,136,232,0.5);
+  background: rgba(100,136,232,0.1);
+}
+.prog-step.done .prog-dot {
+  border-color: var(--scarlet2);
+  background: rgba(192,18,48,0.15);
+  box-shadow: 0 0 8px rgba(192,18,48,0.4);
+}
+.prog-step-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.prog-step.active .prog-step-name { color: var(--nyx-pale); }
+.prog-step.done .prog-step-name { color: var(--crimson-pale); }
+.prog-step-lvl { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; }
+
+/* ── FOOTER QUOTE ── */
+.footer-quote {
+  text-align: center;
+  padding: 3rem 0 2rem;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  position: relative;
+}
+.footer-quote::before, .footer-quote::after {
+  content: '◆';
+  display: block;
+  font-size: 0.6rem;
+  color: var(--scarlet);
+  margin: 1rem 0;
+  filter: drop-shadow(0 0 4px rgba(224,24,64,0.5));
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--night); }
+::-webkit-scrollbar-thumb { background: var(--dusk); border-radius: 3px; }
+
+/* ANIMATIONS */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page > * { animation: fade-in 0.6s ease both; }
+.page > *:nth-child(1) { animation-delay: 0.05s; }
+.page > *:nth-child(2) { animation-delay: 0.12s; }
+.page > *:nth-child(3) { animation-delay: 0.18s; }
+.page > *:nth-child(4) { animation-delay: 0.24s; }
+.page > *:nth-child(5) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="sigil">◈</span>
+    <h1 class="hero-title">Expressão da Noite</h1>
+    <p class="hero-sub">Pipping Baldwin Black — Mecânica Única</p>
+    <div class="hero-tags">
+      <span class="hero-tag">Bardo · Nível 3</span>
+      <span class="hero-tag">Fetchling</span>
+      <span class="hero-tag">Herança Vampírica</span>
+      <span class="hero-tag">Pathfinder 2e · Homebrew</span>
+    </div>
+  </div>
+
+  <!-- PULSO SOMBRIO -->
+  <div class="pulso-box">
+    <div class="pulso-label">Recurso Único</div>
+    <div class="pulso-title">Pulso Sombrio</div>
+    <div class="pulso-sub">Máx: 3 + mod. Carisma &nbsp;·&nbsp; Recupera em descanso longo &nbsp;·&nbsp; Ecos do Vazio pode recuperar em combate</div>
+    <div class="pips-row" id="pips-container">
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+      <span style="font-size:0.75rem;color:var(--text-dim)">PS:</span>
+      <span class="pip-count" id="pip-display">6 / 6</span>
+      <button onclick="resetPips()" style="margin-left:auto;font-size:0.65rem;letter-spacing:0.1em;font-family:'Cinzel',serif;background:transparent;border:0.5px solid var(--border);color:var(--text-muted);padding:3px 10px;border-radius:2px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='rgba(100,136,232,0.5)';this.style.color='var(--nyx)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">Restaurar</button>
+    </div>
+    <p class="pulso-desc">Nem vida, nem morte — é sombra que respira e pulsa. O Pulso não é magia: é o ritmo de uma forma de existência que o mundo ainda não nomeou.</p>
+  </div>
+
+  <!-- TRÊS ASPECTOS -->
+  <div class="aspects">
+    <div class="aspect-card">
+      <span class="aspect-icon" style="color:var(--nyx)">◗</span>
+      <div class="aspect-name">Véu</div>
+      <div class="aspect-desc">Fetchling · Sombra<br>Escuridão · Movimento</div>
+    </div>
+    <div class="aspect-card">
+      <span class="aspect-icon" style="color:var(--scarlet2)">◈</span>
+      <div class="aspect-name">Vazio</div>
+      <div class="aspect-desc">Vampiro · Não-vida<br>Dreno · Silêncio</div>
+    </div>
+    <div class="aspect-card">
+      <span class="aspect-icon" style="color:var(--gold)">◎</span>
+      <div class="aspect-name">Voz</div>
+      <div class="aspect-desc">Bardo · Performance<br>Ressonância · Emoção</div>
+    </div>
+  </div>
+
+  <!-- TIER I -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <span class="tier-numeral">TIER I</span>
+      <span class="tier-title">Despertar</span>
+      <span class="tier-lvl">Nível 3 — Ativo desde o início</span>
+      <div class="tier-bar"></div>
+    </div>
+
+    <!-- Sombra Animada -->
+    <div class="ability blue-accent" id="ab-sa">
+      <div class="ability-header" onclick="toggleAbility('sa')">
+        <div style="flex:1">
+          <div class="ability-name">Sombra Animada</div>
+          <div class="ability-meta">
+            <span class="tag tag-passive">Passivo Permanente</span>
+            <span class="tag tag-aspect">◗ Véu</span>
+          </div>
+        </div>
+        <span class="ability-chevron" id="chev-sa">▼</span>
+      </div>
+      <div class="ability-body" id="body-sa">
+        <p>A sombra de Pipping não obedece às leis da física. Ela se move de forma independente, reage aos seus estados emocionais e age como uma extensão silenciosa da sua vontade — sem nunca precisar de um comando verbal.</p>
+        <p><span class="kw">Flanqueio Sombrio:</span> Uma vez por rodada, se um aliado está adjacente a um inimigo e a sombra de Pipping também está adjacente a esse mesmo inimigo (ela se estende até 10 pés em qualquer direção), o inimigo fica <em>Flat-Footed</em> contra o próximo ataque desse aliado nessa rodada. A sombra não ocupa espaço físico real.</p>
+        <p><span class="kw">Permanência Sombria:</span> A sombra não pode ser banida, destruída ou suprimida por efeitos mágicos de nível inferior ao 5º. Efeitos de luz intensa (<em>Sunlight</em>) a suprimem por 1 rodada, mas não a destroem.</p>
+        <p class="note">"Ela estava lá antes de ele entender o que ela era. E ela sempre vai estar."</p>
+      </div>
+    </div>
+
+    <!-- Sombras Espelhadas -->
+    <div class="ability red-accent" id="ab-se">
+      <div class="ability-header" onclick="toggleAbility('se')">
+        <div style="flex:1">
+          <div class="ability-name">Sombras Espelhadas</div>
+          <div class="ability-meta">
+            <span class="tag tag-action">◆◆ 2 Ações</span>
+            <span class="tag tag-ps">1 PS</span>
+            <span class="tag tag-aspect">◗ Véu</span>
+            <span class="tag tag-aspect">◈ Vazio</span>
+          </div>
+        </div>
+        <span class="ability-chevron" id="chev-se">▼</span>
+      </div>
+      <div class="ability-body" id="body-se">
+        <dl class="stat-grid">
+          <dt>Área</dt><dd>5 pés ao redor de Pipping (Adjacent squares)</dd>
+          <dt>Duração</dt><dd>1 minuto ou até serem destruídas</dd>
+          <dt>Número de sombras</dt><dd>2 + 1 por Tier desbloqueado (Tier I: 2 sombras)</dd>
+        </dl>
+        <p>Pipping convoca fragmentos espelhados de si mesmo — silhuetas negras que são a noite em forma de carne. Cada sombra ocupa um espaço adjacente a ele, mas não bloqueia movimento nem visão. Elas não agem por conta própria, mas <em>reagem</em>.</p>
+        <div class="mechanic">
+          <p style="margin:0"><span class="kw">Retribuição das Sombras:</span> Quando um inimigo acerta uma das sombras com um ataque (qualquer ataque que não seja <em>area</em> ou <em>splash</em>), a sombra se desfaz e o inimigo sofre <strong>1d6 dano de negative energy</strong> (sem save). Se o inimigo for imune a negative energy, o dano é convertido para <em>cold</em>.</p>
+        </div>
+        <div class="mechanic" style="margin-top:6px">
+          <p style="margin:0"><span class="kw">Escudo das Trevas:</span> Enquanto qualquer sombra estiver em campo, Pipping ganha um <strong>bônus de circunstância +1 à CA</strong> contra ataques à distância — os atacantes hesitam diante dos alvos falsos.</p>
+        </div>
+        <div class="mechanic danger" style="margin-top:6px">
+          <p style="margin:0"><span class="kw">Alvejando a Sombra:</span> Inimigos podem <em>escolher</em> atacar uma sombra. CA das sombras = 10 + nível de Pipping. Elas têm 1 HP. Quando destruídas, disparam Retribuição das Sombras normalmente.</p>
+        </div>
+        <p class="note">"O inimigo viu três Pippings. Atacou o que parecia mais fácil. Erro deles."</p>
+      </div>
+    </div>
+
+    <!-- Sussurro das Trevas -->
+    <div class="ability blue-accent" id="ab-st">
+      <div class="ability-header" onclick="toggleAbility('st')">
+        <div style="flex:1">
+          <div class="ability-name">Sussurro das Trevas</div>
+          <div class="ability-meta">
+            <span class="tag tag-action">◆ 1 Ação</span>
+            <span class="tag tag-ps">1 PS</span>
+            <span class="tag tag-aspect">◗ Véu</span>
+            <span class="tag tag-aspect">◎ Voz</span>
+          </div>
+        </div>
+        <span class="ability-chevron" id="chev-st">▼</span>
+      </div>
+      <div class="ability-body" id="body-st">
+        <dl class="stat-grid">
+          <dt>Alcance</dt><dd>30 pés</dd>
+          <dt>Alvo</dt><dd>1 aliado que possa ouvi-lo</dd>
+          <dt>Duração</dt><dd>Até o início do próximo turno de Pipping</dd>
+        </dl>
+        <p>Pipping sussurra na linguagem da noite — palavras que não percorrem o ar, mas viajam pela sombra. Um aliado em <em>dim light</em> ou <em>darkness</em> recebe um <span class="kw">bônus de circunstância +1</span> na próxima rolagem de ataque ou saving throw antes do próximo turno de Pipping.</p>
+        <div class="mechanic">
+          <p style="margin:0"><span class="kw">Escuridão Total:</span> Se o aliado estiver em escuridão completa, o bônus sobe para <strong>+2</strong>. As palavras ressoam mais fundo quando não há luz para diluí-las.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ecos do Vazio -->
+    <div class="ability red-accent" id="ab-ev">
+      <div class="ability-header" onclick="toggleAbility('ev')">
+        <div style="flex:1">
+          <div class="ability-name">Ecos do Vazio</div>
+          <div class="ability-meta">
+            <span class="tag tag-action">↺ Reação</span>
+            <span class="tag tag-passive">Sem custo de PS</span>
+            <span class="tag tag-aspect">◈ Vazio</span>
+          </div>
+        </div>
+        <span class="ability-chevron" id="chev-ev">▼</span>
+      </div>
+      <div class="ability-body" id="body-ev">
+        <dl class="stat-grid">
+          <dt>Gatilho</dt><dd>Uma criatura a 30 pés <em>falha</em> ou <em>falha criticamente</em> num save contra uma habilidade ou magia de Pipping</dd>
+          <dt>Frequência</dt><dd>Uma vez por rodada</dd>
+        </dl>
+        <p>A falha do inimigo ressoa pelas sombras de volta para Pipping, como um eco que alimenta o Pulso. Ele recupera <span class="kw">1 PS</span>.</p>
+        <p>Este é o loop central de Pipping em combate: suas habilidades criam condições de escuridão, que penalizam saves dos inimigos, que por sua vez falham com mais frequência — alimentando o Pulso que sustenta tudo.</p>
+      </div>
+    </div>
+
+    <!-- Canção da Noite Viva -->
+    <div class="ability gold-accent" id="ab-cn">
+      <div class="ability-header" onclick="toggleAbility('cn')">
+        <div style="flex:1">
+          <div class="ability-name">Canção da Noite Viva</div>
+          <div class="ability-meta">
+            <span class="tag tag-action">◆◆ 2 Ações</span>
+            <span class="tag tag-ps">1 PS inicial</span>
+            <span class="tag tag-comp">Composição</span>
+            <span class="tag tag-aspect">◗ Véu</span>
+            <span class="tag tag-aspect">◈ Vazio</span>
+            <span class="tag tag-aspect">◎ Voz</span>
+          </div>
+        </div>
+        <span class="ability-chevron" id="chev-cn">▼</span>
+      </div>
+      <div class="ability-body" id="body-cn">
+        <dl class="stat-grid">
+          <dt>Área</dt><dd>30 pés (visão) · 10 pés (escuridão mágica)</dd>
+          <dt>Duração</dt><dd>Sustentada com ação livre · máx. 1 minuto</dd>
+          <dt>Manutenção</dt><dd>+1 PS por rodada além da primeira</dd>
+        </dl>
+        <p>Pipping não canta uma música. Ele <em>performa a noite em si</em> — a escuridão se adensa, a sombra respira, e o mundo ao redor se torna território familiar. Quem conhece a noite encontra nela proteção; quem a teme, encontra o próprio medo.</p>
+        <div class="mechanic">
+          <p style="margin:0;margin-bottom:6px"><span class="kw">Olhos das Trevas:</span> Aliados dentro de 30 pés ganham <strong>Visão nas Trevas 60 pés</strong> enquanto a composição está ativa.</p>
+          <p style="margin:0;margin-bottom:6px"><span class="kw">Domínio da Sombra:</span> A dim light dentro de 10 pés de Pipping torna-se escuridão mágica para inimigos — mas não para aliados.</p>
+          <p style="margin:0"><span class="kw">Vulnerabilidade da Escuridão:</span> Inimigos dentro dessa escuridão mágica sofrem <strong>penalidade de status –1</strong> nos saves contra magias e habilidades de Pipping.</p>
+        </div>
+        <p class="note">Conta como a Composição do turno. Não acumula com Inspire Courage ou outras composições.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER II -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <span class="tier-numeral">TIER II</span>
+      <span class="tier-title">Comunhão</span>
+      <span class="tier-lvl">Nível 5–8 — Marco Narrativo</span>
+      <div class="tier-bar"></div>
+    </div>
+
+    <div class="tier-locked">
+      <span class="lock-icon">◈</span>
+      <div class="tier-locked-title">Desbloqueado ao Ser Levado ao Limite</div>
+      <p class="tier-locked-quote">"A sombra só aprende a amar quando não há mais nada entre ela e a dor. Quando Pipping tocar o fundo — físico ou emocional — a Noite dentro dele vai responder."</p>
+      <span class="tier-locked-key">Marco: colapso físico ou emocional em jogo</span>
+    </div>
+
+    <!-- Preview abilities Tier II -->
+    <div style="margin-top:10px">
+      <div class="preview-card">
+        <div class="preview-name">Forma das Sombras &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆ · 2 PS</span></div>
+        <div class="preview-hint">A fronteira entre Pipping e a escuridão começa a se dissolver. Por breves momentos, ele <em>é</em> a sombra.</div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-name">Toque do Vazio &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆◆ · 2 PS</span></div>
+        <div class="preview-hint">Vampiric drain canalizado pela sombra — sem precisar de mordida. A sombra alcança e bebe.</div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-name">Ressonância Sombria &nbsp; <span class="tag tag-passive" style="font-size:0.6rem">Passivo</span></div>
+        <div class="preview-hint">Quando Pipping é ferido em escuridão, uma onda de dano de sombra emana. A dor se torna contra-ataque.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER III -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <span class="tier-numeral">TIER III</span>
+      <span class="tier-title">Encarnação</span>
+      <span class="tier-lvl">Nível 9–12 — Marco Narrativo</span>
+      <div class="tier-bar"></div>
+    </div>
+
+    <div class="tier-locked">
+      <span class="lock-icon">◗</span>
+      <div class="tier-locked-title">Desbloqueado ao Aceitar Plenamente Sua Natureza</div>
+      <p class="tier-locked-quote">"No fim, não há Pipping e a Noite. Só a Noite que aprendeu seu nome."</p>
+      <span class="tier-locked-key">Marco: autoconhecimento pleno sobre o experimento que ele é</span>
+    </div>
+
+    <div style="margin-top:10px">
+      <div class="preview-card">
+        <div class="preview-name">Emanação da Noite &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆ · 3 PS</span></div>
+        <div class="preview-hint">Um pulso de escuridão absoluta irradia de Pipping — cegando, silenciando, consumindo.</div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-name">Sombra-Rei &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆◆ · 3 PS</span></div>
+        <div class="preview-hint">As sombras do ambiente obedecem. Cada fonte de escuridão ao redor se torna uma extensão de sua vontade.</div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-name">A Performance Proibida &nbsp; <span class="tag tag-comp" style="font-size:0.6rem">Composição · 4 PS</span></div>
+        <div class="preview-hint">O ápice bárdico de Pipping — uma performance que não é som, mas ausência de som. Silêncio que paralisa a alma.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER IV -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <span class="tier-numeral">TIER IV</span>
+      <span class="tier-title">Transcendência</span>
+      <span class="tier-lvl">Nível 13–16 — Marco Profético</span>
+      <div class="tier-bar"></div>
+    </div>
+
+    <div class="tier-locked" style="border-color:rgba(192,18,48,0.2);background:rgba(30,5,12,0.6)">
+      <span class="lock-icon" style="color:var(--scarlet2)">◆</span>
+      <div class="tier-locked-title" style="color:var(--crimson-pale)">Desbloqueado pela Revelação da Profecia</div>
+      <p class="tier-locked-quote">"Ele não foi criado por acidente. A Casa dos Black obedecia a algo mais antigo — uma profecia que precisava de uma forma que não fosse viva nem morta, mas <em>as duas coisas ao mesmo tempo</em>."</p>
+      <span class="tier-locked-key" style="border-color:rgba(192,18,48,0.4);color:var(--scarlet2)">Marco: descoberta de que ele é o Escolhido da Profecia</span>
+    </div>
+
+    <div style="margin-top:10px">
+      <div class="preview-card" style="border-color:rgba(192,18,48,0.12)">
+        <div class="preview-name" style="color:var(--crimson-pale)">O Escolhido da Noite &nbsp; <span class="tag tag-passive" style="font-size:0.6rem">Passivo</span></div>
+        <div class="preview-hint">Quando Pipping age em cumprimento de sua profecia, a Noite o amplia. Bônus crescentes de dano, save DCs e resistência.</div>
+      </div>
+      <div class="preview-card" style="border-color:rgba(192,18,48,0.12)">
+        <div class="preview-name" style="color:var(--crimson-pale)">Noite sem Fim &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆◆ · 4 PS</span></div>
+        <div class="preview-hint">A escuridão que ele invoca não pode mais ser dissipada por luz comum. Apenas a magia do sol pode fendê-la.</div>
+      </div>
+      <div class="preview-card" style="border-color:rgba(192,18,48,0.12)">
+        <div class="preview-name" style="color:var(--crimson-pale)">Voz do Abismo &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆ · 3 PS</span></div>
+        <div class="preview-hint">Criaturas de sombra e mortos-vivos reconhecem sua voz como autoridade. Compulsão e comando sobre os filhos da noite.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER V -->
+  <div class="tier-section">
+    <div class="tier-header">
+      <span class="tier-numeral">TIER V</span>
+      <span class="tier-title">A Noite</span>
+      <span class="tier-lvl">Nível 17+ — O Horizonte</span>
+      <div class="tier-bar"></div>
+    </div>
+
+    <div class="tier-locked" style="border-color:rgba(100,136,232,0.12);background:rgba(5,7,25,0.9);padding:2rem">
+      <span class="lock-icon" style="font-size:2rem;color:rgba(100,136,232,0.4)">◈</span>
+      <div class="tier-locked-title" style="font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--nyx-pale);letter-spacing:0.08em">Ele não aprende mais habilidades.<br>Ele <em>se torna</em> o que as gerou.</div>
+      <p class="tier-locked-quote" style="font-size:0.9rem;margin:1.5rem auto">"Não há Pipping e os poderes dele. Não há Pipping e a Noite. Há apenas a Noite — e ela tem uma memória de quando se chamava Pipping Baldwin Black."</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:1rem">
+        <span class="tier-locked-key" style="border-color:rgba(100,136,232,0.3);color:var(--nyx)">Marco: aceitar que ele É a Noite</span>
+        <span class="tier-locked-key" style="border-color:rgba(192,18,48,0.3);color:var(--scarlet2)">Marco: cumprir a Profecia</span>
+      </div>
+    </div>
+
+    <div style="margin-top:10px">
+      <div class="preview-card" style="border-color:rgba(100,136,232,0.08);opacity:0.45">
+        <div class="preview-name" style="color:var(--nyx)">Ser a Noite &nbsp; <span class="tag tag-passive" style="font-size:0.6rem">Passivo Permanente</span></div>
+        <div class="preview-hint">Pipping não precisa mais invocar a escuridão. Onde ele está, ela existe. A iluminação ao redor dele é uma escolha sua, não do sol.</div>
+      </div>
+      <div class="preview-card" style="border-color:rgba(100,136,232,0.08);opacity:0.45">
+        <div class="preview-name" style="color:var(--nyx)">Além da Forma &nbsp; <span class="tag tag-action" style="font-size:0.6rem">◆◆◆ · 5 PS</span></div>
+        <div class="preview-hint">Por uma rodada, Pipping transcende o físico. Ele se torna a sombra — impermeável, onipresente no campo de batalha, e absolutamente frio.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESSÃO -->
+  <div class="progression">
+    <div class="prog-title">Linha de Progressão Narrativa</div>
+    <div class="prog-steps">
+      <div class="prog-step done" onclick="alert('Tier I — Despertar\\nJá desbloqueado. A sombra acordou.')">
+        <div class="prog-dot" style="color:var(--scarlet2)">I</div>
+        <div class="prog-step-name">Despertar</div>
+        <div class="prog-step-lvl">Nível 3</div>
+      </div>
+      <div class="prog-step active" onclick="alert('Tier II — Comunhão\\nGatilho: ser levado ao limite físico ou emocional em cena.')">
+        <div class="prog-dot" style="color:var(--nyx)">II</div>
+        <div class="prog-step-name">Comunhão</div>
+        <div class="prog-step-lvl">Nível 5–8</div>
+      </div>
+      <div class="prog-step" onclick="alert('Tier III — Encarnação\\nGatilho: aceitar plenamente sua natureza como experimento único.')">
+        <div class="prog-dot">III</div>
+        <div class="prog-step-name">Encarnação</div>
+        <div class="prog-step-lvl">Nível 9–12</div>
+      </div>
+      <div class="prog-step" onclick="alert('Tier IV — Transcendência\\nGatilho: descobrir a Profecia e seu papel nela.')">
+        <div class="prog-dot">IV</div>
+        <div class="prog-step-name">Transcendência</div>
+        <div class="prog-step-lvl">Nível 13–16</div>
+      </div>
+      <div class="prog-step" onclick="alert('Tier V — A Noite\\nO horizonte. Quando o personagem e o mito se fundem.')">
+        <div class="prog-dot">V</div>
+        <div class="prog-step-name">A Noite</div>
+        <div class="prog-step-lvl">Nível 17+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-quote">
+    "Ele foi criado como um experimento. Ele se tornará um símbolo.<br>
+    No fim, ele será o que a Noite sempre precisou ser — algo que escolhe."
+  </div>
+
+</div>
+
+<script>
+// ── PULSO SOMBRIO ──
+let psMax = 6, psCur = 6;
+
+function buildPips() {
+  const c = document.getElementById('pips-container');
+  c.innerHTML = '';
+  for (let i = 0; i < psMax; i++) {
+    const d = document.createElement('div');
+    d.className = 'pip-orb' + (i < psCur ? ' filled' : '');
+    d.title = i < psCur ? 'Gastar 1 PS' : 'Recuperar 1 PS';
+    d.onclick = () => {
+      if (i < psCur) psCur = i;
+      else psCur = i + 1;
+      buildPips();
+    };
+    c.appendChild(d);
+  }
+  document.getElementById('pip-display').textContent = psCur + ' / ' + psMax;
+}
+
+function resetPips() {
+  psCur = psMax;
+  buildPips();
+}
+
+buildPips();
+
+// ── ABILITIES ──
+function toggleAbility(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.textContent = isOpen ? '▼' : '▲';
+}
+</script>
+<script src="ethernum-shared.js"></script>
+</body>
+</html>

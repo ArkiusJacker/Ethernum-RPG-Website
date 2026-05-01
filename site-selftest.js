@@ -5,7 +5,7 @@ const vm = require('vm');
 const ROOT = __dirname;
 const HTML_FILES = fs.readdirSync(ROOT).filter((file) => file.toLowerCase().endsWith('.html'));
 const JS_FILES = ['app.js', 'ethernum-shared.js'];
-const EXPECTED_VERSION = 'v3.1';
+const EXPECTED_VERSION = 'v3.2';
 
 let failures = 0;
 

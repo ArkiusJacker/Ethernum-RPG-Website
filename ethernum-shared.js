@@ -25,7 +25,7 @@
       ac: '19',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'backgrounds/gyro-placeholder.svg',
+      art: 'imagem/characters/gyro/gyro1.png',
       overview: {
         line: 'Mecanica unica - Rotacao Sagrada',
         first: 'Gyro',
@@ -51,6 +51,7 @@
       ac: '--',
       heroPoints: '1',
       speed: '--',
+      art: 'imagem/characters/cinerio/cinerio1.png',
       overview: {
         line: 'Arquivo especial - Vinculo Umbra',
         first: 'Cinerio',
@@ -73,7 +74,7 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/PBB.png',
+      art: 'imagem/characters/pipping/PBB1.png',
       overview: {
         line: 'Mecanica unica - Expressao da Noite',
         first: 'Pipping',
@@ -99,7 +100,7 @@
       ac: '18',
       heroPoints: '1',
       speed: '25 ft',
-      art: 'imagem/bayle.png',
+      art: 'imagem/characters/bayle/bayle1.png',
       overview: {
         line: 'Mecanica unica - Ardor Draconico',
         first: 'Bayle',

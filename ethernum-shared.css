@@ -79,6 +79,7 @@
   --overview-bg-left: rgba(5, 7, 8, 0.98);
   --overview-bg-mid: rgba(10, 11, 12, 0.95);
   --overview-bg-right: rgba(37, 14, 13, 0.86);
+  --overview-name-gradient: linear-gradient(135deg, #f4f0e8 0%, #cf2e2e 42%, #d9c978 72%, #f4f0e8 100%);
   position: relative;
   z-index: 3;
   margin: 0;
@@ -98,6 +99,7 @@
   --overview-bg-left: rgba(3, 9, 6, 0.98);
   --overview-bg-mid: rgba(7, 16, 11, 0.96);
   --overview-bg-right: rgba(30, 27, 8, 0.84);
+  --overview-name-gradient: linear-gradient(135deg, #e8cc7a 0%, #c8a84b 30%, #6ea36f 58%, #4a9e4e 76%, #e8cc7a 100%);
 }
 
 .ethernum-theme-pipping {
@@ -109,6 +111,7 @@
   --overview-bg-left: rgba(5, 7, 23, 0.98);
   --overview-bg-mid: rgba(10, 13, 35, 0.96);
   --overview-bg-right: rgba(42, 7, 20, 0.86);
+  --overview-name-gradient: linear-gradient(135deg, #8aaef5 0%, #6488e8 34%, #e01840 68%, #ff6680 84%, #8aaef5 100%);
 }
 
 .ethernum-theme-cinerio {
@@ -120,6 +123,7 @@
   --overview-bg-left: rgba(5, 5, 14, 0.98);
   --overview-bg-mid: rgba(11, 9, 26, 0.96);
   --overview-bg-right: rgba(29, 17, 49, 0.88);
+  --overview-name-gradient: linear-gradient(135deg, #f0e8d8 0%, #6ab4f0 34%, #a882e8 68%, #d4a84c 88%, #f0e8d8 100%);
 }
 
 .ethernum-theme-bayle {
@@ -131,6 +135,7 @@
   --overview-bg-left: rgba(8, 7, 5, 0.98);
   --overview-bg-mid: rgba(20, 14, 8, 0.96);
   --overview-bg-right: rgba(55, 19, 12, 0.88);
+  --overview-name-gradient: linear-gradient(135deg, #e6d2a8 0%, #c4a020 30%, #d84032 64%, #f2b04e 86%, #e6d2a8 100%);
 }
 
 .ethernum-overview-panel {
@@ -190,14 +195,24 @@
   letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
+  background: var(--overview-name-gradient);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: ethernumNameShimmer 4.5s ease-in-out infinite alternate;
 }
 
 .ethernum-overview-name span {
   display: block;
   margin-top: 18px;
-  color: var(--overview-accent-2);
   font-size: 0.44em;
   white-space: nowrap;
+}
+
+@keyframes ethernumNameShimmer {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
 }
 
 .ethernum-overview-sub {

@@ -1,0 +1,429 @@
+/* Shared Ethernum layer: navigation, master lock, PF2e sheet blocks and background polish. */
+:root {
+  --ethernum-gold: #c8a84b;
+  --ethernum-green: #6ea36f;
+  --ethernum-bg: #070908;
+  --ethernum-panel: rgba(10, 13, 12, 0.82);
+  --ethernum-line: rgba(200, 168, 75, 0.28);
+  --ethernum-text: #e8e0cc;
+  --ethernum-muted: #9c9886;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ethernumPageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .ethernum-page-ready .hero,
+  .ethernum-page-ready .site-header,
+  .ethernum-page-ready .container,
+  .ethernum-page-ready .page,
+  .ethernum-page-ready main,
+  .ethernum-page-ready .section,
+  .ethernum-page-ready .tab-panel,
+  .ethernum-page-ready .tier-section,
+  .ethernum-page-ready .ethernum-pf2-sheet {
+    animation: ethernumPageEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  }
+}
+
+.ethernum-page-ready .container,
+.ethernum-page-ready .page,
+.ethernum-page-ready main,
+.ethernum-page-ready nav,
+.ethernum-page-ready .hero,
+.ethernum-page-ready .site-header,
+.ethernum-page-ready .ethernum-shell-nav {
+  position: relative;
+  z-index: 2;
+}
+
+.ethernum-character-portrait {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  max-width: min(680px, calc(100vw - 32px));
+  margin: 22px auto 4px;
+  padding: 14px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 8px;
+  background: radial-gradient(circle at 50% 20%, rgba(200, 168, 75, 0.12), transparent 62%), rgba(0, 0, 0, 0.24);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
+}
+
+.ethernum-character-portrait img {
+  display: block;
+  width: min(100%, 560px);
+  max-height: 62vh;
+  object-fit: contain;
+  filter: saturate(0.96) contrast(1.02);
+}
+
+.ethernum-shell-nav {
+  position: sticky;
+  top: 0;
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px clamp(14px, 3vw, 28px);
+  border-bottom: 1px solid var(--ethernum-line);
+  background: rgba(5, 7, 6, 0.88);
+  color: var(--ethernum-text);
+  font-family: "Courier New", monospace;
+  backdrop-filter: blur(12px);
+}
+
+.ethernum-shell-brand {
+  color: var(--ethernum-gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ethernum-shell-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ethernum-shell-links a,
+.ethernum-shell-links button,
+.ethernum-tab-btn,
+.ethernum-master-btn,
+.ethernum-lock-btn {
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 4px;
+  background: rgba(200, 168, 75, 0.08);
+  color: var(--ethernum-text);
+  cursor: pointer;
+  font: 700 11px/1.1 "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.ethernum-shell-links a:hover,
+.ethernum-shell-links button:hover,
+.ethernum-tab-btn:hover,
+.ethernum-master-btn:hover,
+.ethernum-lock-btn:hover {
+  border-color: var(--ethernum-gold);
+  background: rgba(200, 168, 75, 0.18);
+  transform: translateY(-1px);
+}
+
+.ethernum-master-btn.is-active,
+.ethernum-tab-btn.is-active {
+  border-color: rgba(110, 163, 111, 0.7);
+  background: rgba(110, 163, 111, 0.18);
+  color: #d9f0d8;
+}
+
+.ethernum-lock-btn.is-locked {
+  border-color: rgba(196, 43, 43, 0.58);
+  background: rgba(196, 43, 43, 0.18);
+  color: #efb0aa;
+}
+
+.ethernum-player-hidden {
+  display: none !important;
+}
+
+.ethernum-tabs {
+  position: sticky;
+  top: 55px;
+  z-index: 2200;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--ethernum-line);
+  background: rgba(8, 10, 10, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+.ethernum-master-locked {
+  filter: blur(3px);
+  opacity: 0.42;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ethernum-secret {
+  position: relative;
+}
+
+.ethernum-secret::after {
+  content: "Acesso do mestre bloqueado";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border: 1px solid rgba(196, 43, 43, 0.45);
+  background: rgba(8, 6, 6, 0.74);
+  color: #e8aaa6;
+  font: 700 12px/1.4 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.ethernum-pf2-sheet {
+  position: relative;
+  z-index: 3;
+  max-width: 1120px;
+  margin: 34px auto;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid var(--ethernum-line);
+  border-radius: 6px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 50%, transparent 50%),
+    var(--ethernum-panel);
+  background-size: 100% 4px, auto;
+  color: var(--ethernum-text);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.ethernum-pf2-sheet.section {
+  display: none;
+}
+
+.ethernum-pf2-sheet.section.on {
+  display: block;
+}
+
+.ethernum-pf2-sheet h2 {
+  margin: 0 0 14px;
+  color: var(--ethernum-gold);
+  font: 700 clamp(20px, 3vw, 30px)/1.1 "Cinzel", Georgia, serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.ethernum-pf2-tab {
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 4px;
+  background: rgba(200, 168, 75, 0.08);
+  color: var(--ethernum-text);
+  cursor: pointer;
+  font: 700 11px/1.1 "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-tab.is-active {
+  border-color: rgba(110, 163, 111, 0.7);
+  background: rgba(110, 163, 111, 0.18);
+  color: #d9f0d8;
+}
+
+.ethernum-pf2-panel {
+  display: none;
+}
+
+.ethernum-pf2-panel.is-active {
+  display: block;
+}
+
+.ethernum-pf2-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ethernum-pf2-field,
+.ethernum-pf2-box {
+  border: 1px solid rgba(200, 168, 75, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 12px;
+}
+
+.ethernum-pf2-field span,
+.ethernum-pf2-box span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ethernum-muted);
+  font: 700 10px/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-field strong {
+  display: block;
+  color: var(--ethernum-text);
+  font-size: 18px;
+}
+
+.ethernum-pf2-box {
+  grid-column: span 2;
+  min-height: 92px;
+}
+
+.ethernum-pf2-box p {
+  margin: 0;
+  color: var(--ethernum-text);
+  line-height: 1.55;
+}
+
+.ethernum-pf2-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ethernum-pf2-stat {
+  border: 1px solid rgba(200, 168, 75, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  text-align: center;
+}
+
+.ethernum-pf2-stat span {
+  display: block;
+  color: var(--ethernum-muted);
+  font: 700 10px/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-stat strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--ethernum-text);
+  font-size: 20px;
+}
+
+.ethernum-pf2-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.ethernum-pf2-table th,
+.ethernum-pf2-table td {
+  border-bottom: 1px solid rgba(200, 168, 75, 0.16);
+  padding: 9px 8px;
+  color: var(--ethernum-text);
+  text-align: left;
+}
+
+.ethernum-pf2-table th {
+  color: var(--ethernum-muted);
+  font: 700 10px/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-editable {
+  min-height: 1.4em;
+  border-radius: 3px;
+  outline: 1px dashed rgba(200, 168, 75, 0.22);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+.ethernum-editable:focus {
+  outline-color: var(--ethernum-gold);
+  background: rgba(200, 168, 75, 0.1);
+}
+
+.hero-scroll-bg {
+  left: 0;
+  right: auto;
+  width: 100%;
+  z-index: 0;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: min(46vw, 520px) auto;
+  mix-blend-mode: screen;
+}
+
+.hero-scroll-bg img {
+  display: none;
+}
+
+body.has-hero-scroll-bg .hero,
+body.has-hero-scroll-bg main,
+body.has-hero-scroll-bg nav,
+body.has-hero-scroll-bg .section {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 850px) {
+  .ethernum-shell-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ethernum-shell-links {
+    justify-content: flex-start;
+  }
+
+  .ethernum-tabs {
+    top: 88px;
+  }
+
+  .ethernum-pf2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ethernum-pf2-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ethernum-shell-links a,
+  .ethernum-shell-links button,
+  .ethernum-tab-btn {
+    width: 100%;
+  }
+
+  .ethernum-shell-links,
+  .ethernum-tabs,
+  .ethernum-pf2-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .ethernum-pf2-box {
+    grid-column: span 1;
+  }
+
+  .ethernum-pf2-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

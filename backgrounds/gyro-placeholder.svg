@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Ethernum Gyro placeholder</title>
+  <desc id="desc">A brass and green sigil placeholder for Gyro Zeppeli until final character art is assigned.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#243720"/>
+      <stop offset="45%" stop-color="#0b140f"/>
+      <stop offset="100%" stop-color="#050706"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0%" x2="100%">
+      <stop offset="0%" stop-color="#7d6726"/>
+      <stop offset="50%" stop-color="#d7bd63"/>
+      <stop offset="100%" stop-color="#6d561f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#c8a84b" stroke-width="2" fill="none">
+    <circle cx="450" cy="510" r="330"/>
+    <circle cx="450" cy="510" r="250"/>
+    <circle cx="450" cy="510" r="170"/>
+    <path d="M450 180v660M120 510h660M218 278l464 464M682 278 218 742"/>
+  </g>
+  <g filter="url(#glow)">
+    <path d="M450 235c126 0 228 102 228 228S576 691 450 691 222 589 222 463 324 235 450 235Zm0 78c-83 0-150 67-150 150s67 150 150 150 150-67 150-150-67-150-150-150Z" fill="url(#gold)" opacity="0.9"/>
+    <path d="M450 365c54 0 98 44 98 98s-44 98-98 98-98-44-98-98 44-98 98-98Zm0 38c-33 0-60 27-60 60s27 60 60 60 60-27 60-60-27-60-60-60Z" fill="#d7bd63"/>
+    <path d="M452 160c78 110 116 210 112 300-4 102-53 190-145 264 42-72 61-139 57-202-5-86-48-164-129-235 44-42 79-84 105-127Z" fill="#2d6b30" opacity="0.72"/>
+  </g>
+  <text x="450" y="875" text-anchor="middle" fill="#d7bd63" font-family="Cinzel, Georgia, serif" font-size="54" letter-spacing="8">GYRO</text>
+  <text x="450" y="930" text-anchor="middle" fill="#a79660" font-family="Cinzel, Georgia, serif" font-size="22" letter-spacing="6">ROTACAO SAGRADA</text>
+</svg>

@@ -1,5 +1,5 @@
 /**
- * ETHERNUM v2.1 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v2.4 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
@@ -38,7 +38,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v2.1 initialized', {
+    console.log('🎯 ETHERNUM v2.4 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,
@@ -324,7 +324,7 @@ class EthernumApp {
     editableSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el) => {
         el.addEventListener('click', (e) => {
-          if (this.isEditMode && this.masterMode) {
+          if (this.isEditMode && !el.closest('[data-master-only], .ethernum-master-locked')) {
             e.stopPropagation();
             el.contentEditable = 'true';
             el.focus();
@@ -345,22 +345,17 @@ class EthernumApp {
   }
 
   toggleEditMode() {
-    if (!this.masterMode) {
-      alert('❌ Apenas Mestres podem editar conteúdo.');
-      return;
-    }
-
     this.isEditMode = !this.isEditMode;
     
     const indicator = document.querySelector('.edit-mode-indicator');
     if (!indicator) {
       const newIndicator = document.createElement('div');
       newIndicator.className = 'edit-mode-indicator active';
-      newIndicator.innerHTML = this.isEditMode ? '✎ Modo Edição Ativo' : '🔒 Modo Visualização';
+            newIndicator.innerHTML = this.isEditMode ? '✎ Edição de Jogador Ativa' : 'Modo Visualização';
       document.body.appendChild(newIndicator);
     } else {
       indicator.classList.toggle('active');
-      indicator.innerHTML = this.isEditMode ? '✎ Modo Edição Ativo' : '🔒 Modo Visualização';
+      indicator.innerHTML = this.isEditMode ? '✎ Edição de Jogador Ativa' : 'Modo Visualização';
     }
 
     console.log(this.isEditMode ? '✎ Modo edição ativado' : '🔒 Modo visualização');
@@ -409,7 +404,7 @@ class EthernumApp {
       const ikonHead = e.target.closest('.ikon-head');
       if (ikonHead) {
         const ikonCard = ikonHead.closest('.ikon-card');
-        if (ikonCard) {
+        if (ikonCard && !ikonCard.dataset.localToggle) {
           this.toggleCard(ikonCard, 'ikon-card', this.config.allowMultipleOpenCards);
           this.playSound();
         }

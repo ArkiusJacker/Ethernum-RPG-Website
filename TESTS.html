@@ -1,10 +1,10 @@
-<!-- TESTE INTERATIVO - ETHERNUM v2.1 -->
+<!-- TESTE INTERATIVO - ETHERNUM v2.4 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v2.1</title>
+  <title>Teste - ETHERNUM v2.4</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -207,11 +207,20 @@
       color: #c8a84b;
       font-weight: bold;
     }
+
+    .cartola-preview {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(200, 168, 75, 0.18);
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v2.1</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v2.4</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
       Siga os passos abaixo para validar todas as 8 correções implementadas
@@ -457,12 +466,34 @@
       </label>
     </div>
 
+    <!-- TESTE 9: Cartola JS -->
+    <h2>✅ TESTE 9: Integração Cartola JS</h2>
+    <div class="test-item">
+      <div class="test-title">🎩 Verificar arquivo cartola.js</div>
+      <div class="test-desc">
+        O arquivo <code>cartola.js</code> é um gerador Node/docx. Nesta página ele é lido como fonte para conferirmos
+        estrutura, quantidade de efeitos e presença da tabela d100 sem executar dependências de servidor no navegador.
+      </div>
+      <div class="button-group">
+        <button class="btn primary" onclick="inspectCartola()">Inspecionar Cartola</button>
+        <a class="btn" href="cartola.js">Abrir cartola.js</a>
+      </div>
+      <div id="cartola-preview" class="cartola-preview">Aguardando inspeção...</div>
+      <div class="result" id="test9-result" style="display:none;">
+        ✅ cartola.js carregado e reconhecido nos testes!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest9()">
+        <span>Cartola JS foi carregado e inspecionado</span>
+      </label>
+    </div>
+
     <!-- RESUMO FINAL -->
     <h2 style="margin-top: 3rem;">📊 Resumo de Testes</h2>
     <div class="test-item success" style="background: rgba(46, 125, 50, 0.15);">
       <div class="status-line">
         <span class="label">Tests Completados:</span>
-        <span class="value" id="completed-count">0/8</span>
+        <span class="value" id="completed-count">0/9</span>
       </div>
       <div class="status-line">
         <span class="label">Taxa de Sucesso:</span>
@@ -494,7 +525,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v2.1 - Teste Completo<br>
+        ETHERNUM v2.4 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>
@@ -509,7 +540,8 @@
       test5: false,
       test6: false,
       test7: false,
-      test8: false
+      test8: false,
+      test9: false
     };
 
     function validateTest1() {
@@ -568,18 +600,45 @@
       else document.getElementById('test8-result').style.display = 'none';
     }
 
+    function validateTest9() {
+      tests.test9 = !tests.test9;
+      updateSummary();
+      if (tests.test9) document.getElementById('test9-result').style.display = 'block';
+      else document.getElementById('test9-result').style.display = 'none';
+    }
+
+    async function inspectCartola() {
+      const preview = document.getElementById('cartola-preview');
+      try {
+        const response = await fetch('cartola.js');
+        const source = await response.text();
+        const effectRows = [...source.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"/g)];
+        const hasDocx = source.includes("require('docx')") || source.includes('require("docx")');
+        const stages = [...source.matchAll(/stageBadge\("([^"]+)"/g)].map(match => match[1]);
+        preview.innerHTML = `
+          <div class="status-line"><span class="label">Tipo:</span><span class="value">${hasDocx ? 'Gerador Node/docx' : 'JS comum'}</span></div>
+          <div class="status-line"><span class="label">Efeitos detectados:</span><span class="value">${effectRows.length}</span></div>
+          <div class="status-line"><span class="label">Primeiro efeito:</span><span class="value">${effectRows[0]?.[2] || 'n/a'}</span></div>
+          <div class="status-line"><span class="label">Estágios:</span><span class="value">${stages.length}</span></div>
+        `;
+      } catch (error) {
+        preview.textContent = 'Não foi possível ler cartola.js. Abra esta página via servidor local se o navegador bloquear fetch em arquivo local.';
+      }
+    }
+
     function updateSummary() {
       const completed = Object.values(tests).filter(t => t).length;
-      const rate = Math.round((completed / 8) * 100);
+      const total = Object.keys(tests).length;
+      const rate = Math.round((completed / total) * 100);
       
-      document.getElementById('completed-count').textContent = `${completed}/8`;
+      document.getElementById('completed-count').textContent = `${completed}/${total}`;
       document.getElementById('success-rate').textContent = `${rate}%`;
 
       let message = '';
       if (completed === 0) {
         message = 'Preencha os testes acima para ver o resumo...';
-      } else if (completed < 8) {
-        message = `✅ ${completed} testes passaram! Faltam ${8 - completed} testes.`;
+      } else if (completed < total) {
+        message = `✅ ${completed} testes passaram! Faltam ${total - completed} testes.`;
       } else {
         message = '🎉 TODOS OS TESTES PASSARAM! Parabéns, tudo está funcionando corretamente!';
       }

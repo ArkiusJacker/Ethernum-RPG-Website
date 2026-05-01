@@ -1389,6 +1389,7 @@ const ig = document.getElementById('ikon-grid');
 ikons.forEach((d, i) => {
   const div = document.createElement('div');
   div.className = `ikon-card ${cardCls[d.tier]}`;
+  div.dataset.localToggle = 'true';
   const passHtml = d.passivos.map(([n, desc]) =>
     `<div class="ikon-row"><b>${n}:</b> ${desc}</div>`).join('');
   const ativoHtml = d.ativos.map(([n, c, desc]) =>

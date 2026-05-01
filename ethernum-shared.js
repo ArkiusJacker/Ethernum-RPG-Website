@@ -9,7 +9,15 @@
       klass: 'Gunslinger',
       level: '3',
       ancestry: 'Humano',
-      sheet: ['SP 9', 'Rotacao Sagrada', 'IKONs / Palmas', 'Ball Breaker']
+      hp: '38 / 38',
+      ac: '19',
+      heroPoints: '1',
+      speed: '25 ft',
+      attributes: { STR: '+1', DEX: '+4', CON: '+2', INT: '+0', WIS: '+1', CHA: '+0' },
+      sheet: ['SP 9', 'Rotacao Sagrada', 'IKONs / Palmas', 'Ball Breaker'],
+      inventory: ['Esferas de Aco', 'Kit medico', 'Documentos Ethernum'],
+      strikes: ['Esfera de Aco +10', 'Ricochete Espiral', 'Rotacao Medicinal'],
+      proficiencies: ['Percepcao T', 'Fortitude T', 'Reflexos E', 'Vontade T', 'Armaduras leves T', 'Armas simples/marciais T']
     },
     cinerio: {
       label: 'Cinerio & Umbra',
@@ -17,6 +25,11 @@
       klass: 'Ficha Especial',
       level: '-',
       ancestry: 'Dupla',
+      hp: '-- / --',
+      ac: '--',
+      heroPoints: '1',
+      speed: '--',
+      attributes: { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' },
       sheet: ['Vinculo Umbra', 'Contrato', 'Risco', 'Arquivo Visual']
     },
     pipping: {
@@ -25,15 +38,33 @@
       klass: 'Bardo',
       level: '3',
       ancestry: 'Fetchling',
-      sheet: ['PS 6', 'Expressao da Noite', 'Heranca Vampirica', 'Profecia']
+      hp: '34 / 34',
+      ac: '18',
+      heroPoints: '1',
+      speed: '25 ft',
+      art: 'imagem/PBB.png',
+      attributes: { STR: '+0', DEX: '+3', CON: '+2', INT: '+1', WIS: '+1', CHA: '+4' },
+      sheet: ['PS 6', 'Expressao da Noite', 'Heranca Vampirica', 'Profecia'],
+      inventory: ['Instrumento', 'Kit de disfarce', 'Diario Black', 'Adaga cerimonial'],
+      strikes: ['Cantrip / composicao', 'Adaga +8', 'Voz do Abismo'],
+      proficiencies: ['Percepcao T', 'Fortitude T', 'Reflexos T', 'Vontade E', 'Performance E', 'Ocultismo T']
     },
     bayle: {
       label: 'Bayle, O Horror',
       file: 'bayle_draconico (1).html',
-      klass: 'Barbarian',
+      klass: 'Barbaro',
       level: '3',
       ancestry: 'Draconico',
-      sheet: ['Ardor Draconico', 'Estagios', 'Fragmentos', 'Arquivista']
+      hp: '48 / 48',
+      ac: '18',
+      heroPoints: '1',
+      speed: '25 ft',
+      art: 'imagem/bayle.png',
+      attributes: { STR: '+4', DEX: '+1', CON: '+3', INT: '+0', WIS: '+1', CHA: '+1' },
+      sheet: ['Ardor Draconico', 'Estagios', 'Fragmentos', 'Arquivista'],
+      inventory: ['Arma draconica', 'Amuleto chamuscado', 'Fragmentos recuperados'],
+      strikes: ['Garras +10', 'Sopro de Bayle', 'Rugido'],
+      proficiencies: ['Percepcao T', 'Fortitude E', 'Reflexos T', 'Vontade T', 'Armaduras medias T', 'Armas marciais T']
     }
   };
 
@@ -80,7 +111,7 @@
     nav.innerHTML = `
       <div class="ethernum-shell-brand">Ethernum Company</div>
       <div class="ethernum-shell-links">
-        <a href="INDEX.html">Index</a>
+        <a href="index.html">Index</a>
         <a href="mestre-panel.html">Painel Mestre</a>
         <button type="button" class="ethernum-master-btn">${isMaster() ? 'Sair Mestre' : 'Modo Mestre'}</button>
       </div>`;
@@ -102,6 +133,10 @@
     });
   }
 
+  function editable(key, value, tag = 'strong') {
+    return `<${tag} class="ethernum-editable" contenteditable="true" data-edit-key="${key}">${value}</${tag}>`;
+  }
+
   function addPf2Sheet(characterId) {
     if (!characterId || document.querySelector('.ethernum-pf2-sheet')) return;
     const data = characters[characterId];
@@ -109,18 +144,76 @@
     const sheet = document.createElement('section');
     sheet.className = 'ethernum-pf2-sheet';
     sheet.id = 'ethernum-pf2-sheet';
+    const attrs = data.attributes || { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' };
+    const list = (items = []) => items.map((item, index) => `
+      <tr>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-item">${item}</td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-bulk"></td>
+        <td class="ethernum-editable" contenteditable="true" data-edit-key="inventory-${index}-notes"></td>
+      </tr>`).join('');
     sheet.innerHTML = `
       <h2>Ficha Pathfinder 2e</h2>
-      <div class="ethernum-pf2-grid">
-        <div class="ethernum-pf2-field"><span>Personagem</span><strong>${data.label}</strong></div>
-        <div class="ethernum-pf2-field"><span>Classe</span><strong>${data.klass}</strong></div>
-        <div class="ethernum-pf2-field"><span>Nivel</span><strong>${data.level}</strong></div>
-        <div class="ethernum-pf2-field"><span>Ancestralidade</span><strong>${data.ancestry}</strong></div>
-        <div class="ethernum-pf2-box"><span>Recursos principais</span><p>${data.sheet.slice(0, 2).join(' · ')}</p></div>
-        <div class="ethernum-pf2-box"><span>Observacoes de mesa</span><p>${data.sheet.slice(2).join(' · ')}</p></div>
+      <div class="ethernum-pf2-tabs">
+        <button class="ethernum-pf2-tab is-active" data-pf2-tab="resumo">Resumo</button>
+        <button class="ethernum-pf2-tab" data-pf2-tab="combate">Combate</button>
+        <button class="ethernum-pf2-tab" data-pf2-tab="inventario">Inventario</button>
+      </div>
+      <div class="ethernum-pf2-panel is-active" data-pf2-panel="resumo">
+        <div class="ethernum-pf2-grid">
+          <div class="ethernum-pf2-field"><span>Personagem</span>${editable('name', data.label)}</div>
+          <div class="ethernum-pf2-field"><span>Classe</span>${editable('class', data.klass)}</div>
+          <div class="ethernum-pf2-field"><span>Nivel</span>${editable('level', data.level)}</div>
+          <div class="ethernum-pf2-field"><span>Ancestralidade</span>${editable('ancestry', data.ancestry)}</div>
+          <div class="ethernum-pf2-field"><span>Vida</span>${editable('hp', data.hp || '-- / --')}</div>
+          <div class="ethernum-pf2-field"><span>Armadura / AC</span>${editable('ac', data.ac || '--')}</div>
+          <div class="ethernum-pf2-field"><span>Hero Points</span>${editable('hero-points', data.heroPoints || '1')}</div>
+          <div class="ethernum-pf2-field"><span>Deslocamento</span>${editable('speed', data.speed || '--')}</div>
+          <div class="ethernum-pf2-box"><span>Recursos principais</span>${editable('resources', data.sheet.slice(0, 2).join(' · '), 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Observacoes de mesa</span>${editable('notes', data.sheet.slice(2).join(' · '), 'p')}</div>
+        </div>
+        <div class="ethernum-pf2-stat-grid" style="margin-top:12px">
+          ${Object.entries(attrs).map(([name, value]) => `<div class="ethernum-pf2-stat"><span>${name}</span>${editable(`attr-${name}`, value)}</div>`).join('')}
+        </div>
+      </div>
+      <div class="ethernum-pf2-panel" data-pf2-panel="combate">
+        <div class="ethernum-pf2-grid">
+          <div class="ethernum-pf2-box"><span>Proficiencias</span>${editable('proficiencies', (data.proficiencies || ['T/E/M/L conforme ficha']).join(' · '), 'p')}</div>
+          <div class="ethernum-pf2-box"><span>Strikes / Acoes</span>${editable('strikes', (data.strikes || ['Ataque principal', 'Ataque secundario']).join(' · '), 'p')}</div>
+        </div>
+      </div>
+      <div class="ethernum-pf2-panel" data-pf2-panel="inventario">
+        <table class="ethernum-pf2-table">
+          <thead><tr><th>Item</th><th>Bulk</th><th>Notas</th></tr></thead>
+          <tbody>${list(data.inventory || ['Item', 'Item', 'Item'])}</tbody>
+        </table>
       </div>`;
+    sheet.addEventListener('click', (event) => {
+      const tab = event.target.closest('.ethernum-pf2-tab');
+      if (!tab) return;
+      sheet.querySelectorAll('.ethernum-pf2-tab').forEach((btn) => btn.classList.remove('is-active'));
+      sheet.querySelectorAll('.ethernum-pf2-panel').forEach((panel) => panel.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      sheet.querySelector(`[data-pf2-panel="${tab.dataset.pf2Tab}"]`)?.classList.add('is-active');
+    });
+    sheet.querySelectorAll('[data-edit-key]').forEach((el) => {
+      const key = `ethernum-pf2-${characterId}-${el.dataset.editKey}`;
+      const saved = localStorage.getItem(key);
+      if (saved !== null) el.textContent = saved;
+      el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+    });
     const host = document.querySelector('main') || document.querySelector('.container') || document.querySelector('.page') || document.body;
     host.appendChild(sheet);
+  }
+
+  function addCharacterArt(characterId) {
+    const data = characters[characterId];
+    if (!data?.art || document.querySelector('.ethernum-character-portrait')) return;
+    const portrait = document.createElement('figure');
+    portrait.className = 'ethernum-character-portrait';
+    portrait.innerHTML = `<img src="${data.art}" alt="${data.label}">`;
+    const anchor = document.querySelector('.hero, .site-header');
+    if (anchor) anchor.insertAdjacentElement('afterend', portrait);
+    else document.body.prepend(portrait);
   }
 
   function makePippingTabs() {
@@ -249,7 +342,9 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const characterId = pageCharacter();
+    document.body.classList.add('ethernum-page-ready');
     if (characterId) ensureShell();
+    addCharacterArt(characterId);
     addPf2Sheet(characterId);
     makePippingTabs();
     addGyroSheetTab();

@@ -9,6 +9,67 @@
   --ethernum-muted: #9c9886;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ethernumPageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .ethernum-page-ready .hero,
+  .ethernum-page-ready .site-header,
+  .ethernum-page-ready .container,
+  .ethernum-page-ready .page,
+  .ethernum-page-ready main,
+  .ethernum-page-ready .section,
+  .ethernum-page-ready .tab-panel,
+  .ethernum-page-ready .tier-section,
+  .ethernum-page-ready .ethernum-pf2-sheet {
+    animation: ethernumPageEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  }
+}
+
+.ethernum-page-ready .container,
+.ethernum-page-ready .page,
+.ethernum-page-ready main,
+.ethernum-page-ready nav,
+.ethernum-page-ready .hero,
+.ethernum-page-ready .site-header,
+.ethernum-page-ready .ethernum-shell-nav {
+  position: relative;
+  z-index: 2;
+}
+
+.ethernum-character-portrait {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  max-width: min(680px, calc(100vw - 32px));
+  margin: 22px auto 4px;
+  padding: 14px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 8px;
+  background: radial-gradient(circle at 50% 20%, rgba(200, 168, 75, 0.12), transparent 62%), rgba(0, 0, 0, 0.24);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
+}
+
+.ethernum-character-portrait img {
+  display: block;
+  width: min(100%, 560px);
+  max-height: 62vh;
+  object-fit: contain;
+  filter: saturate(0.96) contrast(1.02);
+}
+
 .ethernum-shell-nav {
   position: sticky;
   top: 0;
@@ -140,6 +201,40 @@
   text-transform: uppercase;
 }
 
+.ethernum-pf2-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.ethernum-pf2-tab {
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid var(--ethernum-line);
+  border-radius: 4px;
+  background: rgba(200, 168, 75, 0.08);
+  color: var(--ethernum-text);
+  cursor: pointer;
+  font: 700 11px/1.1 "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-tab.is-active {
+  border-color: rgba(110, 163, 111, 0.7);
+  background: rgba(110, 163, 111, 0.18);
+  color: #d9f0d8;
+}
+
+.ethernum-pf2-panel {
+  display: none;
+}
+
+.ethernum-pf2-panel.is-active {
+  display: block;
+}
+
 .ethernum-pf2-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -179,6 +274,69 @@
   margin: 0;
   color: var(--ethernum-text);
   line-height: 1.55;
+}
+
+.ethernum-pf2-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ethernum-pf2-stat {
+  border: 1px solid rgba(200, 168, 75, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  text-align: center;
+}
+
+.ethernum-pf2-stat span {
+  display: block;
+  color: var(--ethernum-muted);
+  font: 700 10px/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-pf2-stat strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--ethernum-text);
+  font-size: 20px;
+}
+
+.ethernum-pf2-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.ethernum-pf2-table th,
+.ethernum-pf2-table td {
+  border-bottom: 1px solid rgba(200, 168, 75, 0.16);
+  padding: 9px 8px;
+  color: var(--ethernum-text);
+  text-align: left;
+}
+
+.ethernum-pf2-table th {
+  color: var(--ethernum-muted);
+  font: 700 10px/1.2 "Courier New", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ethernum-editable {
+  min-height: 1.4em;
+  border-radius: 3px;
+  outline: 1px dashed rgba(200, 168, 75, 0.22);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+.ethernum-editable:focus {
+  outline-color: var(--ethernum-gold);
+  background: rgba(200, 168, 75, 0.1);
 }
 
 .hero-scroll-bg {
@@ -221,6 +379,10 @@ body.has-hero-scroll-bg .section {
   .ethernum-pf2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .ethernum-pf2-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
@@ -239,5 +401,9 @@ body.has-hero-scroll-bg .section {
 
   .ethernum-pf2-box {
     grid-column: span 1;
+  }
+
+  .ethernum-pf2-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

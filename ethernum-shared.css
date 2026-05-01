@@ -146,10 +146,10 @@
 .ethernum-overview-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 38vw);
+  grid-template-columns: minmax(420px, 0.85fr) minmax(520px, 0.95fr);
   align-items: end;
   min-height: calc(100vh - 55px);
-  padding: clamp(58px, 8vw, 96px) clamp(18px, 4vw, 70px) clamp(38px, 6vw, 70px);
+  padding: clamp(58px, 8vw, 96px) clamp(14px, 2vw, 34px) clamp(26px, 4vw, 54px) clamp(18px, 4vw, 72px);
   overflow: hidden;
   background:
     radial-gradient(circle at 82% 40%, var(--overview-glow), transparent 32%),
@@ -243,14 +243,15 @@
 
 .ethernum-overview-right {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-self: stretch;
   overflow: visible;
+  transform: translateX(clamp(18px, 4vw, 74px));
 }
 
 .ethernum-overview-right img {
-  width: min(100%, 520px);
-  max-height: calc(100vh - 72px);
+  width: min(100%, 760px);
+  max-height: calc(100vh - 34px);
   object-fit: contain;
   object-position: bottom center;
   filter: saturate(0.96) contrast(1.05) drop-shadow(0 28px 44px rgba(0, 0, 0, 0.62));
@@ -620,6 +621,8 @@ body.has-hero-scroll-bg .section {
   .ethernum-overview-right {
     margin-top: 28px;
     max-height: 58vh;
+    justify-content: center;
+    transform: none;
   }
 
   .ethernum-overview-name {

@@ -24,6 +24,34 @@
     }
   }
 
+  @keyframes ethernumCharacterEnter {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes ethernumCharacterArtEnter {
+    from {
+      opacity: 0;
+      transform: translateX(42px) scale(0.985);
+      filter: blur(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
   .ethernum-page-ready .hero,
   .ethernum-page-ready .site-header,
   .ethernum-page-ready .container,
@@ -34,6 +62,26 @@
   .ethernum-page-ready .tier-section,
   .ethernum-page-ready .ethernum-pf2-sheet {
     animation: ethernumPageEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  }
+
+  .ethernum-page-ready .ethernum-character-overview {
+    animation: ethernumCharacterEnter 760ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  }
+
+  .ethernum-page-ready .ethernum-overview-eyebrow,
+  .ethernum-page-ready .ethernum-overview-name,
+  .ethernum-page-ready .ethernum-overview-sub,
+  .ethernum-page-ready .ethernum-overview-tags {
+    animation: ethernumCharacterEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  }
+
+  .ethernum-page-ready .ethernum-overview-eyebrow { animation-delay: 80ms; }
+  .ethernum-page-ready .ethernum-overview-name { animation-delay: 150ms; }
+  .ethernum-page-ready .ethernum-overview-sub { animation-delay: 230ms; }
+  .ethernum-page-ready .ethernum-overview-tags { animation-delay: 300ms; }
+
+  .ethernum-page-ready .ethernum-overview-right img {
+    animation: ethernumCharacterArtEnter 820ms 120ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
   }
 }
 

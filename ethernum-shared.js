@@ -2,6 +2,17 @@
   const MASTER_KEY = 'ethernum-master-authenticated';
   const DEFAULT_PASSWORD = 'ethernum-master';
   const LOCK_PREFIX = 'ethernum-section-locks-';
+  const DEFAULT_AUDIO = 'media/audio/audio%20%5Bmusic%5D.mp3';
+  const LEGACY_AUDIO_PATHS = new Set([
+    './audio/ambient-synth.mp3',
+    './audio/piano-classical.mp3',
+    './audio/orchestral-bg.mp3',
+    './audio/desert-wind.mp3',
+    'audio/ambient-synth.mp3',
+    'audio/piano-classical.mp3',
+    'audio/orchestral-bg.mp3',
+    'audio/desert-wind.mp3'
+  ]);
 
   const characters = {
     gyro: {
@@ -76,6 +87,12 @@
     if (file.includes('pipping')) return 'pipping';
     if (file.includes('bayle')) return 'bayle';
     return document.body.dataset.character || '';
+  }
+
+  function normalizeAudioUrl(url) {
+    const value = (url || '').trim();
+    if (!value || LEGACY_AUDIO_PATHS.has(value)) return DEFAULT_AUDIO;
+    return value;
   }
 
   const sectionDefinitions = {
@@ -163,13 +180,15 @@
 
   function ensureShell() {
     if (document.querySelector('.ethernum-shell-nav')) return;
+    const characterId = pageCharacter();
+    const panelHref = characterId ? `mestre-panel.html?character=${encodeURIComponent(characterId)}` : 'mestre-panel.html';
     const nav = document.createElement('div');
     nav.className = 'ethernum-shell-nav';
     nav.innerHTML = `
       <div class="ethernum-shell-brand">Ethernum Company</div>
       <div class="ethernum-shell-links">
         <a href="index.html" target="_top">Index</a>
-        <a href="mestre-panel.html" target="_top">Painel Mestre</a>
+        <a href="${panelHref}" target="_top">Painel Mestre</a>
         <button type="button" class="ethernum-edit-btn">Modo Edicao</button>
         <button type="button" class="ethernum-master-btn">${isMaster() ? 'Sair Mestre' : 'Modo Mestre'}</button>
       </div>`;
@@ -342,14 +361,20 @@
 
   function setupSharedBackgroundAudio(characterId) {
     if (!characterId || document.querySelector('script[src*="app.js"]')) return;
-    const src = localStorage.getItem(`ethernum-music-url-${characterId}`) || localStorage.getItem('ethernum-music-url') || '';
+    if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
+    const src = normalizeAudioUrl(localStorage.getItem(`ethernum-music-url-${characterId}`) || localStorage.getItem('ethernum-music-url'));
     if (!src) return;
     const audio = new Audio(src);
     audio.loop = true;
     audio.volume = 0.05;
+    audio.addEventListener('error', () => {
+      if (!audio.src.includes('audio%20%5Bmusic%5D.mp3')) {
+        audio.src = DEFAULT_AUDIO;
+        audio.load();
+      }
+    }, { once: true });
     window.EthernumBackgroundAudio = audio;
     document.addEventListener('click', () => {
-      if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
       audio.play().catch(() => null);
     }, { once: true });
   }

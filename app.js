@@ -1,5 +1,5 @@
 /**
- * ETHERNUM v2.7 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v2.8 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
@@ -13,6 +13,24 @@ function detectEthernumCharacter() {
   if (file.includes('gyro')) return 'gyro';
   if (file.includes('index')) return 'index';
   return 'gyro';
+}
+
+const ETHERNUM_DEFAULT_AUDIO = 'media/audio/audio%20%5Bmusic%5D.mp3';
+const ETHERNUM_LEGACY_AUDIO_PATHS = [
+  './audio/ambient-synth.mp3',
+  './audio/piano-classical.mp3',
+  './audio/orchestral-bg.mp3',
+  './audio/desert-wind.mp3',
+  'audio/ambient-synth.mp3',
+  'audio/piano-classical.mp3',
+  'audio/orchestral-bg.mp3',
+  'audio/desert-wind.mp3',
+];
+
+function normalizeEthernumAudioUrl(url) {
+  const value = (url || '').trim();
+  if (!value || ETHERNUM_LEGACY_AUDIO_PATHS.includes(value)) return ETHERNUM_DEFAULT_AUDIO;
+  return value;
 }
 
 const ETHERNUM_EDITABLE_SELECTORS = [
@@ -50,9 +68,10 @@ const ETHERNUM_EDITABLE_SELECTORS = [
 class EthernumApp {
   constructor(config = {}) {
     const character = config.character || detectEthernumCharacter();
+    const storedAudio = localStorage.getItem(`ethernum-music-url-${character}`) || localStorage.getItem('ethernum-music-url');
     this.config = {
       character,
-      backgroundMusicUrl: config.backgroundMusicUrl || localStorage.getItem(`ethernum-music-url-${character}`) || localStorage.getItem('ethernum-music-url') || 'media/audio/audio%20%5Bmusic%5D.mp3',
+      backgroundMusicUrl: normalizeEthernumAudioUrl(config.backgroundMusicUrl || storedAudio),
       enableCustomAudio: config.enableCustomAudio !== false,
       allowMultipleOpenCards: config.allowMultipleOpenCards || (localStorage.getItem('ethernum-allow-multiple') === 'true'),
       ...config
@@ -83,7 +102,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v2.7 initialized', {
+    console.log('🎯 ETHERNUM v2.8 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,
@@ -204,6 +223,12 @@ class EthernumApp {
       audio.src = this.config.backgroundMusicUrl;
       audio.loop = true;
       audio.volume = 0.05;
+      audio.addEventListener('error', () => {
+        if (!audio.src.includes('audio%20%5Bmusic%5D.mp3') && !audio.src.includes('audio%20[music].mp3')) {
+          audio.src = ETHERNUM_DEFAULT_AUDIO;
+          audio.load();
+        }
+      }, { once: true });
 
       const source = this.audioContext.createMediaElementAudioSource(audio);
       source.connect(this.bgGain);

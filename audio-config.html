@@ -222,8 +222,8 @@
 
     <div class="config-group">
       <label for="musicUrl">URL da Música de Fundo</label>
-      <input type="text" id="musicUrl" placeholder="./audio/background-music.mp3 ou https://...">
-      <p class="help-text">Cole aqui o caminho local (./audio/music.mp3) ou URL remota (https://...)</p>
+      <input type="text" id="musicUrl" placeholder="media/audio/audio%20%5Bmusic%5D.mp3 ou https://...">
+      <p class="help-text">Cole aqui o caminho local em media/audio/ ou URL remota (https://...). Em branco usa a trilha local padrão.</p>
     </div>
 
     <div class="section-divider"></div>
@@ -278,10 +278,21 @@
   <script>
     class AudioConfigManager {
       constructor() {
+        this.defaultTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
+        this.legacyTracks = new Set([
+          './audio/ambient-synth.mp3',
+          './audio/piano-classical.mp3',
+          './audio/orchestral-bg.mp3',
+          './audio/desert-wind.mp3',
+          'audio/ambient-synth.mp3',
+          'audio/piano-classical.mp3',
+          'audio/orchestral-bg.mp3',
+          'audio/desert-wind.mp3'
+        ]);
         const params = new URLSearchParams(window.location.search);
         this.target = params.get('target') || localStorage.getItem('ethernum-audio-target') || 'index';
         this.returnTo = params.get('return') || 'mestre-panel.html';
-        this.musicUrl = localStorage.getItem(`ethernum-music-url-${this.target}`) || localStorage.getItem('ethernum-music-url') || '';
+        this.musicUrl = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`) || localStorage.getItem('ethernum-music-url'));
         this.allowMultiple = localStorage.getItem('ethernum-allow-multiple') === 'true';
         this.enableCustomAudio = localStorage.getItem('ethernum-enable-custom') !== 'false';
         this.audioContext = null;
@@ -305,7 +316,7 @@
         document.getElementById('audioTarget').addEventListener('change', (event) => {
           this.target = event.target.value;
           localStorage.setItem('ethernum-audio-target', this.target);
-          document.getElementById('musicUrl').value = localStorage.getItem(`ethernum-music-url-${this.target}`) || '';
+          document.getElementById('musicUrl').value = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`));
           this.showStatus(`Alvo alterado para ${this.target}.`, 'success');
         });
         document.getElementById('audioFile').addEventListener('change', (e) => this.handleFileUpload(e));
@@ -329,7 +340,7 @@
       }
 
       loadPreset(preset) {
-        const localTrack = 'media/audio/audio%20%5Bmusic%5D.mp3';
+        const localTrack = this.defaultTrack;
         const presets = {
           ambient: localTrack,
           piano: localTrack,
@@ -341,7 +352,7 @@
       }
 
       save() {
-        const musicUrl = document.getElementById('musicUrl').value.trim();
+        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
         const target = document.getElementById('audioTarget').value;
         const allowMultiple = document.getElementById('allowMultiple').checked;
         const enableCustomAudio = document.getElementById('enableCustomAudio').checked;
@@ -359,7 +370,7 @@
       }
 
       test() {
-        const musicUrl = document.getElementById('musicUrl').value.trim();
+        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
         if (!musicUrl) {
           this.showStatus('❌ Insira uma URL ou carregue um arquivo primeiro!', 'error');
           return;
@@ -373,6 +384,12 @@
           .catch(() => this.showStatus('❌ Erro ao reproduzir. Verifique a URL ou formato.', 'error'));
 
         setTimeout(() => audio.pause(), 3000);
+      }
+
+      normalizeUrl(url) {
+        const value = (url || '').trim();
+        if (!value || this.legacyTracks.has(value)) return this.defaultTrack;
+        return value;
       }
 
       reset() {

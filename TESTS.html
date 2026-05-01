@@ -1,10 +1,10 @@
-<!-- TESTE INTERATIVO - ETHERNUM v2.7 -->
+<!-- TESTE INTERATIVO - ETHERNUM v2.8 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v2.7</title>
+  <title>Teste - ETHERNUM v2.8</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -220,10 +220,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v2.7</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v2.8</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
-      Siga os passos abaixo para validar a rodada v2.7
+      Siga os passos abaixo para validar a rodada v2.8
     </p>
 
     <!-- TESTE 1: Section Lock -->
@@ -654,12 +654,84 @@
       </label>
     </div>
 
+    <!-- TESTE 17: Intro do Index -->
+    <h2>✅ TESTE 17: Tela Inicial do Index</h2>
+    <div class="test-item">
+      <div class="test-title">🏛️ Validar entrada Ethernum Company</div>
+      <div class="test-desc">
+        O primeiro acesso ao index deve mostrar a tela preta/dourada com o botão de aventura.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>No console, rode <code>localStorage.removeItem('ethernum-index-intro-seen')</code></li>
+          <li>Abra <code>index.html</code> pelo servidor local</li>
+          <li>Confirme que aparece <strong>Ethernum Company</strong> e o botão <strong>Inicie aqui a sua aventura</strong></li>
+          <li>Clique no botão, recarregue a página e confirme que a tela não aparece novamente</li>
+        </ol>
+      </div>
+      <div class="result" id="test17-result" style="display:none;">
+        ✅ Tela inicial funcionando!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest17()">
+        <span>Intro aparece uma vez e depois é pulada</span>
+      </label>
+    </div>
+
+    <!-- TESTE 18: Painel Mestre contextual -->
+    <h2>✅ TESTE 18: Painel Mestre Mantém Personagem Atual</h2>
+    <div class="test-item">
+      <div class="test-title">🎛️ Link contextual da barra superior</div>
+      <div class="test-desc">
+        Ao abrir o Painel Mestre a partir de Pipping, Bayle ou Cinério, ele deve manter aquele personagem.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>pipping-expressao-da-noite.html</code></li>
+          <li>Clique em <strong>Painel Mestre</strong> na barra superior</li>
+          <li>Confirme que a URL contém <code>?character=pipping</code></li>
+          <li>Repita em Bayle e Cinério se quiser validar a matriz toda</li>
+        </ol>
+      </div>
+      <div class="result" id="test18-result" style="display:none;">
+        ✅ Painel contextual funcionando!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest18()">
+        <span>Painel Mestre abre no personagem correto</span>
+      </label>
+    </div>
+
+    <!-- TESTE 19: Áudio Local Resiliente -->
+    <h2>✅ TESTE 19: Áudio Local Resiliente</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎚️ Validar fallback para banco local</div>
+      <div class="test-desc">
+        URLs antigas de presets inexistentes devem cair para <code>media/audio/audio [music].mp3</code>.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>audio-config.html?target=gyro&return=gyro_zeppeli.html</code></li>
+          <li>Confirme que o campo de URL usa <code>media/audio/audio%20%5Bmusic%5D.mp3</code> quando está vazio</li>
+          <li>Clique em um preset e depois em <strong>Testar Áudio</strong></li>
+          <li>Salve, abra o Gyro, clique na página e confirme que a trilha local tenta tocar</li>
+        </ol>
+      </div>
+      <div class="result" id="test19-result" style="display:none;">
+        ✅ Áudio local resiliente validado!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest19()">
+        <span>Áudio usa o arquivo local do projeto</span>
+      </label>
+    </div>
+
     <!-- RESUMO FINAL -->
     <h2 style="margin-top: 3rem;">📊 Resumo de Testes</h2>
     <div class="test-item success" style="background: rgba(46, 125, 50, 0.15);">
       <div class="status-line">
         <span class="label">Tests Completados:</span>
-        <span class="value" id="completed-count">0/16</span>
+        <span class="value" id="completed-count">0/19</span>
       </div>
       <div class="status-line">
         <span class="label">Taxa de Sucesso:</span>
@@ -675,7 +747,7 @@
     <div class="test-item">
       <p style="line-height: 1.8;">
         <strong>Se todos os testes passaram:</strong> ✅<br>
-        Parabéns! A bateria v2.7 está funcionando.<br>
+        Parabéns! A bateria v2.8 está funcionando.<br>
         <br>
         <strong>Próxima fase:</strong><br>
         → Criar um mini painel de áudio dentro do Painel Mestre com play/pause/volume<br>
@@ -692,7 +764,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v2.7 - Teste Completo<br>
+        ETHERNUM v2.8 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>
@@ -715,7 +787,10 @@
       test13: false,
       test14: false,
       test15: false,
-      test16: false
+      test16: false,
+      test17: false,
+      test18: false,
+      test19: false
     };
 
     function validateTest1() {
@@ -828,6 +903,27 @@
       updateSummary();
       if (tests.test16) document.getElementById('test16-result').style.display = 'block';
       else document.getElementById('test16-result').style.display = 'none';
+    }
+
+    function validateTest17() {
+      tests.test17 = !tests.test17;
+      updateSummary();
+      if (tests.test17) document.getElementById('test17-result').style.display = 'block';
+      else document.getElementById('test17-result').style.display = 'none';
+    }
+
+    function validateTest18() {
+      tests.test18 = !tests.test18;
+      updateSummary();
+      if (tests.test18) document.getElementById('test18-result').style.display = 'block';
+      else document.getElementById('test18-result').style.display = 'none';
+    }
+
+    function validateTest19() {
+      tests.test19 = !tests.test19;
+      updateSummary();
+      if (tests.test19) document.getElementById('test19-result').style.display = 'block';
+      else document.getElementById('test19-result').style.display = 'none';
     }
 
     const cartolaOfflineInfo = {

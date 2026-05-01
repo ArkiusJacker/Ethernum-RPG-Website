@@ -5,7 +5,7 @@ const vm = require('vm');
 const ROOT = __dirname;
 const HTML_FILES = fs.readdirSync(ROOT).filter((file) => file.toLowerCase().endsWith('.html'));
 const JS_FILES = ['app.js', 'ethernum-shared.js', 'cartola.js'];
-const EXPECTED_VERSION = 'v2.7';
+const EXPECTED_VERSION = 'v2.8';
 
 let failures = 0;
 
@@ -60,8 +60,8 @@ for (const file of HTML_FILES) {
 const testsHtml = read('TESTS.html');
 const testIds = [...testsHtml.matchAll(/test(\d+): false/g)].map((match) => Number(match[1]));
 const missingTestValidators = testIds.filter((id) => !testsHtml.includes(`function validateTest${id}()`));
-if (testIds.length !== 16) fail(`expected 16 tests, found ${testIds.length}`);
-else pass('TESTS.html exposes 16 manual tests');
+if (testIds.length !== 19) fail(`expected 19 tests, found ${testIds.length}`);
+else pass('TESTS.html exposes 19 manual tests');
 if (missingTestValidators.length) fail(`missing validators for tests: ${missingTestValidators.join(', ')}`);
 else pass('all manual tests have validators');
 

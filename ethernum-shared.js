@@ -31,7 +31,9 @@
         first: 'Gyro',
         last: 'Zeppeli',
         sub: 'Gunslinger 3 · Nexus · agente de campo',
-        tags: ['Rotacao', 'IKONs', 'Palmas', 'Ball Breaker', 'SP 9']
+        tags: ['Rotacao', 'IKONs', 'Palmas', 'Ball Breaker', 'SP 9'],
+        origin: 'Origem ainda em registro. Use este espaco para marcar familia, trauma, patronos, promessa inicial e o evento que colocou Gyro na rota da Ethernum.',
+        path: 'Caminho em aberto. Registre aqui escolhas de mesa, votos, perdas, rivalidades e como a Rotacao Sagrada muda quando a campanha avanca.'
       },
       attributes: { STR: '+1', DEX: '+4', CON: '+2', INT: '+0', WIS: '+1', CHA: '+0' },
       sheet: ['SP 9', 'Rotacao Sagrada', 'IKONs / Palmas', 'Ball Breaker'],
@@ -54,7 +56,9 @@
         first: 'Cinerio',
         last: 'Umbra',
         sub: 'Dupla vinculada · ficha especial · contrato em observacao',
-        tags: ['Vinculo', 'Sombras', 'Contrato', 'Arquivo Visual']
+        tags: ['Vinculo', 'Sombras', 'Contrato', 'Arquivo Visual'],
+        origin: 'Origem ainda em registro. Use este espaco para separar o que pertence a Cinerio, o que pertence a Umbra e o que nenhum dos dois admite.',
+        path: 'Caminho em aberto. Marque quando o vinculo protege, quando cobra preco e quando a sombra passa a desejar algo proprio.'
       },
       attributes: { STR: '+0', DEX: '+0', CON: '+0', INT: '+0', WIS: '+0', CHA: '+0' },
       sheet: ['Vinculo Umbra', 'Contrato', 'Risco', 'Arquivo Visual']
@@ -75,7 +79,9 @@
         first: 'Pipping',
         last: 'Black',
         sub: 'Bardo 3 · Fetchling · heranca vampirica',
-        tags: ['Pulso Sombrio', 'Performance', 'Ocultismo', 'PS 6']
+        tags: ['Pulso Sombrio', 'Performance', 'Ocultismo', 'PS 6'],
+        origin: 'Origem ainda em registro. Use este espaco para a familia Black, a heranca vampirica, a profecia e a primeira noite em que Pipping entendeu o palco.',
+        path: 'Caminho em aberto. Registre cancoes, pactos, testemunhas, marcas da noite e escolhas que aproximam ou afastam Pipping da profecia.'
       },
       attributes: { STR: '+0', DEX: '+3', CON: '+2', INT: '+1', WIS: '+1', CHA: '+4' },
       sheet: ['PS 6', 'Expressao da Noite', 'Heranca Vampirica', 'Profecia'],
@@ -99,7 +105,9 @@
         first: 'Bayle',
         last: 'O Horror',
         sub: 'Barbaro 3 · Draconico · humanidade em risco',
-        tags: ['Ardor', 'Estagios', 'Fragmentos', 'Arquivista']
+        tags: ['Ardor', 'Estagios', 'Fragmentos', 'Arquivista'],
+        origin: 'Origem ainda em registro. Use este espaco para a Porta, a perda de memoria, o primeiro fragmento e o motivo de Bayle ainda insistir em ser humano.',
+        path: 'Caminho em aberto. Registre cada fragmento, cada aparicao do Arquivista e cada escolha em que Bayle vence ou cede ao horror.'
       },
       attributes: { STR: '+4', DEX: '+1', CON: '+3', INT: '+0', WIS: '+1', CHA: '+1' },
       sheet: ['Ardor Draconico', 'Estagios', 'Fragmentos', 'Arquivista'],
@@ -433,16 +441,28 @@
     if (!data || !overview) return '';
     const art = data.art || '';
     return `
-      <div class="ethernum-overview-left">
-        <p class="ethernum-overview-eyebrow">// ${overview.line}</p>
-        <h1 class="ethernum-overview-name">${overview.first}<span>${overview.last}</span></h1>
-        <p class="ethernum-overview-sub">| ${overview.sub}</p>
-        <div class="ethernum-overview-tags">
-          ${overview.tags.map((tag) => `<span>${tag}</span>`).join('')}
+      <div class="ethernum-overview-hero">
+        <div class="ethernum-overview-left">
+          <p class="ethernum-overview-eyebrow">// ${overview.line}</p>
+          <h1 class="ethernum-overview-name">${overview.first}<span>${overview.last}</span></h1>
+          <p class="ethernum-overview-sub">| ${overview.sub}</p>
+          <div class="ethernum-overview-tags">
+            ${overview.tags.map((tag) => `<span>${tag}</span>`).join('')}
+          </div>
+        </div>
+        <div class="ethernum-overview-right">
+          ${art ? `<img src="${art}" alt="${data.label}">` : ''}
         </div>
       </div>
-      <div class="ethernum-overview-right">
-        ${art ? `<img src="${art}" alt="${data.label}">` : ''}
+      <div class="ethernum-overview-story">
+        <article>
+          <p>Origem</p>
+          <div class="ethernum-editable" contenteditable="true" data-edit-key="overview-origin">${overview.origin}</div>
+        </article>
+        <article>
+          <p>Caminho</p>
+          <div class="ethernum-editable" contenteditable="true" data-edit-key="overview-path">${overview.path}</div>
+        </article>
       </div>`;
   }
 
@@ -451,9 +471,15 @@
     const html = overviewMarkup(characterId);
     if (!html) return;
     const overview = document.createElement('section');
-    overview.className = 'ethernum-character-overview';
+    overview.className = `ethernum-character-overview ethernum-theme-${characterId}`;
     overview.dataset.overview = characterId;
     overview.innerHTML = html;
+    overview.querySelectorAll('[data-edit-key]').forEach((el) => {
+      const key = `ethernum-overview-${characterId}-${el.dataset.editKey}`;
+      const saved = localStorage.getItem(key);
+      if (saved !== null) el.textContent = saved;
+      el.addEventListener('input', () => localStorage.setItem(key, el.textContent.trim()));
+    });
 
     if (characterId === 'gyro') {
       overview.id = 's-overview';
@@ -505,7 +531,10 @@
 
     if (characterId === 'bayle') {
       const panel = document.getElementById('tab-visao');
-      if (panel) panel.prepend(overview);
+      if (panel) {
+        panel.classList.add('ethernum-overview-panel');
+        panel.prepend(overview);
+      }
       else (document.querySelector('main') || document.body).prepend(overview);
       return;
     }
@@ -588,8 +617,7 @@
     const tabs = document.createElement('div');
     tabs.className = 'ethernum-tabs';
     tabs.innerHTML = `
-      <button class="ethernum-tab-btn is-active" data-filter="all">Tudo</button>
-      <button class="ethernum-tab-btn" data-filter="overview">Visao Geral</button>
+      <button class="ethernum-tab-btn is-active" data-filter="overview">Visao Geral</button>
       <button class="ethernum-tab-btn" data-filter="sheet">Ficha</button>
       <button class="ethernum-tab-btn" data-filter="tiers">Habilidades</button>
       <button class="ethernum-tab-btn" data-filter="progression">Progressao</button>`;
@@ -605,10 +633,11 @@
         const isSheet = el.classList.contains('ethernum-pf2-sheet');
         const isTier = el.classList.contains('tier-section') || el.classList.contains('pulso-box');
         const isProgress = el.classList.contains('progression') || el.classList.contains('footer-quote');
-        el.style.display = filter === 'all' || (filter === 'overview' && isOverview) || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
+        el.style.display = (filter === 'overview' && isOverview) || (filter === 'sheet' && isSheet) || (filter === 'tiers' && isTier) || (filter === 'progression' && isProgress) ? '' : 'none';
       });
       applySectionLocks(pageCharacter());
     });
+    tabs.querySelector('[data-filter="overview"]')?.click();
   }
 
   function addGyroSheetTab() {

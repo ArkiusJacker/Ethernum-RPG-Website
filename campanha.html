@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campanha - Ethernum Company v3.0</title>
+  <link rel="stylesheet" href="ethernum-shared.css">
+  <style>
+    :root {
+      --gold: #c8a84b;
+      --green: #6ea36f;
+      --red: #b83a34;
+      --blue: #6488e8;
+      --text: #e8e0cc;
+      --muted: #a8a08a;
+      --panel: rgba(10, 13, 12, 0.84);
+      --line: rgba(200, 168, 75, 0.28);
+      --bg: #070908;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Courier New", monospace;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(110, 163, 111, 0.13), transparent 28%),
+        radial-gradient(circle at 82% 16%, rgba(184, 58, 52, 0.16), transparent 30%),
+        linear-gradient(145deg, #050706 0%, #0b0f0d 46%, #17100c 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem clamp(1rem, 4vw, 4rem);
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 7, 6, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: flex-end;
+    }
+
+    .button,
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.4rem;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: rgba(200, 168, 75, 0.08);
+      color: var(--text);
+      font-size: 0.82rem;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .button:hover,
+    .nav a:hover {
+      border-color: var(--gold);
+      background: rgba(200, 168, 75, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .hero,
+    .band {
+      padding: clamp(2.4rem, 7vw, 5rem) clamp(1rem, 5vw, 5rem);
+      border-bottom: 1px solid rgba(200, 168, 75, 0.18);
+    }
+
+    .hero {
+      min-height: 56vh;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(90deg, rgba(5, 7, 6, 0.96), rgba(8, 10, 10, 0.72)),
+        radial-gradient(circle at 78% 36%, rgba(200, 168, 75, 0.13), transparent 36%);
+    }
+
+    .eyebrow {
+      margin-bottom: 1rem;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 12ch;
+      color: #f2df9b;
+      font-size: clamp(3rem, 10vw, 8rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: #f2df9b;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin-top: 1.35rem;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+      line-height: 1.7;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-note {
+      max-width: 620px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .campaign-grid,
+    .rank-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .campaign-grid {
+      grid-template-columns: 1.15fr 0.85fr 0.85fr;
+    }
+
+    .rank-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+    }
+
+    .card h3 {
+      margin-bottom: 0.75rem;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-flex;
+      min-height: 1.7rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      padding: 0.32rem 0.5rem;
+      border: 1px solid rgba(110, 163, 111, 0.48);
+      border-radius: 4px;
+      color: #bfe1bf;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+    }
+
+    .list {
+      display: grid;
+      gap: 0.72rem;
+      margin-top: 1rem;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.75rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid rgba(200, 168, 75, 0.13);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .item strong {
+      color: #f2df9b;
+      text-transform: uppercase;
+    }
+
+    .rank {
+      min-height: 170px;
+    }
+
+    .rank strong {
+      display: block;
+      color: #f2df9b;
+      font-size: 1.55rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .rank span,
+    .card p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1050px) {
+      .campaign-grid,
+      .rank-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar,
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .campaign-grid,
+      .rank-grid,
+      .item {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .nav a {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Ethernum Company · Campanha</div>
+    <nav class="nav" aria-label="Navegacao da campanha">
+      <a href="index.html">Index</a>
+      <a href="mestre-panel.html">Painel Mestre</a>
+      <a href="TESTS.html">Testes</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Mesa em andamento // arquivo operacional</p>
+        <h1>Status da Campanha</h1>
+        <p class="subtitle">
+          Pagina separada para sessao atual, estado da campanha, rank da equipe e informacoes que nao pertencem a uma ficha especifica.
+        </p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Sessao</p>
+          <h2>Painel atual</h2>
+        </div>
+        <p class="section-note">Use esta pagina como quadro de abertura da mesa antes de entrar nas fichas.</p>
+      </div>
+      <div class="campaign-grid">
+        <article class="card">
+          <span class="tag">Sessao</span>
+          <h3>Sessao atual</h3>
+          <div class="list">
+            <div class="item"><strong>Numero</strong><span>A definir</span></div>
+            <div class="item"><strong>Local</strong><span>Stingol / rota operacional Ethernum</span></div>
+            <div class="item"><strong>Objetivo</strong><span>Contrato ativo aguardando despacho do mestre.</span></div>
+            <div class="item"><strong>Gancho</strong><span>Registrar pistas, NPCs relevantes e pendencias antes do proximo jogo.</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <span class="tag">Status</span>
+          <h3>Status da campanha</h3>
+          <div class="list">
+            <div class="item"><strong>Risco</strong><span>Moderado</span></div>
+            <div class="item"><strong>Recursos</strong><span>EP e recompensas a definir.</span></div>
+            <div class="item"><strong>Arquivos</strong><span>4 protagonistas integrados com ficha PF2e.</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <span class="tag">Equipe</span>
+          <h3>Rank da equipe</h3>
+          <div class="list">
+            <div class="item"><strong>Rank</strong><span>1 · Agentes de campo trainee</span></div>
+            <div class="item"><strong>Membros</strong><span>Gyro, Cinerio, Pipping e Bayle.</span></div>
+            <div class="item"><strong>Marco</strong><span>Atualizar apos fechamento de contrato.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Equipe</p>
+          <h2>Rank e informacoes</h2>
+        </div>
+        <p class="section-note">Blocos prontos para evoluir quando a equipe subir de categoria ou ganhar reputacao.</p>
+      </div>
+      <div class="rank-grid">
+        <article class="card rank"><strong>Rank 1</strong><span>Agentes de campo trainee. Operacoes pequenas, risco controlado, acesso parcial.</span></article>
+        <article class="card rank"><strong>Reputacao</strong><span>A definir conforme contratos, testemunhas e consequencias publicas.</span></article>
+        <article class="card rank"><strong>EP</strong><span>Espaco reservado para experiencia, recursos de campanha ou moeda operacional.</span></article>
+        <article class="card rank"><strong>Alertas</strong><span>Pendencias, ameacas ativas, investigacoes e prazos sensiveis.</span></article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

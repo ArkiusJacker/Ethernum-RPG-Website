@@ -1,10 +1,10 @@
-<!-- TESTE INTERATIVO - ETHERNUM v2.9 -->
+<!-- TESTE INTERATIVO - ETHERNUM v3.0 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste - ETHERNUM v2.9</title>
+  <title>Teste - ETHERNUM v3.0</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -223,10 +223,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Teste Completo - ETHERNUM v2.9</h1>
+    <h1>🧪 Teste Completo - ETHERNUM v3.0</h1>
 
     <p style="text-align: center; color: #999; margin-bottom: 2rem;">
-      Siga os passos abaixo para validar a rodada v2.9. Testes marcados ficam compactos automaticamente.
+      Siga os passos abaixo para validar a rodada v3.0. Testes marcados ficam compactos automaticamente.
     </p>
 
     <!-- TESTE 1: Section Lock -->
@@ -683,12 +683,130 @@
       </label>
     </div>
 
+    <!-- TESTE 20: Visão Geral Full Page -->
+    <h2>✅ TESTE 20: Visão Geral Full Page por Personagem</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎭 Validar lógica visual estilo Yu sem virar card</div>
+      <div class="test-desc">
+        A visão geral deve ocupar a área da aba como uma abertura inteira, sem moldura de card no Bayle/Pipping/Gyro/Cinério.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra cada personagem: Gyro, Cinério, Pipping e Bayle</li>
+          <li>Entre na aba <strong>Visão Geral</strong></li>
+          <li>Confirme que a abertura ocupa a aba inteira, com nome grande, tags e imagem quando existir</li>
+          <li>Confirme que não há um bloco/card envolvendo a abertura como na falha anterior</li>
+        </ol>
+      </div>
+      <div class="result" id="test20-result" style="display:none;">
+        ✅ Visão geral full page validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest20()">
+        <span>Visão geral não está mais como bloco/card</span>
+      </label>
+    </div>
+
+    <!-- TESTE 21: Paletas Individuais -->
+    <h2>✅ TESTE 21: Paletas Individuais dos Personagens</h2>
+    <div class="test-item warning">
+      <div class="test-title">🎨 Confirmar cores correlacionadas ao HTML de cada ficha</div>
+      <div class="test-desc">
+        A visão geral deve usar a identidade do personagem: Gyro verde/dourado, Pipping azul/vermelho, Cinério azul/roxo, Bayle ouro/vermelho.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Compare a aba Visão Geral com as cores já usadas no HTML original do personagem</li>
+          <li>Confirme que Pipping não parece Bayle, Bayle não parece Yu genérico e Gyro não usa vermelho como cor principal</li>
+          <li>Confirme que as tags e acentos acompanham a paleta correta</li>
+        </ol>
+      </div>
+      <div class="result" id="test21-result" style="display:none;">
+        ✅ Paletas individuais validadas!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest21()">
+        <span>Cada personagem tem paleta própria</span>
+      </label>
+    </div>
+
+    <!-- TESTE 22: Origem e Caminho -->
+    <h2>✅ TESTE 22: Origem e Caminho Editáveis</h2>
+    <div class="test-item">
+      <div class="test-title">📜 Validar expansão narrativa da aba</div>
+      <div class="test-desc">
+        A Visão Geral agora deve ter espaços de Origem e Caminho para expandir a história sem misturar com mecânica.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra a Visão Geral de qualquer personagem</li>
+          <li>Role abaixo da abertura principal</li>
+          <li>Edite os campos <strong>Origem</strong> e <strong>Caminho</strong></li>
+          <li>Recarregue a página e confirme que o texto permanece no navegador</li>
+        </ol>
+      </div>
+      <div class="result" id="test22-result" style="display:none;">
+        ✅ Origem e Caminho editáveis validados!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest22()">
+        <span>Origem e Caminho existem e persistem localmente</span>
+      </label>
+    </div>
+
+    <!-- TESTE 23: Campanha Separada -->
+    <h2>✅ TESTE 23: Campanha em HTML Próprio</h2>
+    <div class="test-item">
+      <div class="test-title">🗂️ Validar separação do index</div>
+      <div class="test-desc">
+        Sessão, status e rank da equipe devem estar em <code>campanha.html</code>, com o index funcionando apenas como hub.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra <code>index.html</code> e clique em <strong>Campanha</strong> ou <strong>Status da campanha</strong></li>
+          <li>Confirme que abriu <code>campanha.html</code></li>
+          <li>Confirme que a página tem Sessão atual, Status da campanha e Rank da equipe</li>
+        </ol>
+      </div>
+      <div class="result" id="test23-result" style="display:none;">
+        ✅ Campanha separada validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest23()">
+        <span>Campanha está em HTML separado</span>
+      </label>
+    </div>
+
+    <!-- TESTE 24: Aba Inicial Correta -->
+    <h2>✅ TESTE 24: Aba Inicial Correta nos Personagens</h2>
+    <div class="test-item warning">
+      <div class="test-title">🧭 Garantir que cada ficha abre na Visão Geral</div>
+      <div class="test-desc">
+        Ao abrir um personagem, a primeira coisa visível deve ser a Visão Geral, não a ficha mecânica ou uma lista de habilidades.
+      </div>
+      <div class="test-steps">
+        <ol>
+          <li>Abra Gyro, Cinério, Pipping e Bayle em carregamento limpo</li>
+          <li>Confirme que a Visão Geral está ativa primeiro</li>
+          <li>No Pipping, confirme que não começa em "Tudo"</li>
+          <li>No Bayle, confirme que a aba Visão Geral não mantém padding/moldura de conteúdo mecânico</li>
+        </ol>
+      </div>
+      <div class="result" id="test24-result" style="display:none;">
+        ✅ Aba inicial correta validada!
+      </div>
+      <label class="check-item">
+        <input type="checkbox" onchange="validateTest24()">
+        <span>Personagens abrem pela Visão Geral correta</span>
+      </label>
+    </div>
+
     <!-- RESUMO FINAL -->
     <h2 style="margin-top: 3rem;">📊 Resumo de Testes</h2>
     <div class="test-item success" style="background: rgba(46, 125, 50, 0.15);">
       <div class="status-line">
         <span class="label">Tests Completados:</span>
-        <span class="value" id="completed-count">0/19</span>
+        <span class="value" id="completed-count">0/22</span>
       </div>
       <div class="status-line">
         <span class="label">Taxa de Sucesso:</span>
@@ -704,7 +822,7 @@
     <div class="test-item">
       <p style="line-height: 1.8;">
         <strong>Se todos os testes passaram:</strong> ✅<br>
-        Parabéns! A bateria v2.9 está funcionando.<br>
+        Parabéns! A bateria v3.0 está funcionando.<br>
         <br>
         <strong>Próxima fase:</strong><br>
         → Criar um mini painel de áudio dentro do Painel Mestre com play/pause/volume<br>
@@ -721,7 +839,7 @@
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(200, 168, 75, 0.2);">
       <p style="color: #999; font-size: 0.9rem;">
-        ETHERNUM v2.9 - Teste Completo<br>
+        ETHERNUM v3.0 - Teste Completo<br>
         <a href="javascript:location.reload()" class="btn" style="margin-top: 1rem;">🔄 Recarregar Página</a>
       </p>
     </div>
@@ -745,7 +863,12 @@
       test16: false,
       test17: false,
       test18: false,
-      test19: false
+      test19: false,
+      test20: false,
+      test21: false,
+      test22: false,
+      test23: false,
+      test24: false
     };
 
     function validateTest1() {
@@ -865,6 +988,41 @@
       updateSummary();
       if (tests.test19) document.getElementById('test19-result').style.display = 'block';
       else document.getElementById('test19-result').style.display = 'none';
+    }
+
+    function validateTest20() {
+      tests.test20 = !tests.test20;
+      updateSummary();
+      if (tests.test20) document.getElementById('test20-result').style.display = 'block';
+      else document.getElementById('test20-result').style.display = 'none';
+    }
+
+    function validateTest21() {
+      tests.test21 = !tests.test21;
+      updateSummary();
+      if (tests.test21) document.getElementById('test21-result').style.display = 'block';
+      else document.getElementById('test21-result').style.display = 'none';
+    }
+
+    function validateTest22() {
+      tests.test22 = !tests.test22;
+      updateSummary();
+      if (tests.test22) document.getElementById('test22-result').style.display = 'block';
+      else document.getElementById('test22-result').style.display = 'none';
+    }
+
+    function validateTest23() {
+      tests.test23 = !tests.test23;
+      updateSummary();
+      if (tests.test23) document.getElementById('test23-result').style.display = 'block';
+      else document.getElementById('test23-result').style.display = 'none';
+    }
+
+    function validateTest24() {
+      tests.test24 = !tests.test24;
+      updateSummary();
+      if (tests.test24) document.getElementById('test24-result').style.display = 'block';
+      else document.getElementById('test24-result').style.display = 'none';
     }
 
     function updateSummary() {

@@ -1,10 +1,10 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v2.9 -->
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.0 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethernum Company v2.9 - Arquivo Operacional</title>
+  <title>Ethernum Company v3.0 - Arquivo Operacional</title>
   <link rel="stylesheet" href="ethernum-shared.css">
   <style>
     :root {
@@ -502,10 +502,10 @@
   </div>
 
   <header class="topbar">
-    <div class="brand">Ethernum Company · v2.9</div>
+    <div class="brand">Ethernum Company · v3.0</div>
     <nav class="nav" aria-label="Navegacao principal">
       <button type="button" data-intro-mode>Intro: uma vez</button>
-      <a href="#campanha">Campanha</a>
+      <a href="campanha.html">Campanha</a>
       <a href="#personagens">Personagens</a>
       <a href="#alteracoes">Alteracoes</a>
       <a href="#ferramentas">Ferramentas</a>
@@ -529,13 +529,14 @@
         </p>
         <div class="actions">
           <a class="button primary" href="#personagens">Abrir personagens</a>
+          <a class="button" href="campanha.html">Status da campanha</a>
           <a class="button" href="mestre-panel.html">Painel do Mestre</a>
           <a class="button" href="TESTS.html">Testes</a>
         </div>
       </div>
 
       <aside class="terminal">
-        <p class="eyebrow">Status v2.9</p>
+        <p class="eyebrow">Status v3.0</p>
         <div class="terminal-grid">
           <div class="signal"><strong>4</strong><span>fichas registradas</span></div>
           <div class="signal"><strong>PF2e</strong><span>ficha + inventario</span></div>
@@ -545,46 +546,6 @@
           <div class="signal"><strong>EP</strong><span>a definir</span></div>
         </div>
       </aside>
-    </section>
-
-    <section class="band" id="campanha">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Mesa em andamento</p>
-          <h2>Campanha</h2>
-        </div>
-        <p class="section-note">Resumo operacional para abrir a sessão sem caçar informação em abas de personagem.</p>
-      </div>
-      <div class="ops-grid">
-        <article class="ops-card">
-          <span class="tag">Sessao</span>
-          <h3>Sessao atual</h3>
-          <div class="ops-list">
-            <div class="ops-item"><strong>Numero</strong><span>A definir</span></div>
-            <div class="ops-item"><strong>Local</strong><span>Stingol / rota operacional Ethernum</span></div>
-            <div class="ops-item"><strong>Objetivo</strong><span>Contrato ativo aguardando despacho do mestre.</span></div>
-            <div class="ops-item"><strong>Gancho</strong><span>Registrar pistas, NPCs relevantes e pendencias antes do proximo jogo.</span></div>
-          </div>
-        </article>
-        <article class="ops-card">
-          <span class="tag">Status</span>
-          <h3>Status da campanha</h3>
-          <div class="ops-list">
-            <div class="ops-item"><strong>Risco</strong><span>Moderado</span></div>
-            <div class="ops-item"><strong>Recursos</strong><span>EP e recompensas a definir.</span></div>
-            <div class="ops-item"><strong>Arquivos</strong><span>4 protagonistas integrados com ficha PF2e.</span></div>
-          </div>
-        </article>
-        <article class="ops-card">
-          <span class="tag">Equipe</span>
-          <h3>Rank da equipe</h3>
-          <div class="ops-list">
-            <div class="ops-item"><strong>Rank</strong><span>1 · Agentes de campo trainee</span></div>
-            <div class="ops-item"><strong>Membros</strong><span>Gyro, Cinerio, Pipping e Bayle.</span></div>
-            <div class="ops-item"><strong>Marco</strong><span>Atualizar apos fechamento de contrato.</span></div>
-          </div>
-        </article>
-      </div>
     </section>
 
     <section class="band" id="personagens">
@@ -640,7 +601,7 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Lista de alteracoes</p>
-          <h2>v2.9</h2>
+          <h2>v3.0</h2>
         </div>
         <p class="section-note">Toda rodada de alteracao sobe a versao do site.</p>
       </div>
@@ -656,7 +617,7 @@
         <article class="change"><h3>Cards corrigidos</h3><p>Palmas, tecnicas e progresso deixam de sofrer conflito de duplo clique.</p></article>
         <article class="change"><h3>IKONs editaveis</h3><p>Linhas internas, custos e transcendencias entram no modo de edicao.</p></article>
         <article class="change"><h3>Audio do Gyro revisado</h3><p>Fallback local e desbloqueio do AudioContext no primeiro clique.</p></article>
-        <article class="change"><h3>Nova bateria de testes</h3><p>Testes funcionais agora podem ser minimizados para deixar a pagina respiravel.</p></article>
+        <article class="change"><h3>Visao geral corrigida</h3><p>Personagens usam uma abertura inteira por aba, com paleta propria, Origem e Caminho.</p></article>
         <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao e bateria manual.</p></article>
         <article class="change"><h3>Asset do Gyro local</h3><p>Removida dependencia de caminho absoluto do Foundry para evitar quebra no GitHub Pages.</p></article>
         <article class="change"><h3>Codigo mais limpo</h3><p>Seletores editaveis foram centralizados para evitar duplicidade no <code>app.js</code>.</p></article>
@@ -675,6 +636,7 @@
         </div>
       </div>
       <div class="tools">
+        <article class="tool-card"><h3>Campanha</h3><p>Sessao, status e rank da equipe em pagina propria.</p><div class="record-actions"><a class="button" href="campanha.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Painel Mestre</h3><p>Controle multi-personagem com senha.</p><div class="record-actions"><a class="button" href="mestre-panel.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Configurações Gerais</h3><p>Trilhas por pagina, cards e abertura inicial.</p><div class="record-actions"><a class="button" href="audio-config.html?target=index&return=index.html">Abrir</a></div></article>
         <article class="tool-card"><h3>Testes</h3><p>Validacao manual das funcionalidades.</p><div class="record-actions"><a class="button" href="TESTS.html">Abrir</a></div></article>
@@ -688,13 +650,13 @@
           <p class="eyebrow">Proximas fases</p>
           <h2>Roadmap</h2>
         </div>
-        <p class="section-note">Proxima rodada sera v3.0, mantendo esse padrao de versionamento incremental.</p>
+        <p class="section-note">Proxima rodada sera v3.1, mantendo esse padrao de versionamento incremental.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v2.9
+    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v3.0
   </footer>
   <script>
     (() => {

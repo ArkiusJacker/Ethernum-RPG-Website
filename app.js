@@ -1,5 +1,5 @@
 /**
- * ETHERNUM v2.9 - Interactive Character Sheet System (Enhanced)
+ * ETHERNUM v3.0 - Interactive Character Sheet System (Enhanced)
  * Features: Multi-character support, Custom audio, Better transitions, Improved editing
  */
 
@@ -102,7 +102,7 @@ class EthernumApp {
     this.setupCardToggle();
     this.setupEditableElements();
     
-    console.log('🎯 ETHERNUM v2.9 initialized', {
+    console.log('🎯 ETHERNUM v3.0 initialized', {
       character: this.config.character,
       masterMode: this.masterMode,
       soundEnabled: this.isSoundEnabled,

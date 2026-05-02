@@ -1,477 +1,595 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configurações Gerais - ETHERNUM</title>
-  <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.7">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      color: #e0e0e0;
-      padding: 2rem;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(200, 168, 75, 0.3);
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    }
-
-    h1 {
-      color: #c8a84b;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-size: 1.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .config-group {
-      margin-bottom: 2rem;
-    }
-
-    .config-group label {
-      display: block;
-      margin-bottom: 0.8rem;
-      color: #c8a84b;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .config-group input[type="text"],
-    .config-group input[type="file"],
-    .config-group select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(200, 168, 75, 0.3);
-      border-radius: 6px;
-      color: #e0e0e0;
-      font-size: 0.9rem;
-      font-family: 'Courier New', monospace;
-      transition: all 0.2s ease;
-    }
-
-    .config-group input[type="text"]:focus,
-    .config-group input[type="file"]:focus,
-    .config-group select:focus {
-      outline: none;
-      border-color: #c8a84b;
-      background: rgba(200, 168, 75, 0.1);
-      box-shadow: 0 0 12px rgba(200, 168, 75, 0.2);
-    }
-
-    .help-text {
-      font-size: 0.8rem;
-      color: rgba(224, 224, 224, 0.6);
-      margin-top: 0.5rem;
-      font-style: italic;
-    }
-
-    .button-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    button {
-      padding: 0.9rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      transition: all 0.3s ease;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .btn-save {
-      background: linear-gradient(135deg, #c8a84b 0%, #a08a3a 100%);
-      color: #1a1a1a;
-    }
-
-    .btn-save:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(200, 168, 75, 0.3);
-    }
-
-    .btn-test {
-      background: rgba(200, 168, 75, 0.2);
-      color: #c8a84b;
-      border: 1px solid #c8a84b;
-    }
-
-    .btn-test:hover {
-      background: rgba(200, 168, 75, 0.3);
-      box-shadow: 0 4px 12px rgba(200, 168, 75, 0.2);
-    }
-
-    .btn-reset {
-      background: rgba(196, 43, 43, 0.2);
-      color: #e05555;
-      border: 1px solid #e05555;
-      grid-column: 1 / -1;
-    }
-
-    .btn-reset:hover {
-      background: rgba(196, 43, 43, 0.3);
-      box-shadow: 0 4px 12px rgba(196, 43, 43, 0.2);
-    }
-
-    .status-message {
-      padding: 1rem;
-      border-radius: 6px;
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      display: none;
-      animation: slideDown 0.3s ease;
-    }
-
-    .status-message.success {
-      background: rgba(46, 125, 50, 0.2);
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      color: #76c97d;
-      display: block;
-    }
-
-    .status-message.error {
-      background: rgba(196, 43, 43, 0.2);
-      border: 1px solid rgba(244, 67, 54, 0.3);
-      color: #e05555;
-      display: block;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações Gerais - ETHERNUM</title>
+    <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #e0e0e0;
+        padding: 2rem;
+        min-height: 100vh;
       }
-    }
 
-    .section-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(200, 168, 75, 0.3), transparent);
-      margin: 2rem 0;
-    }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(200, 168, 75, 0.3);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      }
 
-    .preset-buttons {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.8rem;
-    }
+      h1 {
+        color: #c8a84b;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
 
-    .preset-btn {
-      padding: 0.6rem 1rem;
-      background: rgba(200, 168, 75, 0.1);
-      border: 1px solid rgba(200, 168, 75, 0.2);
-      border-radius: 4px;
-      color: #c8a84b;
-      cursor: pointer;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      transition: all 0.2s ease;
-    }
+      .config-group {
+        margin-bottom: 2rem;
+      }
 
-    .preset-btn:hover {
-      background: rgba(200, 168, 75, 0.2);
-      border-color: #c8a84b;
-    }
+      .config-group label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: #c8a84b;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
 
-    .map-list {
-      display: grid;
-      gap: 0.55rem;
-      margin-top: 0.8rem;
-    }
+      .config-group input[type="text"],
+      .config-group input[type="file"],
+      .config-group select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(200, 168, 75, 0.3);
+        border-radius: 6px;
+        color: #e0e0e0;
+        font-size: 0.9rem;
+        font-family: "Courier New", monospace;
+        transition: all 0.2s ease;
+      }
 
-    .map-row {
-      display: grid;
-      grid-template-columns: 96px 1fr;
-      gap: 0.7rem;
-      padding: 0.65rem;
-      border: 1px solid rgba(200, 168, 75, 0.18);
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.035);
-      font: 0.78rem/1.35 "Courier New", monospace;
-    }
+      .config-group input[type="text"]:focus,
+      .config-group input[type="file"]:focus,
+      .config-group select:focus {
+        outline: none;
+        border-color: #c8a84b;
+        background: rgba(200, 168, 75, 0.1);
+        box-shadow: 0 0 12px rgba(200, 168, 75, 0.2);
+      }
 
-    .map-row strong {
-      color: #c8a84b;
-      text-transform: uppercase;
-    }
+      .help-text {
+        font-size: 0.8rem;
+        color: rgba(224, 224, 224, 0.6);
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
 
-    .map-row span {
-      color: rgba(224, 224, 224, 0.72);
-      overflow-wrap: anywhere;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>⚙️ Configurações Gerais</h1>
+      .button-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
 
-    <!-- Método 1: URL da Música -->
-    <div class="config-group">
-      <label for="audioTarget">Página / Personagem</label>
-      <select id="audioTarget">
-        <option value="index">Index</option>
-        <option value="gyro">Gyro Zeppeli</option>
-        <option value="cinerio">Cinério & Umbra</option>
-        <option value="pipping">Pipping Baldwin Black</option>
-        <option value="bayle">Bayle, O Horror</option>
-      </select>
-      <p class="help-text">Cada página pode ter uma trilha própria. O modo mestre usa esta escolha ao salvar.</p>
-    </div>
+      button {
+        padding: 0.9rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        transition: all 0.3s ease;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-    <div class="config-group">
-      <label>Trilhas já configuradas</label>
-      <div class="map-list" id="trackMap"></div>
-      <p class="help-text">Use o seletor acima para editar uma página por vez. Assim cada personagem pode ter uma trilha própria.</p>
-    </div>
+      .btn-save {
+        background: linear-gradient(135deg, #c8a84b 0%, #a08a3a 100%);
+        color: #1a1a1a;
+      }
 
-    <div class="section-divider"></div>
+      .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(200, 168, 75, 0.3);
+      }
 
-    <div class="config-group">
-      <label for="musicUrl">URL da Música de Fundo</label>
-      <input type="text" id="musicUrl" placeholder="../../assets/audio/audio%20%5Bmusic%5D.mp3 ou https://...">
-      <p class="help-text">Cole aqui o caminho local em ../../assets/audio/ ou URL remota (https://...). Em branco usa a trilha local padrão.</p>
-    </div>
+      .btn-test {
+        background: rgba(200, 168, 75, 0.2);
+        color: #c8a84b;
+        border: 1px solid #c8a84b;
+      }
 
-    <div class="section-divider"></div>
+      .btn-test:hover {
+        background: rgba(200, 168, 75, 0.3);
+        box-shadow: 0 4px 12px rgba(200, 168, 75, 0.2);
+      }
 
-    <!-- Método 2: Upload de Arquivo -->
-    <div class="config-group">
-      <label for="audioFile">Ou Upload de Arquivo</label>
-      <input type="file" id="audioFile" accept="audio/*">
-      <p class="help-text">Selecione um arquivo MP3, WAV, ou OGG do seu computador</p>
-    </div>
+      .btn-reset {
+        background: rgba(196, 43, 43, 0.2);
+        color: #e05555;
+        border: 1px solid #e05555;
+        grid-column: 1 / -1;
+      }
 
-    <div class="section-divider"></div>
+      .btn-reset:hover {
+        background: rgba(196, 43, 43, 0.3);
+        box-shadow: 0 4px 12px rgba(196, 43, 43, 0.2);
+      }
 
-    <!-- Opções -->
-    <div class="config-group">
-      <label for="allowMultiple">Opções</label>
-      <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <input type="checkbox" id="allowMultiple">
-        <span>Permitir múltiplos cards abertos ao mesmo tempo</span>
-      </label>
-      <label style="display: flex; align-items: center; gap: 0.5rem;">
-        <input type="checkbox" id="enableCustomAudio" checked>
-        <span>Ativar áudio customizado</span>
-      </label>
-      <label style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-        <input type="checkbox" id="alwaysShowIntro">
-        <span>Mostrar a abertura do Index sempre</span>
-      </label>
-    </div>
+      .status-message {
+        padding: 1rem;
+        border-radius: 6px;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        display: none;
+        animation: slideDown 0.3s ease;
+      }
 
-    <div class="section-divider"></div>
+      .status-message.success {
+        background: rgba(46, 125, 50, 0.2);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        color: #76c97d;
+        display: block;
+      }
 
-    <!-- Presets -->
-    <div class="config-group">
-      <label>Presets de Áudio</label>
-      <div class="preset-buttons">
-        <button class="preset-btn" data-preset="ambient">Ambient Synth</button>
-        <button class="preset-btn" data-preset="piano">Piano Clássico</button>
-        <button class="preset-btn" data-preset="orchestral">Orquestral</button>
-        <button class="preset-btn" data-preset="desert">Deserto (Gyro)</button>
+      .status-message.error {
+        background: rgba(196, 43, 43, 0.2);
+        border: 1px solid rgba(244, 67, 54, 0.3);
+        color: #e05555;
+        display: block;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(200, 168, 75, 0.3),
+          transparent
+        );
+        margin: 2rem 0;
+      }
+
+      .preset-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+      }
+
+      .preset-btn {
+        padding: 0.6rem 1rem;
+        background: rgba(200, 168, 75, 0.1);
+        border: 1px solid rgba(200, 168, 75, 0.2);
+        border-radius: 4px;
+        color: #c8a84b;
+        cursor: pointer;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        transition: all 0.2s ease;
+      }
+
+      .preset-btn:hover {
+        background: rgba(200, 168, 75, 0.2);
+        border-color: #c8a84b;
+      }
+
+      .map-list {
+        display: grid;
+        gap: 0.55rem;
+        margin-top: 0.8rem;
+      }
+
+      .map-row {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 0.7rem;
+        padding: 0.65rem;
+        border: 1px solid rgba(200, 168, 75, 0.18);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.035);
+        font:
+          0.78rem/1.35 "Courier New",
+          monospace;
+      }
+
+      .map-row strong {
+        color: #c8a84b;
+        text-transform: uppercase;
+      }
+
+      .map-row span {
+        color: rgba(224, 224, 224, 0.72);
+        overflow-wrap: anywhere;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>⚙️ Configurações Gerais</h1>
+
+      <!-- Método 1: URL da Música -->
+      <div class="config-group">
+        <label for="audioTarget">Página / Personagem</label>
+        <select id="audioTarget">
+          <option value="index">Index</option>
+          <option value="gyro">Gyro Zeppeli</option>
+          <option value="cinerio">Cinério & Umbra</option>
+          <option value="pipping">Pipping Baldwin Black</option>
+          <option value="bayle">Bayle, O Horror</option>
+        </select>
+        <p class="help-text">
+          Cada página pode ter uma trilha própria. O modo privado usa esta
+          escolha ao salvar.
+        </p>
       </div>
+
+      <div class="config-group">
+        <label>Trilhas já configuradas</label>
+        <div class="map-list" id="trackMap"></div>
+        <p class="help-text">
+          Use o seletor acima para editar uma página por vez. Assim cada
+          personagem pode ter uma trilha própria.
+        </p>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="config-group">
+        <label for="musicUrl">URL da Música de Fundo</label>
+        <input
+          type="text"
+          id="musicUrl"
+          placeholder="../../assets/audio/audio%20%5Bmusic%5D.mp3 ou https://..."
+        />
+        <p class="help-text">
+          Cole aqui o caminho local em ../../assets/audio/ ou URL remota
+          (https://...). Em branco usa a trilha local padrão.
+        </p>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Método 2: Upload de Arquivo -->
+      <div class="config-group">
+        <label for="audioFile">Ou Upload de Arquivo</label>
+        <input type="file" id="audioFile" accept="audio/*" />
+        <p class="help-text">
+          Selecione um arquivo MP3, WAV, ou OGG do seu computador
+        </p>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Opções -->
+      <div class="config-group">
+        <label for="allowMultiple">Opções</label>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+          "
+        >
+          <input type="checkbox" id="allowMultiple" />
+          <span>Permitir múltiplos cards abertos ao mesmo tempo</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem">
+          <input type="checkbox" id="enableCustomAudio" checked />
+          <span>Ativar áudio customizado</span>
+        </label>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+          "
+        >
+          <input type="checkbox" id="alwaysShowIntro" />
+          <span>Mostrar a abertura do Index sempre</span>
+        </label>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Presets -->
+      <div class="config-group">
+        <label>Presets de Áudio</label>
+        <div class="preset-buttons">
+          <button class="preset-btn" data-preset="ambient">
+            Ambient Synth
+          </button>
+          <button class="preset-btn" data-preset="piano">Piano Clássico</button>
+          <button class="preset-btn" data-preset="orchestral">
+            Orquestral
+          </button>
+          <button class="preset-btn" data-preset="desert">
+            Deserto (Gyro)
+          </button>
+        </div>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="button-group">
+        <button class="btn-test" id="testBtn">🔊 Testar Áudio</button>
+        <button class="btn-save" id="saveBtn">💾 Salvar Configuração</button>
+        <button class="btn-reset" id="resetBtn">🔄 Resetar Padrão</button>
+        <button class="btn-test" id="backPanelBtn" type="button">Voltar</button>
+        <button class="btn-test" id="backIndexBtn" type="button">
+          Voltar ao Index
+        </button>
+      </div>
+
+      <div class="status-message" id="statusMessage"></div>
     </div>
 
-    <!-- Botões de Ação -->
-    <div class="button-group">
-      <button class="btn-test" id="testBtn">🔊 Testar Áudio</button>
-      <button class="btn-save" id="saveBtn">💾 Salvar Configuração</button>
-      <button class="btn-reset" id="resetBtn">🔄 Resetar Padrão</button>
-      <button class="btn-test" id="backPanelBtn" type="button">Voltar</button>
-      <button class="btn-test" id="backIndexBtn" type="button">Voltar ao Index</button>
-    </div>
-
-    <div class="status-message" id="statusMessage"></div>
-  </div>
-
-  <script>
-    class AudioConfigManager {
-      constructor() {
-        this.defaultTrack = '../../assets/audio/audio%20%5Bmusic%5D.mp3';
-        this.legacyTracks = new Set([
-          './audio/ambient-synth.mp3',
-          './audio/piano-classical.mp3',
-          './audio/orchestral-bg.mp3',
-          './audio/desert-wind.mp3',
-          'audio/ambient-synth.mp3',
-          'audio/piano-classical.mp3',
-          'audio/orchestral-bg.mp3',
-          'audio/desert-wind.mp3'
-        ]);
-        const params = new URLSearchParams(window.location.search);
-        this.target = params.get('target') || localStorage.getItem('ethernum-audio-target') || 'index';
-        this.returnTo = params.get('return') || 'mestre-panel.html';
-        this.musicUrl = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`) || (this.target === 'gyro' ? localStorage.getItem('ethernum-music-url') : ''));
-        this.allowMultiple = localStorage.getItem('ethernum-allow-multiple') === 'true';
-        this.enableCustomAudio = localStorage.getItem('ethernum-enable-custom') !== 'false';
-        this.alwaysShowIntro = localStorage.getItem('ethernum-index-intro-mode') === 'always';
-        this.audioContext = null;
-        this.loadUI();
-        this.setupEventListeners();
-      }
-
-      loadUI() {
-        document.getElementById('audioTarget').value = this.target;
-        document.getElementById('musicUrl').value = this.musicUrl;
-        document.getElementById('allowMultiple').checked = this.allowMultiple;
-        document.getElementById('enableCustomAudio').checked = this.enableCustomAudio;
-        document.getElementById('alwaysShowIntro').checked = this.alwaysShowIntro;
-        this.renderTrackMap();
-      }
-
-      setupEventListeners() {
-        document.getElementById('saveBtn').addEventListener('click', () => this.save());
-        document.getElementById('testBtn').addEventListener('click', () => this.test());
-        document.getElementById('resetBtn').addEventListener('click', () => this.reset());
-        document.getElementById('backPanelBtn').addEventListener('click', () => window.location.href = this.returnTo);
-        document.getElementById('backIndexBtn').addEventListener('click', () => window.location.href = '../../index.html');
-        document.getElementById('audioTarget').addEventListener('change', (event) => {
-          this.target = event.target.value;
-          localStorage.setItem('ethernum-audio-target', this.target);
-          document.getElementById('musicUrl').value = this.normalizeUrl(localStorage.getItem(`ethernum-music-url-${this.target}`));
-          this.renderTrackMap();
-          this.showStatus(`Alvo alterado para ${this.target}.`, 'success');
-        });
-        document.getElementById('audioFile').addEventListener('change', (e) => this.handleFileUpload(e));
-
-        document.querySelectorAll('.preset-btn').forEach(btn => {
-          btn.addEventListener('click', () => this.loadPreset(btn.dataset.preset));
-        });
-      }
-
-      handleFileUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const base64 = e.target.result;
-          document.getElementById('musicUrl').value = base64;
-          this.showStatus('✅ Arquivo carregado! Clique em Salvar para aplicar.', 'success');
-        };
-        reader.readAsDataURL(file);
-      }
-
-      loadPreset(preset) {
-        const localTrack = this.defaultTrack;
-        const presets = {
-          ambient: localTrack,
-          piano: localTrack,
-          orchestral: localTrack,
-          desert: localTrack
-        };
-        document.getElementById('musicUrl').value = presets[preset] || '';
-        this.showStatus(`📻 Preset "${preset}" carregado. Clique em Salvar para aplicar.`, 'success');
-      }
-
-      save() {
-        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
-        const target = document.getElementById('audioTarget').value;
-        const allowMultiple = document.getElementById('allowMultiple').checked;
-        const enableCustomAudio = document.getElementById('enableCustomAudio').checked;
-        const alwaysShowIntro = document.getElementById('alwaysShowIntro').checked;
-
-        localStorage.setItem(`ethernum-music-url-${target}`, musicUrl);
-        localStorage.setItem('ethernum-audio-target', target);
-        if (target === 'gyro') localStorage.setItem('ethernum-music-url', musicUrl);
-        localStorage.setItem('ethernum-allow-multiple', allowMultiple);
-        localStorage.setItem('ethernum-enable-custom', enableCustomAudio);
-        localStorage.setItem('ethernum-index-intro-mode', alwaysShowIntro ? 'always' : 'once');
-        this.renderTrackMap();
-
-        this.showStatus('✅ Configurações salvas! Voltando para o painel...', 'success');
-        setTimeout(() => {
-          window.location.href = this.returnTo;
-        }, 900);
-      }
-
-      test() {
-        const musicUrl = this.normalizeUrl(document.getElementById('musicUrl').value.trim());
-        if (!musicUrl) {
-          this.showStatus('❌ Insira uma URL ou carregue um arquivo primeiro!', 'error');
-          return;
-        }
-
-        const audio = new Audio();
-        audio.src = musicUrl;
-        audio.volume = 0.12;
-        audio.play()
-          .then(() => this.showStatus('🎵 Tocando... Volume em 12%', 'success'))
-          .catch(() => this.showStatus('❌ Erro ao reproduzir. Verifique a URL ou formato.', 'error'));
-
-        setTimeout(() => audio.pause(), 3000);
-      }
-
-      normalizeUrl(url) {
-        const value = (url || '').trim();
-        if (!value || this.legacyTracks.has(value)) return this.defaultTrack;
-        return value;
-      }
-
-      reset() {
-        if (confirm('Resetar todas as configurações de áudio?')) {
-          localStorage.removeItem('ethernum-music-url');
-          ['index', 'gyro', 'cinerio', 'pipping', 'bayle'].forEach((target) => localStorage.removeItem(`ethernum-music-url-${target}`));
-          localStorage.removeItem('ethernum-allow-multiple');
-          localStorage.removeItem('ethernum-enable-custom');
-          localStorage.removeItem('ethernum-index-intro-mode');
+    <script>
+      class AudioConfigManager {
+        constructor() {
+          this.defaultTrack = "../../assets/audio/audio%20%5Bmusic%5D.mp3";
+          this.legacyTracks = new Set([
+            "./audio/ambient-synth.mp3",
+            "./audio/piano-classical.mp3",
+            "./audio/orchestral-bg.mp3",
+            "./audio/desert-wind.mp3",
+            "audio/ambient-synth.mp3",
+            "audio/piano-classical.mp3",
+            "audio/orchestral-bg.mp3",
+            "audio/desert-wind.mp3",
+          ]);
+          const params = new URLSearchParams(window.location.search);
+          this.target =
+            params.get("target") ||
+            localStorage.getItem("ethernum-audio-target") ||
+            "index";
+          this.returnTo = params.get("return") || "mestre-panel.html";
+          this.musicUrl = this.normalizeUrl(
+            localStorage.getItem(`ethernum-music-url-${this.target}`) ||
+              (this.target === "gyro"
+                ? localStorage.getItem("ethernum-music-url")
+                : ""),
+          );
+          this.allowMultiple =
+            localStorage.getItem("ethernum-allow-multiple") === "true";
+          this.enableCustomAudio =
+            localStorage.getItem("ethernum-enable-custom") !== "false";
+          this.alwaysShowIntro =
+            localStorage.getItem("ethernum-index-intro-mode") === "always";
+          this.audioContext = null;
           this.loadUI();
-          this.showStatus('🔄 Configurações resetadas ao padrão.', 'success');
+          this.setupEventListeners();
+        }
+
+        loadUI() {
+          document.getElementById("audioTarget").value = this.target;
+          document.getElementById("musicUrl").value = this.musicUrl;
+          document.getElementById("allowMultiple").checked = this.allowMultiple;
+          document.getElementById("enableCustomAudio").checked =
+            this.enableCustomAudio;
+          document.getElementById("alwaysShowIntro").checked =
+            this.alwaysShowIntro;
+          this.renderTrackMap();
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById("saveBtn")
+            .addEventListener("click", () => this.save());
+          document
+            .getElementById("testBtn")
+            .addEventListener("click", () => this.test());
+          document
+            .getElementById("resetBtn")
+            .addEventListener("click", () => this.reset());
+          document
+            .getElementById("backPanelBtn")
+            .addEventListener(
+              "click",
+              () => (window.location.href = this.returnTo),
+            );
+          document
+            .getElementById("backIndexBtn")
+            .addEventListener(
+              "click",
+              () => (window.location.href = "../../index.html"),
+            );
+          document
+            .getElementById("audioTarget")
+            .addEventListener("change", (event) => {
+              this.target = event.target.value;
+              localStorage.setItem("ethernum-audio-target", this.target);
+              document.getElementById("musicUrl").value = this.normalizeUrl(
+                localStorage.getItem(`ethernum-music-url-${this.target}`),
+              );
+              this.renderTrackMap();
+              this.showStatus(`Alvo alterado para ${this.target}.`, "success");
+            });
+          document
+            .getElementById("audioFile")
+            .addEventListener("change", (e) => this.handleFileUpload(e));
+
+          document.querySelectorAll(".preset-btn").forEach((btn) => {
+            btn.addEventListener("click", () =>
+              this.loadPreset(btn.dataset.preset),
+            );
+          });
+        }
+
+        handleFileUpload(event) {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const base64 = e.target.result;
+            document.getElementById("musicUrl").value = base64;
+            this.showStatus(
+              "✅ Arquivo carregado! Clique em Salvar para aplicar.",
+              "success",
+            );
+          };
+          reader.readAsDataURL(file);
+        }
+
+        loadPreset(preset) {
+          const localTrack = this.defaultTrack;
+          const presets = {
+            ambient: localTrack,
+            piano: localTrack,
+            orchestral: localTrack,
+            desert: localTrack,
+          };
+          document.getElementById("musicUrl").value = presets[preset] || "";
+          this.showStatus(
+            `📻 Preset "${preset}" carregado. Clique em Salvar para aplicar.`,
+            "success",
+          );
+        }
+
+        save() {
+          const musicUrl = this.normalizeUrl(
+            document.getElementById("musicUrl").value.trim(),
+          );
+          const target = document.getElementById("audioTarget").value;
+          const allowMultiple =
+            document.getElementById("allowMultiple").checked;
+          const enableCustomAudio =
+            document.getElementById("enableCustomAudio").checked;
+          const alwaysShowIntro =
+            document.getElementById("alwaysShowIntro").checked;
+
+          localStorage.setItem(`ethernum-music-url-${target}`, musicUrl);
+          localStorage.setItem("ethernum-audio-target", target);
+          if (target === "gyro")
+            localStorage.setItem("ethernum-music-url", musicUrl);
+          localStorage.setItem("ethernum-allow-multiple", allowMultiple);
+          localStorage.setItem("ethernum-enable-custom", enableCustomAudio);
+          localStorage.setItem(
+            "ethernum-index-intro-mode",
+            alwaysShowIntro ? "always" : "once",
+          );
+          this.renderTrackMap();
+
+          this.showStatus(
+            "✅ Configurações salvas! Voltando para o painel...",
+            "success",
+          );
+          setTimeout(() => {
+            window.location.href = this.returnTo;
+          }, 900);
+        }
+
+        test() {
+          const musicUrl = this.normalizeUrl(
+            document.getElementById("musicUrl").value.trim(),
+          );
+          if (!musicUrl) {
+            this.showStatus(
+              "❌ Insira uma URL ou carregue um arquivo primeiro!",
+              "error",
+            );
+            return;
+          }
+
+          const audio = new Audio();
+          audio.src = musicUrl;
+          audio.volume = 0.12;
+          audio
+            .play()
+            .then(() =>
+              this.showStatus("🎵 Tocando... Volume em 12%", "success"),
+            )
+            .catch(() =>
+              this.showStatus(
+                "❌ Erro ao reproduzir. Verifique a URL ou formato.",
+                "error",
+              ),
+            );
+
+          setTimeout(() => audio.pause(), 3000);
+        }
+
+        normalizeUrl(url) {
+          const value = (url || "").trim();
+          if (!value || this.legacyTracks.has(value)) return this.defaultTrack;
+          return value;
+        }
+
+        reset() {
+          if (confirm("Resetar todas as configurações de áudio?")) {
+            localStorage.removeItem("ethernum-music-url");
+            ["index", "gyro", "cinerio", "pipping", "bayle"].forEach((target) =>
+              localStorage.removeItem(`ethernum-music-url-${target}`),
+            );
+            localStorage.removeItem("ethernum-allow-multiple");
+            localStorage.removeItem("ethernum-enable-custom");
+            localStorage.removeItem("ethernum-index-intro-mode");
+            this.loadUI();
+            this.showStatus("🔄 Configurações resetadas ao padrão.", "success");
+          }
+        }
+
+        showStatus(message, type) {
+          const msg = document.getElementById("statusMessage");
+          msg.textContent = message;
+          msg.className = `status-message ${type}`;
+          setTimeout(() => msg.classList.remove(type), 5000);
+        }
+
+        renderTrackMap() {
+          const labels = {
+            index: "Index",
+            gyro: "Gyro",
+            cinerio: "Cinério",
+            pipping: "Pipping",
+            bayle: "Bayle",
+          };
+          const host = document.getElementById("trackMap");
+          host.innerHTML = Object.entries(labels)
+            .map(([target, label]) => {
+              const value =
+                localStorage.getItem(`ethernum-music-url-${target}`) ||
+                "Sem trilha especifica";
+              return `<div class="map-row"><strong>${label}</strong><span>${value}</span></div>`;
+            })
+            .join("");
         }
       }
 
-      showStatus(message, type) {
-        const msg = document.getElementById('statusMessage');
-        msg.textContent = message;
-        msg.className = `status-message ${type}`;
-        setTimeout(() => msg.classList.remove(type), 5000);
-      }
-
-      renderTrackMap() {
-        const labels = {
-          index: 'Index',
-          gyro: 'Gyro',
-          cinerio: 'Cinério',
-          pipping: 'Pipping',
-          bayle: 'Bayle'
-        };
-        const host = document.getElementById('trackMap');
-        host.innerHTML = Object.entries(labels).map(([target, label]) => {
-          const value = localStorage.getItem(`ethernum-music-url-${target}`) || 'Sem trilha especifica';
-          return `<div class="map-row"><strong>${label}</strong><span>${value}</span></div>`;
-        }).join('');
-      }
-    }
-
-    new AudioConfigManager();
-  </script>
-</body>
+      new AudioConfigManager();
+    </script>
+  </body>
 </html>

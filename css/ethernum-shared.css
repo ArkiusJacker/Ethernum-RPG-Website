@@ -65,23 +65,37 @@
   }
 
   .ethernum-page-ready .ethernum-character-overview {
-    animation: ethernumCharacterEnter 760ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+    animation: ethernumCharacterEnter 760ms cubic-bezier(0.2, 0.72, 0.18, 1)
+      both;
   }
 
   .ethernum-page-ready .ethernum-overview-eyebrow,
   .ethernum-page-ready .ethernum-overview-name,
   .ethernum-page-ready .ethernum-overview-sub,
   .ethernum-page-ready .ethernum-overview-tags {
-    animation: ethernumCharacterEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+    animation: ethernumCharacterEnter 680ms cubic-bezier(0.2, 0.72, 0.18, 1)
+      both;
   }
 
-  .ethernum-page-ready .ethernum-overview-eyebrow { animation-delay: 80ms; }
-  .ethernum-page-ready .ethernum-overview-name { animation-delay: 150ms; }
-  .ethernum-page-ready .ethernum-overview-sub { animation-delay: 230ms; }
-  .ethernum-page-ready .ethernum-overview-tags { animation-delay: 300ms; }
+  .ethernum-page-ready .ethernum-overview-eyebrow {
+    animation-delay: 80ms;
+  }
+  .ethernum-page-ready .ethernum-overview-name {
+    animation:
+      ethernumCharacterEnter 680ms 150ms cubic-bezier(0.2, 0.72, 0.18, 1)
+        both,
+      ethernumNameShimmer 4.5s ease-in-out 830ms infinite alternate;
+  }
+  .ethernum-page-ready .ethernum-overview-sub {
+    animation-delay: 230ms;
+  }
+  .ethernum-page-ready .ethernum-overview-tags {
+    animation-delay: 300ms;
+  }
 
   .ethernum-page-ready .ethernum-overview-right img {
-    animation: ethernumCharacterArtEnter 820ms 120ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+    animation: ethernumCharacterArtEnter 820ms 120ms
+      cubic-bezier(0.2, 0.72, 0.18, 1) both;
   }
 }
 
@@ -106,7 +120,13 @@
   padding: 14px;
   border: 1px solid var(--ethernum-line);
   border-radius: 8px;
-  background: radial-gradient(circle at 50% 20%, rgba(200, 168, 75, 0.12), transparent 62%), rgba(0, 0, 0, 0.24);
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(200, 168, 75, 0.12),
+      transparent 62%
+    ),
+    rgba(0, 0, 0, 0.24);
   box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
 }
 
@@ -127,7 +147,13 @@
   --overview-bg-left: rgba(5, 7, 8, 0.98);
   --overview-bg-mid: rgba(10, 11, 12, 0.95);
   --overview-bg-right: rgba(37, 14, 13, 0.86);
-  --overview-name-gradient: linear-gradient(135deg, #f4f0e8 0%, #cf2e2e 42%, #d9c978 72%, #f4f0e8 100%);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #f4f0e8 0%,
+    #cf2e2e 42%,
+    #d9c978 72%,
+    #f4f0e8 100%
+  );
   position: relative;
   z-index: 3;
   margin: 0;
@@ -147,7 +173,14 @@
   --overview-bg-left: rgba(3, 9, 6, 0.98);
   --overview-bg-mid: rgba(7, 16, 11, 0.96);
   --overview-bg-right: rgba(30, 27, 8, 0.84);
-  --overview-name-gradient: linear-gradient(135deg, #e8cc7a 0%, #c8a84b 30%, #6ea36f 58%, #4a9e4e 76%, #e8cc7a 100%);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #e8cc7a 0%,
+    #c8a84b 30%,
+    #6ea36f 58%,
+    #4a9e4e 76%,
+    #e8cc7a 100%
+  );
 }
 
 .ethernum-theme-pipping {
@@ -159,7 +192,14 @@
   --overview-bg-left: rgba(5, 7, 23, 0.98);
   --overview-bg-mid: rgba(10, 13, 35, 0.96);
   --overview-bg-right: rgba(42, 7, 20, 0.86);
-  --overview-name-gradient: linear-gradient(135deg, #8aaef5 0%, #6488e8 34%, #e01840 68%, #ff6680 84%, #8aaef5 100%);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #8aaef5 0%,
+    #6488e8 34%,
+    #e01840 68%,
+    #ff6680 84%,
+    #8aaef5 100%
+  );
 }
 
 .ethernum-theme-cinerio {
@@ -171,7 +211,14 @@
   --overview-bg-left: rgba(5, 5, 14, 0.98);
   --overview-bg-mid: rgba(11, 9, 26, 0.96);
   --overview-bg-right: rgba(29, 17, 49, 0.88);
-  --overview-name-gradient: linear-gradient(135deg, #f0e8d8 0%, #6ab4f0 34%, #a882e8 68%, #d4a84c 88%, #f0e8d8 100%);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #f0e8d8 0%,
+    #6ab4f0 34%,
+    #a882e8 68%,
+    #d4a84c 88%,
+    #f0e8d8 100%
+  );
 }
 
 .ethernum-theme-bayle {
@@ -183,7 +230,14 @@
   --overview-bg-left: rgba(8, 7, 5, 0.98);
   --overview-bg-mid: rgba(20, 14, 8, 0.96);
   --overview-bg-right: rgba(55, 19, 12, 0.88);
-  --overview-name-gradient: linear-gradient(135deg, #e6d2a8 0%, #c4a020 30%, #d84032 64%, #f2b04e 86%, #e6d2a8 100%);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #e6d2a8 0%,
+    #c4a020 30%,
+    #d84032 64%,
+    #f2b04e 86%,
+    #e6d2a8 100%
+  );
 }
 
 .ethernum-overview-panel {
@@ -197,11 +251,17 @@
   grid-template-columns: minmax(420px, 0.85fr) minmax(520px, 0.95fr);
   align-items: center;
   min-height: calc(100vh - 55px);
-  padding: clamp(34px, 5vw, 62px) clamp(14px, 2vw, 34px) clamp(18px, 3vw, 36px) clamp(18px, 4vw, 72px);
+  padding: clamp(34px, 5vw, 62px) clamp(14px, 2vw, 34px) clamp(18px, 3vw, 36px)
+    clamp(18px, 4vw, 72px);
   overflow: hidden;
   background:
     radial-gradient(circle at 82% 40%, var(--overview-glow), transparent 32%),
-    linear-gradient(90deg, var(--overview-bg-left) 0%, var(--overview-bg-mid) 58%, var(--overview-bg-right) 100%);
+    linear-gradient(
+      90deg,
+      var(--overview-bg-left) 0%,
+      var(--overview-bg-mid) 58%,
+      var(--overview-bg-right) 100%
+    );
 }
 
 .ethernum-overview-hero::after {
@@ -211,7 +271,12 @@
   bottom: -18%;
   left: 55%;
   width: 34px;
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--overview-accent) 44%, transparent), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--overview-accent) 44%, transparent),
+    transparent
+  );
   transform: rotate(13deg);
   filter: blur(2px);
   pointer-events: none;
@@ -233,7 +298,9 @@
 .ethernum-overview-eyebrow {
   margin: 0 0 14px;
   color: var(--overview-accent);
-  font: 700 12px/1.1 "Courier New", monospace;
+  font:
+    700 12px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.42em;
   text-transform: uppercase;
 }
@@ -241,7 +308,10 @@
 .ethernum-overview-name {
   margin: 0;
   color: #f4f0e8;
-  font: 900 clamp(68px, 9vw, 140px)/0.82 Impact, "Arial Black", sans-serif;
+  font:
+    900 clamp(68px, 9vw, 140px)/0.82 Impact,
+    "Arial Black",
+    sans-serif;
   letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
@@ -261,14 +331,20 @@
 }
 
 @keyframes ethernumNameShimmer {
-  from { background-position: 0% 50%; }
-  to { background-position: 100% 50%; }
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
 }
 
 .ethernum-overview-sub {
   margin: 24px 0 0;
   color: var(--overview-muted);
-  font: 400 13px/1.4 "Courier New", monospace;
+  font:
+    400 13px/1.4 "Courier New",
+    monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -286,7 +362,9 @@
   border: 1px solid var(--overview-line);
   background: rgba(0, 0, 0, 0.34);
   color: var(--overview-accent-2);
-  font: 700 11px/1.1 "Courier New", monospace;
+  font:
+    700 11px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -304,7 +382,8 @@
   max-height: calc(100vh - 46px);
   object-fit: contain;
   object-position: bottom center;
-  filter: saturate(0.96) contrast(1.05) drop-shadow(0 28px 44px rgba(0, 0, 0, 0.62));
+  filter: saturate(0.96) contrast(1.05)
+    drop-shadow(0 28px 44px rgba(0, 0, 0, 0.62));
 }
 
 .ethernum-overview-story {
@@ -318,21 +397,30 @@
   min-height: 260px;
   padding: clamp(22px, 4vw, 46px);
   background:
-    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--overview-accent) 12%, transparent), transparent 32%),
+    radial-gradient(
+      circle at 20% 0%,
+      color-mix(in srgb, var(--overview-accent) 12%, transparent),
+      transparent 32%
+    ),
     #070808;
 }
 
 .ethernum-overview-story p {
   margin: 0 0 18px;
   color: var(--overview-accent-2);
-  font: 700 12px/1.1 "Courier New", monospace;
+  font:
+    700 12px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
 .ethernum-overview-story div {
   color: var(--overview-muted);
-  font: 400 clamp(15px, 2vw, 18px)/1.72 Georgia, "Times New Roman", serif;
+  font:
+    400 clamp(15px, 2vw, 18px)/1.72 Georgia,
+    "Times New Roman",
+    serif;
 }
 
 .ethernum-shell-nav {
@@ -378,11 +466,16 @@
   background: rgba(200, 168, 75, 0.08);
   color: var(--ethernum-text);
   cursor: pointer;
-  font: 700 11px/1.1 "Courier New", monospace;
+  font:
+    700 11px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.08em;
   text-decoration: none;
   text-transform: uppercase;
-  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .ethernum-shell-links a:hover,
@@ -447,7 +540,9 @@
   border: 1px solid rgba(196, 43, 43, 0.45);
   background: rgba(8, 6, 6, 0.74);
   color: #e8aaa6;
-  font: 700 12px/1.4 "Courier New", monospace;
+  font:
+    700 12px/1.4 "Courier New",
+    monospace;
   letter-spacing: 0.12em;
   text-align: center;
   text-transform: uppercase;
@@ -465,7 +560,9 @@
   background:
     linear-gradient(rgba(255, 255, 255, 0.025) 50%, transparent 50%),
     var(--ethernum-panel);
-  background-size: 100% 4px, auto;
+  background-size:
+    100% 4px,
+    auto;
   color: var(--ethernum-text);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
 }
@@ -481,7 +578,10 @@
 .ethernum-pf2-sheet h2 {
   margin: 0 0 14px;
   color: var(--ethernum-gold);
-  font: 700 clamp(20px, 3vw, 30px)/1.1 "Cinzel", Georgia, serif;
+  font:
+    700 clamp(20px, 3vw, 30px)/1.1 "Cinzel",
+    Georgia,
+    serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -501,7 +601,9 @@
   background: rgba(200, 168, 75, 0.08);
   color: var(--ethernum-text);
   cursor: pointer;
-  font: 700 11px/1.1 "Courier New", monospace;
+  font:
+    700 11px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -521,7 +623,9 @@
   background: rgba(110, 163, 111, 0.14);
   color: #d9f0d8;
   cursor: pointer;
-  font: 700 11px/1.1 "Courier New", monospace;
+  font:
+    700 11px/1.1 "Courier New",
+    monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -553,7 +657,9 @@
   display: block;
   margin-bottom: 5px;
   color: var(--ethernum-muted);
-  font: 700 10px/1.2 "Courier New", monospace;
+  font:
+    700 10px/1.2 "Courier New",
+    monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -592,7 +698,9 @@
 .ethernum-pf2-stat span {
   display: block;
   color: var(--ethernum-muted);
-  font: 700 10px/1.2 "Courier New", monospace;
+  font:
+    700 10px/1.2 "Courier New",
+    monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -620,7 +728,9 @@
 
 .ethernum-pf2-table th {
   color: var(--ethernum-muted);
-  font: 700 10px/1.2 "Courier New", monospace;
+  font:
+    700 10px/1.2 "Courier New",
+    monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }

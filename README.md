@@ -37,8 +37,8 @@ Depois acesse `http://localhost:8000/`.
 - `pages/personagens/pipping-baldwin-black.html`: ficha do Pipping.
 - `pages/personagens/bayle-o-horror.html`: ficha do Bayle.
 - `pages/mundo/campanha.html`: status da campanha.
-- `pages/ferramentas/mestre-panel.html`: painel do mestre.
-- `pages/ferramentas/audio-config.html`: configurações gerais e áudio.
+- `pages/ferramentas/mestre-panel.html`: painel privado do mestre, sem link na navegação pública.
+- `pages/ferramentas/audio-config.html`: configurações gerais e áudio para o fluxo privado.
 - `pages/ferramentas/tests.html`: bateria manual de testes.
 
 ## Adicionar Personagem
@@ -56,7 +56,8 @@ Depois acesse `http://localhost:8000/`.
 - Não use caminhos absolutos locais.
 - Prefira caminhos relativos compatíveis com GitHub Pages.
 - Mantenha `index.html` na raiz.
-- O Modo Mestre é apenas bloqueio visual; não coloque segredos reais no HTML público.
+- O painel privado é apenas separação de fluxo; não coloque segredos reais no HTML público.
+- `pages/personagens/yu-rage-in-the-flesh.html` é rascunho visual de referência, não personagem ativo.
 
 ## Deploy GitHub Pages
 
@@ -65,5 +66,5 @@ O Pages deve publicar a partir da branch configurada no repositório. Como o sit
 ## Roadmap
 
 - v3.7: organização estrutural, padronização de nomes e links relativos.
-- v3.8: separar mais dados reutilizáveis e reduzir duplicidade nas fichas.
-- v3.9: ampliar testes automatizados de rotas e assets.
+- v3.8: separar modo público/privado, corrigir brilho dos nomes e atualizar versionamento.
+- v3.9: separar mais dados reutilizáveis e reduzir duplicidade nas fichas.

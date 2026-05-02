@@ -1,703 +1,966 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.7 -->
-<!DOCTYPE html>
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.8 -->
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethernum Company v3.7 - Arquivo Operacional</title>
-  <link rel="stylesheet" href="css/ethernum-shared.css?v=3.7">
-  <style>
-    :root {
-      --gold: #c8a84b;
-      --green: #6ea36f;
-      --copper: #a56d3f;
-      --text: #e8e0cc;
-      --muted: #a8a08a;
-      --panel: rgba(10, 13, 12, 0.82);
-      --line: rgba(200, 168, 75, 0.28);
-      --bg: #070908;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ethernum Company v3.8 - Arquivo Operacional</title>
+    <link rel="stylesheet" href="css/ethernum-shared.css?v=3.8" />
+    <style>
+      :root {
+        --gold: #c8a84b;
+        --green: #6ea36f;
+        --copper: #a56d3f;
+        --text: #e8e0cc;
+        --muted: #a8a08a;
+        --panel: rgba(10, 13, 12, 0.82);
+        --line: rgba(200, 168, 75, 0.28);
+        --bg: #070908;
+      }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      min-height: 100vh;
-      color: var(--text);
-      font-family: "Courier New", monospace;
-      background:
-        linear-gradient(rgba(200, 168, 75, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200, 168, 75, 0.03) 1px, transparent 1px),
-        radial-gradient(circle at 18% 10%, rgba(110, 163, 111, 0.16), transparent 30%),
-        radial-gradient(circle at 82% 18%, rgba(165, 109, 63, 0.14), transparent 32%),
-        linear-gradient(145deg, #070908 0%, #101513 48%, #17100c 100%);
-      background-size: 34px 34px, 34px 34px, auto, auto, auto;
-      overflow-x: hidden;
-    }
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: "Courier New", monospace;
+        background:
+          linear-gradient(rgba(200, 168, 75, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(200, 168, 75, 0.03) 1px, transparent 1px),
+          radial-gradient(
+            circle at 18% 10%,
+            rgba(110, 163, 111, 0.16),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 82% 18%,
+            rgba(165, 109, 63, 0.14),
+            transparent 32%
+          ),
+          linear-gradient(145deg, #070908 0%, #101513 48%, #17100c 100%);
+        background-size:
+          34px 34px,
+          34px 34px,
+          auto,
+          auto,
+          auto;
+        overflow-x: hidden;
+      }
 
-    body.has-intro {
-      overflow: hidden;
-    }
+      body.has-intro {
+        overflow: hidden;
+      }
 
-    a { color: inherit; text-decoration: none; }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-    .intro-gate {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: grid;
-      place-items: center;
-      padding: clamp(1.5rem, 5vw, 4rem);
-      background:
-        radial-gradient(circle at 50% 28%, rgba(200, 168, 75, 0.16), transparent 28%),
-        radial-gradient(circle at 50% 72%, rgba(110, 163, 111, 0.08), transparent 34%),
-        linear-gradient(145deg, #010202 0%, #080907 54%, #140f08 100%);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 420ms ease, visibility 420ms ease;
-      visibility: hidden;
-    }
+      .intro-gate {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: grid;
+        place-items: center;
+        padding: clamp(1.5rem, 5vw, 4rem);
+        background:
+          radial-gradient(
+            circle at 50% 28%,
+            rgba(200, 168, 75, 0.16),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 50% 72%,
+            rgba(110, 163, 111, 0.08),
+            transparent 34%
+          ),
+          linear-gradient(145deg, #010202 0%, #080907 54%, #140f08 100%);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 420ms ease,
+          visibility 420ms ease;
+        visibility: hidden;
+      }
 
-    .intro-gate.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
-    }
+      .intro-gate.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+      }
 
-    .intro-panel {
-      width: min(920px, 100%);
-      text-align: center;
-    }
+      .intro-panel {
+        width: min(920px, 100%);
+        text-align: center;
+      }
 
-    .intro-mark {
-      display: grid;
-      place-items: center;
-      width: clamp(6rem, 16vw, 10rem);
-      height: clamp(6rem, 16vw, 10rem);
-      margin: 0 auto 1.6rem;
-      border: 1px solid rgba(200, 168, 75, 0.52);
-      border-radius: 50%;
-      color: var(--gold);
-      background: rgba(0, 0, 0, 0.36);
-      box-shadow: inset 0 0 44px rgba(200, 168, 75, 0.08), 0 0 90px rgba(200, 168, 75, 0.12);
-      font-size: clamp(2rem, 7vw, 4.5rem);
-      letter-spacing: 0;
-    }
+      .intro-mark {
+        display: grid;
+        place-items: center;
+        width: clamp(6rem, 16vw, 10rem);
+        height: clamp(6rem, 16vw, 10rem);
+        margin: 0 auto 1.6rem;
+        border: 1px solid rgba(200, 168, 75, 0.52);
+        border-radius: 50%;
+        color: var(--gold);
+        background: rgba(0, 0, 0, 0.36);
+        box-shadow:
+          inset 0 0 44px rgba(200, 168, 75, 0.08),
+          0 0 90px rgba(200, 168, 75, 0.12);
+        font-size: clamp(2rem, 7vw, 4.5rem);
+        letter-spacing: 0;
+      }
 
-    .intro-title {
-      max-width: none;
-      color: #f2df9b;
-      font-size: clamp(2.8rem, 9vw, 7.2rem);
-      letter-spacing: 0.08em;
-      line-height: 0.95;
-    }
+      .intro-title {
+        max-width: none;
+        color: #f2df9b;
+        font-size: clamp(2.8rem, 9vw, 7.2rem);
+        letter-spacing: 0.08em;
+        line-height: 0.95;
+      }
 
-    .intro-subtitle {
-      max-width: 680px;
-      margin: 1.2rem auto 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+      .intro-subtitle {
+        max-width: 680px;
+        margin: 1.2rem auto 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
 
-    .intro-button {
-      margin-top: 2rem;
-      min-width: min(100%, 320px);
-      min-height: 3.2rem;
-      border-color: rgba(200, 168, 75, 0.72);
-      background: linear-gradient(135deg, rgba(200, 168, 75, 0.24), rgba(110, 163, 111, 0.18));
-      color: #f7edc7;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
+      .intro-button {
+        margin-top: 2rem;
+        min-width: min(100%, 320px);
+        min-height: 3.2rem;
+        border-color: rgba(200, 168, 75, 0.72);
+        background: linear-gradient(
+          135deg,
+          rgba(200, 168, 75, 0.24),
+          rgba(110, 163, 111, 0.18)
+        );
+        color: #f7edc7;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
 
-    .intro-options {
-      display: flex;
-      justify-content: center;
-      gap: 0.7rem;
-      margin-top: 1rem;
-    }
+      .intro-options {
+        display: flex;
+        justify-content: center;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      width: 100%;
-      padding: 0.85rem clamp(1rem, 4vw, 4rem);
-      border-bottom: 1px solid var(--line);
-      background: rgba(5, 7, 6, 0.9);
-      backdrop-filter: blur(12px);
-    }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+        padding: 0.85rem clamp(1rem, 4vw, 4rem);
+        border-bottom: 1px solid var(--line);
+        background: rgba(5, 7, 6, 0.9);
+        backdrop-filter: blur(12px);
+      }
 
-    .brand {
-      color: var(--gold);
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
+      .brand {
+        color: var(--gold);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
 
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 0.45rem;
-    }
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.45rem;
+      }
 
-    .nav a,
-    .nav button,
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 2.4rem;
-      padding: 0.65rem 0.9rem;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      background: rgba(200, 168, 75, 0.08);
-      color: var(--text);
-      font-size: 0.82rem;
-      line-height: 1.1;
-      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
-    }
+      .nav a,
+      .nav button,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.4rem;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: rgba(200, 168, 75, 0.08);
+        color: var(--text);
+        font-size: 0.82rem;
+        line-height: 1.1;
+        transition:
+          background 180ms ease,
+          border-color 180ms ease,
+          transform 180ms ease;
+      }
 
-    .nav a:hover,
-    .nav button:hover,
-    .button:hover {
-      border-color: var(--gold);
-      background: rgba(200, 168, 75, 0.18);
-      transform: translateY(-1px);
-    }
+      .nav a:hover,
+      .nav button:hover,
+      .button:hover {
+        border-color: var(--gold);
+        background: rgba(200, 168, 75, 0.18);
+        transform: translateY(-1px);
+      }
 
-    .nav button {
-      cursor: pointer;
-      font-family: inherit;
-    }
+      .nav button {
+        cursor: pointer;
+        font-family: inherit;
+      }
 
-    .button.primary {
-      background: linear-gradient(135deg, rgba(110, 163, 111, 0.32), rgba(200, 168, 75, 0.18));
-      border-color: rgba(110, 163, 111, 0.72);
-      color: #f3edd8;
-    }
-
-    .band {
-      position: relative;
-      width: 100%;
-      padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 5vw, 5rem);
-      border-bottom: 1px solid rgba(200, 168, 75, 0.18);
-      scroll-margin-top: 4.75rem;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
-      align-items: center;
-      min-height: calc(100vh - 4rem);
-      gap: clamp(1.4rem, 4vw, 4rem);
-    }
-
-    .identity-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(1rem, 2.5vw, 1.6rem);
-      margin-bottom: 1.4rem;
-    }
-
-    .table-icon-slot {
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      width: clamp(5.5rem, 13vw, 8rem);
-      height: clamp(5.5rem, 13vw, 8rem);
-      border: 1px solid rgba(200, 168, 75, 0.5);
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.24);
-      color: rgba(232, 224, 204, 0.78);
-      font-size: 0.68rem;
-      line-height: 1.25;
-      text-align: center;
-      text-transform: uppercase;
-      box-shadow: inset 0 0 28px rgba(200, 168, 75, 0.08), 0 18px 60px rgba(0, 0, 0, 0.34);
-    }
-
-    .eyebrow {
-      color: var(--green);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      max-width: 13ch;
-      color: #f2df9b;
-      font-size: clamp(3rem, 10vw, 8rem);
-      line-height: 0.92;
-      text-transform: uppercase;
-      text-shadow: 0 0 32px rgba(200, 168, 75, 0.18);
-    }
-
-    .subtitle {
-      max-width: 780px;
-      margin-top: 1.35rem;
-      color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.18rem);
-      line-height: 1.7;
-    }
-
-    .actions,
-    .record-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 1.4rem;
-    }
-
-    .terminal,
-    .record,
-    .change,
-    .tool-card {
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: var(--panel);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
-    }
-
-    .terminal {
-      min-height: 420px;
-      padding: 1.2rem;
-      background:
-        linear-gradient(rgba(255, 255, 255, 0.025) 50%, transparent 50%),
-        var(--panel);
-      background-size: 100% 4px, auto;
-    }
-
-    .terminal-grid,
-    .ops-grid,
-    .characters,
-    .changes,
-    .tools {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .terminal-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-top: 1rem;
-    }
-
-    .ops-grid {
-      grid-template-columns: 1.15fr 0.85fr 0.85fr;
-      margin-top: 1rem;
-    }
-
-    .ops-card {
-      min-height: 260px;
-      padding: 1.2rem;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: var(--panel);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
-    }
-
-    .ops-card h3 {
-      color: var(--gold);
-      margin-bottom: 0.7rem;
-      text-transform: uppercase;
-    }
-
-    .ops-list {
-      display: grid;
-      gap: 0.72rem;
-      margin-top: 1rem;
-    }
-
-    .ops-item {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 0.75rem;
-      padding-bottom: 0.65rem;
-      border-bottom: 1px solid rgba(200, 168, 75, 0.13);
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .ops-item strong {
-      color: #f2df9b;
-      text-transform: uppercase;
-    }
-
-    .signal {
-      border: 1px solid rgba(200, 168, 75, 0.18);
-      border-radius: 4px;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.22);
-    }
-
-    .signal strong {
-      display: block;
-      color: #f2df9b;
-      font-size: 1.6rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .signal span,
-    .section-note,
-    .record p,
-    .change p,
-    .tool-card p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    h2 {
-      color: #f2df9b;
-      font-size: clamp(1.7rem, 4vw, 3rem);
-      line-height: 1.05;
-      text-transform: uppercase;
-    }
-
-    .section-note { max-width: 620px; font-size: 0.92rem; }
-
-    .characters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .changes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .tools { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-    .record,
-    .change,
-    .tool-card {
-      min-height: 210px;
-      padding: 1.2rem;
-      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-    }
-
-    .record:hover,
-    .change:hover,
-    .tool-card:hover {
-      border-color: rgba(200, 168, 75, 0.58);
-      background: rgba(18, 27, 24, 0.86);
-      transform: translateY(-2px);
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      html {
-        scroll-behavior: smooth;
+      .button.primary {
+        background: linear-gradient(
+          135deg,
+          rgba(110, 163, 111, 0.32),
+          rgba(200, 168, 75, 0.18)
+        );
+        border-color: rgba(110, 163, 111, 0.72);
+        color: #f3edd8;
       }
 
       .band {
-        animation: pageTurnIn 640ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
-        transform-origin: left center;
+        position: relative;
+        width: 100%;
+        padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 5vw, 5rem);
+        border-bottom: 1px solid rgba(200, 168, 75, 0.18);
+        scroll-margin-top: 4.75rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+        align-items: center;
+        min-height: calc(100vh - 4rem);
+        gap: clamp(1.4rem, 4vw, 4rem);
+      }
+
+      .identity-row {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2.5vw, 1.6rem);
+        margin-bottom: 1.4rem;
+      }
+
+      .table-icon-slot {
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        width: clamp(5.5rem, 13vw, 8rem);
+        height: clamp(5.5rem, 13vw, 8rem);
+        border: 1px solid rgba(200, 168, 75, 0.5);
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.24);
+        color: rgba(232, 224, 204, 0.78);
+        font-size: 0.68rem;
+        line-height: 1.25;
+        text-align: center;
+        text-transform: uppercase;
+        box-shadow:
+          inset 0 0 28px rgba(200, 168, 75, 0.08),
+          0 18px 60px rgba(0, 0, 0, 0.34);
+      }
+
+      .eyebrow {
+        color: var(--green);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        max-width: 13ch;
+        color: #f2df9b;
+        font-size: clamp(3rem, 10vw, 8rem);
+        line-height: 0.92;
+        text-transform: uppercase;
+        text-shadow: 0 0 32px rgba(200, 168, 75, 0.18);
+      }
+
+      .subtitle {
+        max-width: 780px;
+        margin-top: 1.35rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.18rem);
+        line-height: 1.7;
+      }
+
+      .actions,
+      .record-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.4rem;
+      }
+
+      .terminal,
+      .record,
+      .change,
+      .tool-card {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+      }
+
+      .terminal {
+        min-height: 420px;
+        padding: 1.2rem;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.025) 50%, transparent 50%),
+          var(--panel);
+        background-size:
+          100% 4px,
+          auto;
+      }
+
+      .terminal-grid,
+      .ops-grid,
+      .characters,
+      .changes,
+      .tools {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .terminal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1rem;
+      }
+
+      .ops-grid {
+        grid-template-columns: 1.15fr 0.85fr 0.85fr;
+        margin-top: 1rem;
+      }
+
+      .ops-card {
+        min-height: 260px;
+        padding: 1.2rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+      }
+
+      .ops-card h3 {
+        color: var(--gold);
+        margin-bottom: 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .ops-list {
+        display: grid;
+        gap: 0.72rem;
+        margin-top: 1rem;
+      }
+
+      .ops-item {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 0.75rem;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid rgba(200, 168, 75, 0.13);
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .ops-item strong {
+        color: #f2df9b;
+        text-transform: uppercase;
+      }
+
+      .signal {
+        border: 1px solid rgba(200, 168, 75, 0.18);
+        border-radius: 4px;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.22);
+      }
+
+      .signal strong {
+        display: block;
+        color: #f2df9b;
+        font-size: 1.6rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .signal span,
+      .section-note,
+      .record p,
+      .change p,
+      .tool-card p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      h2 {
+        color: #f2df9b;
+        font-size: clamp(1.7rem, 4vw, 3rem);
+        line-height: 1.05;
+        text-transform: uppercase;
+      }
+
+      .section-note {
+        max-width: 620px;
+        font-size: 0.92rem;
+      }
+
+      .characters {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .changes {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .tools {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
       .record,
       .change,
-      .tool-card,
-      .ops-card {
-        transform-style: preserve-3d;
+      .tool-card {
+        min-height: 210px;
+        padding: 1.2rem;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
       }
 
       .record:hover,
       .change:hover,
-      .tool-card:hover,
-      .ops-card:hover {
-        transform: perspective(900px) rotateY(-2.5deg) translateY(-2px);
-      }
-    }
-
-    @keyframes pageTurnIn {
-      from {
-        opacity: 0;
-        transform: perspective(900px) rotateY(4deg) translateX(12px);
+      .tool-card:hover {
+        border-color: rgba(200, 168, 75, 0.58);
+        background: rgba(18, 27, 24, 0.86);
+        transform: translateY(-2px);
       }
 
-      to {
-        opacity: 1;
-        transform: perspective(900px) rotateY(0) translateX(0);
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+
+        .band {
+          animation: pageTurnIn 640ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+          transform-origin: left center;
+        }
+
+        .record,
+        .change,
+        .tool-card,
+        .ops-card {
+          transform-style: preserve-3d;
+        }
+
+        .record:hover,
+        .change:hover,
+        .tool-card:hover,
+        .ops-card:hover {
+          transform: perspective(900px) rotateY(-2.5deg) translateY(-2px);
+        }
       }
-    }
 
-    .record h3,
-    .change h3,
-    .tool-card h3 {
-      color: var(--gold);
-      font-size: 1rem;
-      margin-bottom: 0.65rem;
-      text-transform: uppercase;
-    }
+      @keyframes pageTurnIn {
+        from {
+          opacity: 0;
+          transform: perspective(900px) rotateY(4deg) translateX(12px);
+        }
 
-    .tag {
-      display: inline-flex;
-      min-height: 1.7rem;
-      align-items: center;
-      margin-bottom: 0.8rem;
-      padding: 0.32rem 0.5rem;
-      border: 1px solid rgba(110, 163, 111, 0.48);
-      border-radius: 4px;
-      color: #bfe1bf;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-    }
+        to {
+          opacity: 1;
+          transform: perspective(900px) rotateY(0) translateX(0);
+        }
+      }
 
-    footer {
-      padding: 2rem clamp(1rem, 5vw, 5rem);
-      color: var(--muted);
-      background: #050706;
-      font-size: 0.82rem;
-      border-top: 1px solid var(--line);
-    }
+      .record h3,
+      .change h3,
+      .tool-card h3 {
+        color: var(--gold);
+        font-size: 1rem;
+        margin-bottom: 0.65rem;
+        text-transform: uppercase;
+      }
 
-    footer strong { color: var(--gold); }
+      .tag {
+        display: inline-flex;
+        min-height: 1.7rem;
+        align-items: center;
+        margin-bottom: 0.8rem;
+        padding: 0.32rem 0.5rem;
+        border: 1px solid rgba(110, 163, 111, 0.48);
+        border-radius: 4px;
+        color: #bfe1bf;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+      }
 
-    @media (max-width: 1200px) {
-      .characters,
-      .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
+      footer {
+        padding: 2rem clamp(1rem, 5vw, 5rem);
+        color: var(--muted);
+        background: #050706;
+        font-size: 0.82rem;
+        border-top: 1px solid var(--line);
+      }
 
-    @media (max-width: 900px) {
-      .hero,
-      .ops-grid,
-      .changes { grid-template-columns: 1fr; }
-      .section-head,
-      .topbar,
-      .identity-row { align-items: flex-start; flex-direction: column; }
-      .nav { justify-content: flex-start; }
-    }
+      footer strong {
+        color: var(--gold);
+      }
 
-    @media (max-width: 620px) {
-      .characters,
-      .tools,
-      .terminal-grid { grid-template-columns: 1fr; }
-      .button,
-      .nav a,
-      .nav button { width: 100%; }
-      .ops-item { grid-template-columns: 1fr; }
-      h1 { font-size: clamp(2.6rem, 16vw, 4.2rem); }
-    }
-  </style>
-</head>
-<body class="ethernum-page-ready">
-  <div class="intro-gate" role="dialog" aria-modal="true" aria-label="Entrada Ethernum Company">
-    <div class="intro-panel">
-      <div class="intro-mark">EC</div>
-      <p class="eyebrow">Acesso autorizado // Arquivo operacional</p>
-      <h1 class="intro-title">Ethernum Company</h1>
-      <p class="intro-subtitle">
-        Um registro corporativo confidencial para agentes, protagonistas e contratos de campo.
-      </p>
-      <button class="button intro-button" type="button" data-enter-site>Inicie aqui a sua aventura</button>
-      <div class="intro-options">
-        <button class="button" type="button" data-intro-always>Mostrar esta abertura sempre</button>
+      @media (max-width: 1200px) {
+        .characters,
+        .tools {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .ops-grid,
+        .changes {
+          grid-template-columns: 1fr;
+        }
+        .section-head,
+        .topbar,
+        .identity-row {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .nav {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .characters,
+        .tools,
+        .terminal-grid {
+          grid-template-columns: 1fr;
+        }
+        .button,
+        .nav a,
+        .nav button {
+          width: 100%;
+        }
+        .ops-item {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: clamp(2.6rem, 16vw, 4.2rem);
+        }
+      }
+    </style>
+  </head>
+  <body class="ethernum-page-ready">
+    <div
+      class="intro-gate"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Entrada Ethernum Company"
+    >
+      <div class="intro-panel">
+        <div class="intro-mark">EC</div>
+        <p class="eyebrow">Acesso autorizado // Arquivo operacional</p>
+        <h1 class="intro-title">Ethernum Company</h1>
+        <p class="intro-subtitle">
+          Um registro corporativo confidencial para agentes, protagonistas e
+          contratos de campo.
+        </p>
+        <button class="button intro-button" type="button" data-enter-site>
+          Inicie aqui a sua aventura
+        </button>
+        <div class="intro-options">
+          <button class="button" type="button" data-intro-always>
+            Mostrar esta abertura sempre
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <header class="topbar">
-    <div class="brand">Ethernum Company · v3.7</div>
-    <nav class="nav" aria-label="Navegacao principal">
-      <button type="button" data-intro-mode>Intro: uma vez</button>
-      <a href="pages/mundo/campanha.html">Campanha</a>
-      <a href="#personagens">Personagens</a>
-      <a href="#alteracoes">Alteracoes</a>
-      <a href="#ferramentas">Ferramentas</a>
-      <a href="#roadmap">Roadmap</a>
-    </nav>
-  </header>
+    <header class="topbar">
+      <div class="brand">Ethernum Company · v3.8</div>
+      <nav class="nav" aria-label="Navegacao principal">
+        <button type="button" data-intro-mode>Intro: uma vez</button>
+        <a href="pages/mundo/campanha.html">Campanha</a>
+        <a href="#personagens">Personagens</a>
+        <a href="#alteracoes">Alteracoes</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#roadmap">Roadmap</a>
+      </nav>
+    </header>
 
-  <main>
-    <section class="band hero">
-      <div>
-        <div class="identity-row">
-          <div class="table-icon-slot">Icone<br>da mesa</div>
+    <main>
+      <section class="band hero">
+        <div>
+          <div class="identity-row">
+            <div class="table-icon-slot">Icone<br />da mesa</div>
+            <div>
+              <p class="eyebrow">
+                Arquivo operacional // Stingol // acesso interno
+              </p>
+              <h1>Ethernum Company</h1>
+            </div>
+          </div>
+          <p class="subtitle">
+            Central estatica da campanha para fichas, ferramentas, testes e
+            documentos. A mesa fica no centro, com todos os protagonistas
+            agrupados em igualdade e navegacao na mesma aba.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#personagens">Abrir personagens</a>
+            <a class="button" href="pages/mundo/campanha.html"
+              >Status da campanha</a
+            >
+            <a class="button" href="pages/ferramentas/tests.html">Testes</a>
+          </div>
+        </div>
+
+        <aside class="terminal">
+          <p class="eyebrow">Status v3.8</p>
+          <div class="terminal-grid">
+            <div class="signal">
+              <strong>4</strong><span>fichas registradas</span>
+            </div>
+            <div class="signal">
+              <strong>PF2e</strong><span>ficha + inventario</span>
+            </div>
+            <div class="signal">
+              <strong>A definir</strong><span>sessao atual</span>
+            </div>
+            <div class="signal">
+              <strong>Contrato</strong
+              ><span>missao ativa aguardando despacho</span>
+            </div>
+            <div class="signal">
+              <strong>Rank 1</strong><span>agentes de campo trainee</span>
+            </div>
+            <div class="signal"><strong>EP</strong><span>a definir</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="band" id="personagens">
+        <div class="section-head">
           <div>
-            <p class="eyebrow">Arquivo operacional // Stingol // acesso interno</p>
-            <h1>Ethernum Company</h1>
+            <p class="eyebrow">Registro coletivo</p>
+            <h2>Personagens</h2>
+          </div>
+          <p class="section-note">
+            Cada personagem tem entrada propria e area PF2e compartilhada. O
+            painel privado fica fora da navegacao publica.
+          </p>
+        </div>
+
+        <div class="characters">
+          <article class="record">
+            <span class="tag">Ativo</span>
+            <h3>Gyro Zeppeli</h3>
+            <p>Rotacao Sagrada, IKONs, Palmas e Ball Breaker.</p>
+            <div class="record-actions">
+              <a
+                class="button primary"
+                href="pages/personagens/gyro-zeppeli.html"
+                >Abrir ficha</a
+              >
+            </div>
+          </article>
+          <article class="record">
+            <span class="tag">Ativo</span>
+            <h3>Cinerio & Umbra</h3>
+            <p>Arquivo visual e ficha especial de dupla.</p>
+            <div class="record-actions">
+              <a
+                class="button primary"
+                href="pages/personagens/cinerio-umbra.html"
+                >Abrir ficha</a
+              >
+            </div>
+          </article>
+          <article class="record">
+            <span class="tag">Novo</span>
+            <h3>Pipping Baldwin Black</h3>
+            <p>Expressao da Noite, Pulso Sombrio e imagem PBB integrada.</p>
+            <div class="record-actions">
+              <a
+                class="button primary"
+                href="pages/personagens/pipping-baldwin-black.html"
+                >Abrir ficha</a
+              >
+            </div>
+          </article>
+          <article class="record">
+            <span class="tag">Novo</span>
+            <h3>Bayle, O Horror</h3>
+            <p>Estagios draconicos, Arquivista e imagem Bayle integrada.</p>
+            <div class="record-actions">
+              <a
+                class="button primary"
+                href="pages/personagens/bayle-o-horror.html"
+                >Abrir ficha</a
+              >
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="band" id="alteracoes">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Lista de alteracoes</p>
+            <h2>v3.8</h2>
+          </div>
+          <p class="section-note">
+            Toda rodada de alteracao sobe a versao do site.
+          </p>
+        </div>
+
+        <div class="changes">
+          <article class="change">
+            <h3>Imagens novas</h3>
+            <p>
+              Bayle e Pipping agora usam imagens alocadas em
+              <code>assets/images/</code>.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Transicao fluida</h3>
+            <p>
+              A entrada suave do Pipping foi aplicada como camada compartilhada
+              para as fichas.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Navegacao na mesma aba</h3>
+            <p>Links do indice deixam de abrir novas abas por padrao.</p>
+          </article>
+          <article class="change">
+            <h3>IKONs corrigidos</h3>
+            <p>
+              Removida duplicidade de handlers que abria e fechava cards no
+              mesmo clique.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Ficha PF2e expandida</h3>
+            <p>
+              HP, AC, Hero Points, atributos, proficiencias, strikes e
+              inventario.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Bloqueio por secao</h3>
+            <p>
+              O painel privado concentra bloqueios e ajustes para que o publico
+              veja apenas o que precisa.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Audio por pagina</h3>
+            <p>Index e personagens agora podem receber trilhas diferentes.</p>
+          </article>
+          <article class="change">
+            <h3>Cards corrigidos</h3>
+            <p>
+              Palmas, tecnicas e progresso deixam de sofrer conflito de duplo
+              clique.
+            </p>
+          </article>
+          <article class="change">
+            <h3>IKONs editaveis</h3>
+            <p>
+              Linhas internas, custos e transcendencias entram no modo de
+              edicao.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Audio do Gyro revisado</h3>
+            <p>
+              Fallback local e desbloqueio do AudioContext no primeiro clique.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Visao geral corrigida</h3>
+            <p>
+              Personagens usam uma abertura inteira por aba, com paleta propria,
+              Origem e Caminho.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Autoauditoria local</h3>
+            <p>
+              <code>site-selftest.js</code> verifica sintaxe, links, versao e
+              bateria manual.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Asset do Gyro local</h3>
+            <p>
+              Removida dependencia de caminho absoluto do Foundry para evitar
+              quebra no GitHub Pages.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Codigo mais limpo</h3>
+            <p>
+              Seletores editaveis foram centralizados para evitar duplicidade no
+              <code>app.js</code>.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Botao de edicao</h3>
+            <p>
+              A navegacao compartilhada ganhou controle visual para alternar o
+              modo edicao.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Tela inicial</h3>
+            <p>
+              Primeiro acesso mostra uma abertura Ethernum Company em preto e
+              dourado.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Painel contextual</h3>
+            <p>
+              Controles de mestre foram retirados da navegacao publica e
+              isolados no fluxo privado.
+            </p>
+          </article>
+          <article class="change">
+            <h3>Audio local resiliente</h3>
+            <p>
+              URLs antigas de presets quebrados caem para o arquivo local em
+              <code>assets/audio/</code>.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band" id="ferramentas">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Operacao</p>
+            <h2>Ferramentas</h2>
           </div>
         </div>
-        <p class="subtitle">
-          Central estatica da campanha para fichas, ferramentas, testes e documentos. A mesa fica no centro,
-          com todos os protagonistas agrupados em igualdade e navegacao na mesma aba.
-        </p>
-        <div class="actions">
-          <a class="button primary" href="#personagens">Abrir personagens</a>
-          <a class="button" href="pages/mundo/campanha.html">Status da campanha</a>
-          <a class="button" href="pages/ferramentas/mestre-panel.html">Painel do Mestre</a>
-          <a class="button" href="pages/ferramentas/tests.html">Testes</a>
+        <div class="tools">
+          <article class="tool-card">
+            <h3>Campanha</h3>
+            <p>Sessao, status e rank da equipe em pagina propria.</p>
+            <div class="record-actions">
+              <a class="button" href="pages/mundo/campanha.html">Abrir</a>
+            </div>
+          </article>
+          <article class="tool-card">
+            <h3>Configurações Gerais</h3>
+            <p>Ferramenta privada para trilhas por pagina, cards e abertura inicial.</p>
+            <div class="record-actions">
+              <span class="tag">Privado</span>
+            </div>
+          </article>
+          <article class="tool-card">
+            <h3>Testes</h3>
+            <p>Validacao manual das funcionalidades.</p>
+            <div class="record-actions">
+              <a class="button" href="pages/ferramentas/tests.html">Abrir</a>
+            </div>
+          </article>
+          <article class="tool-card">
+            <h3>API</h3>
+            <p>Referencia de integracao entre paginas.</p>
+            <div class="record-actions">
+              <a class="button" href="js/api-reference.js">Abrir</a>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <aside class="terminal">
-        <p class="eyebrow">Status v3.7</p>
-        <div class="terminal-grid">
-          <div class="signal"><strong>4</strong><span>fichas registradas</span></div>
-          <div class="signal"><strong>PF2e</strong><span>ficha + inventario</span></div>
-          <div class="signal"><strong>A definir</strong><span>sessao atual</span></div>
-          <div class="signal"><strong>Contrato</strong><span>missao ativa aguardando despacho</span></div>
-          <div class="signal"><strong>Rank 1</strong><span>agentes de campo trainee</span></div>
-          <div class="signal"><strong>EP</strong><span>a definir</span></div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="band" id="personagens">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Registro coletivo</p>
-          <h2>Personagens</h2>
-        </div>
-        <p class="section-note">Cada personagem tem entrada propria, painel do mestre e area PF2e compartilhada.</p>
-      </div>
-
-      <div class="characters">
-        <article class="record">
-          <span class="tag">Ativo</span>
-          <h3>Gyro Zeppeli</h3>
-          <p>Rotacao Sagrada, IKONs, Palmas e Ball Breaker.</p>
-          <div class="record-actions">
-            <a class="button primary" href="pages/personagens/gyro-zeppeli.html">Abrir ficha</a>
-            <a class="button" href="pages/ferramentas/mestre-panel.html?character=gyro">Painel</a>
+      <section class="band" id="roadmap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Proximas fases</p>
+            <h2>Roadmap</h2>
           </div>
-        </article>
-        <article class="record">
-          <span class="tag">Ativo</span>
-          <h3>Cinerio & Umbra</h3>
-          <p>Arquivo visual e ficha especial de dupla.</p>
-          <div class="record-actions">
-            <a class="button primary" href="pages/personagens/cinerio-umbra.html">Abrir ficha</a>
-            <a class="button" href="pages/ferramentas/mestre-panel.html?character=cinerio">Painel</a>
-          </div>
-        </article>
-        <article class="record">
-          <span class="tag">Novo</span>
-          <h3>Pipping Baldwin Black</h3>
-          <p>Expressao da Noite, Pulso Sombrio e imagem PBB integrada.</p>
-          <div class="record-actions">
-            <a class="button primary" href="pages/personagens/pipping-baldwin-black.html">Abrir ficha</a>
-            <a class="button" href="pages/ferramentas/mestre-panel.html?character=pipping">Painel</a>
-          </div>
-        </article>
-        <article class="record">
-          <span class="tag">Novo</span>
-          <h3>Bayle, O Horror</h3>
-          <p>Estagios draconicos, Arquivista e imagem Bayle integrada.</p>
-          <div class="record-actions">
-            <a class="button primary" href="pages/personagens/bayle-o-horror.html">Abrir ficha</a>
-            <a class="button" href="pages/ferramentas/mestre-panel.html?character=bayle">Painel</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="band" id="alteracoes">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Lista de alteracoes</p>
-          <h2>v3.7</h2>
+          <p class="section-note">
+            Proxima rodada sera v3.9, mantendo esse padrao de versionamento
+            incremental.
+          </p>
         </div>
-        <p class="section-note">Toda rodada de alteracao sobe a versao do site.</p>
-      </div>
+      </section>
+    </main>
 
-      <div class="changes">
-        <article class="change"><h3>Imagens novas</h3><p>Bayle e Pipping agora usam imagens alocadas em <code>assets/images/</code>.</p></article>
-        <article class="change"><h3>Transicao fluida</h3><p>A entrada suave do Pipping foi aplicada como camada compartilhada para as fichas.</p></article>
-        <article class="change"><h3>Navegacao na mesma aba</h3><p>Links do indice deixam de abrir novas abas por padrao.</p></article>
-        <article class="change"><h3>IKONs corrigidos</h3><p>Removida duplicidade de handlers que abria e fechava cards no mesmo clique.</p></article>
-        <article class="change"><h3>Ficha PF2e expandida</h3><p>HP, AC, Hero Points, atributos, proficiencias, strikes e inventario.</p></article>
-        <article class="change"><h3>Bloqueio por secao</h3><p>O mestre pode ocultar abas inteiras para jogadores por personagem.</p></article>
-        <article class="change"><h3>Audio por pagina</h3><p>Index e personagens agora podem receber trilhas diferentes.</p></article>
-        <article class="change"><h3>Cards corrigidos</h3><p>Palmas, tecnicas e progresso deixam de sofrer conflito de duplo clique.</p></article>
-        <article class="change"><h3>IKONs editaveis</h3><p>Linhas internas, custos e transcendencias entram no modo de edicao.</p></article>
-        <article class="change"><h3>Audio do Gyro revisado</h3><p>Fallback local e desbloqueio do AudioContext no primeiro clique.</p></article>
-        <article class="change"><h3>Visao geral corrigida</h3><p>Personagens usam uma abertura inteira por aba, com paleta propria, Origem e Caminho.</p></article>
-        <article class="change"><h3>Autoauditoria local</h3><p><code>site-selftest.js</code> verifica sintaxe, links, versao e bateria manual.</p></article>
-        <article class="change"><h3>Asset do Gyro local</h3><p>Removida dependencia de caminho absoluto do Foundry para evitar quebra no GitHub Pages.</p></article>
-        <article class="change"><h3>Codigo mais limpo</h3><p>Seletores editaveis foram centralizados para evitar duplicidade no <code>app.js</code>.</p></article>
-        <article class="change"><h3>Botao de edicao</h3><p>A navegacao compartilhada ganhou controle visual para alternar o modo edicao.</p></article>
-        <article class="change"><h3>Tela inicial</h3><p>Primeiro acesso mostra uma abertura Ethernum Company em preto e dourado.</p></article>
-        <article class="change"><h3>Painel contextual</h3><p>Link de Painel Mestre preserva o personagem atual ao navegar por fichas.</p></article>
-        <article class="change"><h3>Audio local resiliente</h3><p>URLs antigas de presets quebrados caem para o arquivo local em <code>assets/audio/</code>.</p></article>
-      </div>
-    </section>
-
-    <section class="band" id="ferramentas">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Operacao</p>
-          <h2>Ferramentas</h2>
-        </div>
-      </div>
-      <div class="tools">
-        <article class="tool-card"><h3>Campanha</h3><p>Sessao, status e rank da equipe em pagina propria.</p><div class="record-actions"><a class="button" href="pages/mundo/campanha.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Painel Mestre</h3><p>Controle multi-personagem com senha.</p><div class="record-actions"><a class="button" href="pages/ferramentas/mestre-panel.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Configurações Gerais</h3><p>Trilhas por pagina, cards e abertura inicial.</p><div class="record-actions"><a class="button" href="pages/ferramentas/audio-config.html?target=index&return=../../index.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>Testes</h3><p>Validacao manual das funcionalidades.</p><div class="record-actions"><a class="button" href="pages/ferramentas/tests.html">Abrir</a></div></article>
-        <article class="tool-card"><h3>API</h3><p>Referencia de integracao entre paginas.</p><div class="record-actions"><a class="button" href="js/api-reference.js">Abrir</a></div></article>
-      </div>
-    </section>
-
-    <section class="band" id="roadmap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Proximas fases</p>
-          <h2>Roadmap</h2>
-        </div>
-        <p class="section-note">Proxima rodada sera v3.8, mantendo esse padrao de versionamento incremental.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <strong>Ethernum Company</strong> // arquivo estatico compativel com GitHub Pages // INDEX v3.7
-  </footer>
-  <script>
-    (() => {
-      const introKey = 'ethernum-index-intro-seen';
-      const introModeKey = 'ethernum-index-intro-mode';
-      const intro = document.querySelector('.intro-gate');
-      const modeButton = document.querySelector('[data-intro-mode]');
-      const updateIntroMode = () => {
-        const always = localStorage.getItem(introModeKey) === 'always';
-        if (modeButton) modeButton.textContent = always ? 'Intro: sempre' : 'Intro: uma vez';
-      };
-      updateIntroMode();
-      modeButton?.addEventListener('click', () => {
-        const always = localStorage.getItem(introModeKey) === 'always';
-        localStorage.setItem(introModeKey, always ? 'once' : 'always');
+    <footer>
+      <strong>Ethernum Company</strong> // arquivo estatico compativel com
+      GitHub Pages // INDEX v3.8
+    </footer>
+    <script>
+      (() => {
+        const introKey = "ethernum-index-intro-seen";
+        const introModeKey = "ethernum-index-intro-mode";
+        const intro = document.querySelector(".intro-gate");
+        const modeButton = document.querySelector("[data-intro-mode]");
+        const updateIntroMode = () => {
+          const always = localStorage.getItem(introModeKey) === "always";
+          if (modeButton)
+            modeButton.textContent = always
+              ? "Intro: sempre"
+              : "Intro: uma vez";
+        };
         updateIntroMode();
-      });
-      const shouldShowIntro = localStorage.getItem(introModeKey) === 'always' || localStorage.getItem(introKey) !== 'true';
-      if (intro && shouldShowIntro) {
-        document.body.classList.add('has-intro');
-        intro.classList.add('is-visible');
-        intro.querySelector('[data-intro-always]')?.addEventListener('click', () => {
-          localStorage.setItem(introModeKey, 'always');
+        modeButton?.addEventListener("click", () => {
+          const always = localStorage.getItem(introModeKey) === "always";
+          localStorage.setItem(introModeKey, always ? "once" : "always");
           updateIntroMode();
-          intro.querySelector('[data-intro-always]').textContent = 'Abertura marcada como sempre ativa';
         });
-        intro.querySelector('[data-enter-site]')?.addEventListener('click', () => {
-          if (localStorage.getItem(introModeKey) !== 'always') localStorage.setItem(introKey, 'true');
-          intro.classList.remove('is-visible');
-          document.body.classList.remove('has-intro');
-        });
-      }
+        const shouldShowIntro =
+          localStorage.getItem(introModeKey) === "always" ||
+          localStorage.getItem(introKey) !== "true";
+        if (intro && shouldShowIntro) {
+          document.body.classList.add("has-intro");
+          intro.classList.add("is-visible");
+          intro
+            .querySelector("[data-intro-always]")
+            ?.addEventListener("click", () => {
+              localStorage.setItem(introModeKey, "always");
+              updateIntroMode();
+              intro.querySelector("[data-intro-always]").textContent =
+                "Abertura marcada como sempre ativa";
+            });
+          intro
+            .querySelector("[data-enter-site]")
+            ?.addEventListener("click", () => {
+              if (localStorage.getItem(introModeKey) !== "always")
+                localStorage.setItem(introKey, "true");
+              intro.classList.remove("is-visible");
+              document.body.classList.remove("has-intro");
+            });
+        }
 
-      if (localStorage.getItem('ethernum-enable-custom') === 'false') return;
-      const src = localStorage.getItem('ethernum-music-url-index');
-      if (!src) return;
-      const audio = new Audio(src.replace(/^\.\.\/\.\.\//, ''));
-      audio.loop = true;
-      audio.volume = 0.05;
-      document.addEventListener('click', () => audio.play().catch(() => null), { once: true });
-    })();
-  </script>
-</body>
+        if (localStorage.getItem("ethernum-enable-custom") === "false") return;
+        const src = localStorage.getItem("ethernum-music-url-index");
+        if (!src) return;
+        const audio = new Audio(src.replace(/^\.\.\/\.\.\//, ""));
+        audio.loop = true;
+        audio.volume = 0.05;
+        document.addEventListener(
+          "click",
+          () => audio.play().catch(() => null),
+          { once: true },
+        );
+      })();
+    </script>
+  </body>
 </html>

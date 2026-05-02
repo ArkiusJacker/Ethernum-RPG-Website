@@ -1,573 +1,659 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Mestre — ETHERNUM</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.7">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #0a0a0a;
-      color: #e8d5c4;
-      font-family: 'Cinzel', serif;
-      overflow: hidden;
-    }
-
-    .master-container {
-      display: flex;
-      height: 100vh;
-      gap: 10px;
-      padding: 10px;
-    }
-
-    .master-panel {
-      width: 25%;
-      background: linear-gradient(135deg, rgba(45, 107, 48, 0.1), rgba(200, 168, 75, 0.05));
-      border: 1px solid rgba(200, 168, 75, 0.3);
-      border-radius: 8px;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .player-view {
-      flex: 1;
-      border: 1px solid rgba(200, 168, 75, 0.2);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #08090a;
-    }
-
-    .master-panel h2 {
-      font-size: 18px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #c8a84b;
-      margin-bottom: 15px;
-      border-bottom: 1px solid rgba(200, 168, 75, 0.2);
-      padding-bottom: 10px;
-    }
-
-    .control-section {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .control-label {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #8a836a;
-      margin-bottom: 5px;
-    }
-
-    button {
-      background: rgba(200, 168, 75, 0.15);
-      border: 1px solid rgba(200, 168, 75, 0.3);
-      color: #c8a84b;
-      padding: 10px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background: rgba(200, 168, 75, 0.3);
-      border-color: rgba(200, 168, 75, 0.6);
-      transform: translateY(-2px);
-    }
-
-    button.active {
-      background: rgba(74, 158, 78, 0.3);
-      border-color: rgba(74, 158, 78, 0.6);
-      color: #4a9e4e;
-    }
-
-    button.locked {
-      background: rgba(196, 43, 43, 0.2);
-      border-color: rgba(196, 43, 43, 0.55);
-      color: #efb0aa;
-    }
-
-    select {
-      width: 100%;
-      background: rgba(8, 9, 10, 0.92);
-      border: 1px solid rgba(200, 168, 75, 0.3);
-      color: #e8d5c4;
-      padding: 10px 12px;
-      border-radius: 4px;
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .section-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .section-buttons button {
-      font-size: 10px;
-      padding: 8px;
-    }
-
-    .status-box {
-      background: rgba(200, 168, 75, 0.08);
-      border: 1px solid rgba(200, 168, 75, 0.2);
-      border-radius: 4px;
-      padding: 12px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .status-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-
-    .status-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .status-label {
-      color: #8a836a;
-    }
-
-    .status-value {
-      color: #c8a84b;
-      font-weight: 600;
-    }
-
-    .toggle-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    .toggle-group button {
-      flex: 1;
-    }
-
-    .divider {
-      height: 1px;
-      background: rgba(200, 168, 75, 0.1);
-      margin: 10px 0;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .warning {
-      background: rgba(196, 43, 43, 0.15);
-      border: 1px solid rgba(196, 43, 43, 0.3);
-      color: #e05555;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .success {
-      background: rgba(74, 158, 78, 0.15);
-      border: 1px solid rgba(74, 158, 78, 0.3);
-      color: #4a9e4e;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 11px;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Privado — ETHERNUM</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/ethernum-shared.css?v=3.8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      body {
+        background: #0a0a0a;
+        color: #e8d5c4;
+        font-family: "Cinzel", serif;
+        overflow: hidden;
       }
-    }
 
-    .character-data {
-      background: rgba(45, 107, 48, 0.1);
-      border: 1px solid rgba(45, 107, 48, 0.3);
-      border-radius: 4px;
-      padding: 12px;
-      font-size: 11px;
-    }
-
-    .character-data h4 {
-      color: #4a9e4e;
-      margin-bottom: 8px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 1024px) {
       .master-container {
-        flex-direction: column;
+        display: flex;
+        height: 100vh;
+        gap: 10px;
+        padding: 10px;
       }
 
       .master-panel {
-        width: 100%;
-        height: 200px;
-        max-height: 200px;
+        width: 25%;
+        background: linear-gradient(
+          135deg,
+          rgba(45, 107, 48, 0.1),
+          rgba(200, 168, 75, 0.05)
+        );
+        border: 1px solid rgba(200, 168, 75, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
       }
 
       .player-view {
         flex: 1;
+        border: 1px solid rgba(200, 168, 75, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #08090a;
+      }
+
+      .master-panel h2 {
+        font-size: 18px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #c8a84b;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(200, 168, 75, 0.2);
+        padding-bottom: 10px;
+      }
+
+      .control-section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .control-label {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #8a836a;
+        margin-bottom: 5px;
+      }
+
+      button {
+        background: rgba(200, 168, 75, 0.15);
+        border: 1px solid rgba(200, 168, 75, 0.3);
+        color: #c8a84b;
+        padding: 10px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: "Cinzel", serif;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background: rgba(200, 168, 75, 0.3);
+        border-color: rgba(200, 168, 75, 0.6);
+        transform: translateY(-2px);
+      }
+
+      button.active {
+        background: rgba(74, 158, 78, 0.3);
+        border-color: rgba(74, 158, 78, 0.6);
+        color: #4a9e4e;
+      }
+
+      button.locked {
+        background: rgba(196, 43, 43, 0.2);
+        border-color: rgba(196, 43, 43, 0.55);
+        color: #efb0aa;
+      }
+
+      select {
+        width: 100%;
+        background: rgba(8, 9, 10, 0.92);
+        border: 1px solid rgba(200, 168, 75, 0.3);
+        color: #e8d5c4;
+        padding: 10px 12px;
+        border-radius: 4px;
+        font-family: "Cinzel", serif;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       .section-buttons {
-        grid-template-columns: repeat(3, 1fr);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="master-container">
-    <!-- MASTER CONTROL PANEL -->
-    <div class="master-panel">
-      <h2>🎭 Painel do Mestre</h2>
 
-      <div class="control-section">
-        <div class="control-label">Personagem no Painel</div>
-        <select id="character-select" onchange="changeCharacter(this.value)">
-          <option value="gyro">Gyro Zeppeli</option>
-          <option value="cinerio">Cinério & Umbra</option>
-          <option value="pipping">Pipping Baldwin Black</option>
-          <option value="bayle">Bayle, O Horror</option>
-        </select>
-      </div>
+      .section-buttons button {
+        font-size: 10px;
+        padding: 8px;
+      }
 
-      <div class="divider"></div>
+      .status-box {
+        background: rgba(200, 168, 75, 0.08);
+        border: 1px solid rgba(200, 168, 75, 0.2);
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
 
-      <!-- MODE CONTROL -->
-      <div class="control-section">
-        <div class="control-label">Modo de Visibilidade</div>
-        <div class="toggle-group">
-          <button id="btn-master-on" class="active" onclick="setMasterMode(true)">👁️ Modo Mestre</button>
-          <button id="btn-master-off" onclick="setMasterMode(false)">🔒 Modo Jogador</button>
+      .status-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+
+      .status-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .status-label {
+        color: #8a836a;
+      }
+
+      .status-value {
+        color: #c8a84b;
+        font-weight: 600;
+      }
+
+      .toggle-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .toggle-group button {
+        flex: 1;
+      }
+
+      .divider {
+        height: 1px;
+        background: rgba(200, 168, 75, 0.1);
+        margin: 10px 0;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .warning {
+        background: rgba(196, 43, 43, 0.15);
+        border: 1px solid rgba(196, 43, 43, 0.3);
+        color: #e05555;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .success {
+        background: rgba(74, 158, 78, 0.15);
+        border: 1px solid rgba(74, 158, 78, 0.3);
+        color: #4a9e4e;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 11px;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .character-data {
+        background: rgba(45, 107, 48, 0.1);
+        border: 1px solid rgba(45, 107, 48, 0.3);
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 11px;
+      }
+
+      .character-data h4 {
+        color: #4a9e4e;
+        margin-bottom: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 1024px) {
+        .master-container {
+          flex-direction: column;
+        }
+
+        .master-panel {
+          width: 100%;
+          height: 200px;
+          max-height: 200px;
+        }
+
+        .player-view {
+          flex: 1;
+        }
+
+        .section-buttons {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="master-container">
+      <!-- MASTER CONTROL PANEL -->
+      <div class="master-panel">
+        <h2>🎭 Painel Privado</h2>
+
+        <div class="control-section">
+          <div class="control-label">Personagem no Painel</div>
+          <select id="character-select" onchange="changeCharacter(this.value)">
+            <option value="gyro">Gyro Zeppeli</option>
+            <option value="cinerio">Cinério & Umbra</option>
+            <option value="pipping">Pipping Baldwin Black</option>
+            <option value="bayle">Bayle, O Horror</option>
+          </select>
         </div>
-        <div id="status-master" class="status-box">
-          <div class="status-item">
-            <span class="status-label">Status:</span>
-            <span class="status-value" id="master-status">Ativo</span>
+
+        <div class="divider"></div>
+
+        <!-- MODE CONTROL -->
+        <div class="control-section">
+          <div class="control-label">Modo de Visibilidade</div>
+          <div class="toggle-group">
+            <button
+              id="btn-master-on"
+              class="active"
+              onclick="setMasterMode(true)"
+            >
+              👁️ Modo Privado
+            </button>
+            <button id="btn-master-off" onclick="setMasterMode(false)">
+              🔒 Modo Jogador
+            </button>
+          </div>
+          <div id="status-master" class="status-box">
+            <div class="status-item">
+              <span class="status-label">Status:</span>
+              <span class="status-value" id="master-status">Ativo</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="divider"></div>
+        <div class="divider"></div>
 
-      <!-- SECTION NAVIGATION -->
-      <div class="control-section">
-        <div class="control-label">Navegar para Seção</div>
-        <div class="section-buttons" id="section-buttons"></div>
-      </div>
-
-      <div class="control-section">
-        <div class="control-label">Bloquear para Jogadores</div>
-        <div class="section-buttons" id="lock-buttons"></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- SOUND CONTROL -->
-      <div class="control-section">
-        <div class="control-label">Áudio</div>
-        <button id="btn-sound" class="active" onclick="toggleSound()">🔊 Sons Ativos</button>        <button onclick="openGeneralSettings()" style="background: rgba(139, 90, 43, 0.2); border-color: rgba(139, 90, 43, 0.5); color: #9d6e3c;">
-          ⚙️ Configurações Gerais
-        </button>      </div>
-
-      <div class="divider"></div>
-
-      <!-- CHARACTER INFO -->
-      <div class="character-data">
-        <h4>📋 Personagem Ativo</h4>
-        <div class="status-item">
-          <span class="status-label">Nome:</span>
-          <span class="status-value" id="char-name">Gyro Zeppeli</span>
+        <!-- SECTION NAVIGATION -->
+        <div class="control-section">
+          <div class="control-label">Navegar para Seção</div>
+          <div class="section-buttons" id="section-buttons"></div>
         </div>
-        <div class="status-item">
-          <span class="status-label">Nível:</span>
-          <span class="status-value" id="char-level">3</span>
+
+        <div class="control-section">
+          <div class="control-label">Bloquear para Jogadores</div>
+          <div class="section-buttons" id="lock-buttons"></div>
         </div>
-        <div class="status-item">
-          <span class="status-label">Seção:</span>
-          <span class="status-value" id="char-section">Sistema SP</span>
+
+        <div class="divider"></div>
+
+        <!-- SOUND CONTROL -->
+        <div class="control-section">
+          <div class="control-label">Áudio</div>
+          <button id="btn-sound" class="active" onclick="toggleSound()">
+            🔊 Sons Ativos
+          </button>
+          <button
+            onclick="openGeneralSettings()"
+            style="
+              background: rgba(139, 90, 43, 0.2);
+              border-color: rgba(139, 90, 43, 0.5);
+              color: #9d6e3c;
+            "
+          >
+            ⚙️ Configurações Gerais
+          </button>
         </div>
+
+        <div class="divider"></div>
+
+        <!-- CHARACTER INFO -->
+        <div class="character-data">
+          <h4>📋 Personagem Ativo</h4>
+          <div class="status-item">
+            <span class="status-label">Nome:</span>
+            <span class="status-value" id="char-name">Gyro Zeppeli</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Nível:</span>
+            <span class="status-value" id="char-level">3</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Seção:</span>
+            <span class="status-value" id="char-section">Sistema SP</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- NOTIFICATIONS -->
+        <div
+          id="notification-container"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 40px;
+          "
+        ></div>
       </div>
 
-      <div class="divider"></div>
-
-      <!-- NOTIFICATIONS -->
-      <div id="notification-container" style="display: flex; flex-direction: column; gap: 8px; min-height: 40px;"></div>
+      <!-- PLAYER VIEW -->
+      <div class="player-view">
+        <iframe
+          id="player-iframe"
+          src="../personagens/gyro-zeppeli.html?private=true"
+        ></iframe>
+      </div>
     </div>
 
-    <!-- PLAYER VIEW -->
-    <div class="player-view">
-      <iframe id="player-iframe" src="../personagens/gyro-zeppeli.html"></iframe>
-    </div>
-  </div>
-
-  <script src="../../js/ethernum-shared.js?v=3.7"></script>
-  <script>
-    if (window.self !== window.top) {
-      window.top.location.href = window.location.href;
-    }
-
-    const playerFrame = document.getElementById('player-iframe');
-    const characterFiles = {
-      gyro: { name: 'Gyro Zeppeli', level: '3', file: '../personagens/gyro-zeppeli.html' },
-      cinerio: { name: 'Cinério & Umbra', level: '-', file: '../personagens/cinerio-umbra.html' },
-      pipping: { name: 'Pipping Baldwin Black', level: '3', file: '../personagens/pipping-baldwin-black.html' },
-      bayle: { name: 'Bayle, O Horror', level: '3', file: '../personagens/bayle-o-horror.html' },
-    };
-    let activeCharacter = new URLSearchParams(window.location.search).get('character') || 'gyro';
-    let isMasterMode = localStorage.getItem('ethernum-master-authenticated') === 'true';
-    let isSoundEnabled = true;
-    const sectionDefinitions = {
-      gyro: [
-        { id: 's-sp', label: 'SP' },
-        { id: 's-ikons', label: 'IKONs' },
-        { id: 's-palmas', label: 'Palmas' },
-        { id: 's-tecnicas', label: 'Técnicas' },
-        { id: 's-ranking', label: 'Ranking' },
-        { id: 's-risco', label: 'Execução' },
-        { id: 's-bb', label: 'BB' },
-        { id: 's-prog', label: 'Progressão' },
-        { id: 's-ficha', label: 'Ficha' },
-        { id: 's-npcs', label: 'NPCs' },
-        { id: 's-quest', label: 'Quest' }
-      ],
-      cinerio: [
-        { id: 'fundacao', label: 'Fundação' },
-        { id: 'recursos', label: 'Recursos' },
-        { id: 'tecnicas', label: 'Técnicas' },
-        { id: 'sombras', label: 'Sombras' },
-        { id: 'progressao', label: 'Progressão' }
-      ],
-      pipping: [
-        { id: 'sheet', label: 'Ficha' },
-        { id: 'tiers', label: 'Habilidades' },
-        { id: 'progression', label: 'Progressão' }
-      ],
-      bayle: [
-        { id: 'visao', label: 'Visão' },
-        { id: 'estagios', label: 'Estágios' },
-        { id: 'humanidade', label: 'Humanidade' },
-        { id: 'arquivista', label: 'Arquivista' },
-        { id: 'ficha', label: 'Ficha' }
-      ]
-    };
-
-    // Initialize on load
-    window.addEventListener('load', () => {
-      document.getElementById('character-select').value = activeCharacter;
-      changeCharacter(activeCharacter, false);
-      setTimeout(() => {
-        syncPlayerState();
-      }, 1000);
-    });
-
-    /**
-     * Send message to player iframe
-     */
-    function sendToPlayer(action, data = {}) {
-      playerFrame.contentWindow.postMessage(
-        { action, ...data },
-        '*'
-      );
-      console.log('📤 Enviado para jogador:', action, data);
-    }
-
-    /**
-     * Set master mode
-     */
-    function setMasterMode(enabled) {
-      if (enabled && window.EthernumShared && !window.EthernumShared.isMaster()) {
-        if (!window.EthernumShared.requestMaster()) {
-          enabled = false;
-        }
+    <script src="../../js/ethernum-shared.js?v=3.8"></script>
+    <script>
+      if (window.self !== window.top) {
+        window.top.location.href = window.location.href;
       }
-      if (!enabled && window.EthernumShared) {
-        window.EthernumShared.leaveMaster();
-      }
-      isMasterMode = Boolean(enabled) && localStorage.getItem('ethernum-master-authenticated') === 'true';
-      document.getElementById('btn-master-on').classList.toggle('active', isMasterMode);
-      document.getElementById('btn-master-off').classList.toggle('active', !isMasterMode);
-      document.getElementById('master-status').textContent = isMasterMode ? '✓ Ativo' : '✗ Desativo';
 
-      sendToPlayer('TOGGLE_MASTER', { value: isMasterMode });
-      sendToPlayer('APPLY_LOCKS');
-      renderSectionControls();
-      showNotification(
-        isMasterMode ? '👁️ Modo Mestre ativado para o personagem atual' : '🔒 Modo Jogador - conteúdo bloqueado',
-        isMasterMode ? 'success' : 'warning'
-      );
-    }
+      const playerFrame = document.getElementById("player-iframe");
+      const characterFiles = {
+        gyro: {
+          name: "Gyro Zeppeli",
+          level: "3",
+          file: "../personagens/gyro-zeppeli.html",
+        },
+        cinerio: {
+          name: "Cinério & Umbra",
+          level: "-",
+          file: "../personagens/cinerio-umbra.html",
+        },
+        pipping: {
+          name: "Pipping Baldwin Black",
+          level: "3",
+          file: "../personagens/pipping-baldwin-black.html",
+        },
+        bayle: {
+          name: "Bayle, O Horror",
+          level: "3",
+          file: "../personagens/bayle-o-horror.html",
+        },
+      };
+      let activeCharacter =
+        new URLSearchParams(window.location.search).get("character") || "gyro";
+      let isMasterMode =
+        localStorage.getItem("ethernum-master-authenticated") === "true";
+      let isSoundEnabled = true;
+      const sectionDefinitions = {
+        gyro: [
+          { id: "s-sp", label: "SP" },
+          { id: "s-ikons", label: "IKONs" },
+          { id: "s-palmas", label: "Palmas" },
+          { id: "s-tecnicas", label: "Técnicas" },
+          { id: "s-ranking", label: "Ranking" },
+          { id: "s-risco", label: "Execução" },
+          { id: "s-bb", label: "BB" },
+          { id: "s-prog", label: "Progressão" },
+          { id: "s-ficha", label: "Ficha" },
+          { id: "s-npcs", label: "NPCs" },
+          { id: "s-quest", label: "Quest" },
+        ],
+        cinerio: [
+          { id: "fundacao", label: "Fundação" },
+          { id: "recursos", label: "Recursos" },
+          { id: "tecnicas", label: "Técnicas" },
+          { id: "sombras", label: "Sombras" },
+          { id: "progressao", label: "Progressão" },
+        ],
+        pipping: [
+          { id: "sheet", label: "Ficha" },
+          { id: "tiers", label: "Habilidades" },
+          { id: "progression", label: "Progressão" },
+        ],
+        bayle: [
+          { id: "visao", label: "Visão" },
+          { id: "estagios", label: "Estágios" },
+          { id: "humanidade", label: "Humanidade" },
+          { id: "arquivista", label: "Arquivista" },
+          { id: "ficha", label: "Ficha" },
+        ],
+      };
 
-    function changeCharacter(character, notify = true) {
-      activeCharacter = characterFiles[character] ? character : 'gyro';
-      const data = characterFiles[activeCharacter];
-      playerFrame.src = data.file + (isMasterMode ? '?master=true' : '');
-      document.getElementById('char-name').textContent = data.name;
-      document.getElementById('char-level').textContent = data.level;
-      document.getElementById('char-section').textContent = 'Inicial';
-      renderSectionControls();
-      if (notify) showNotification(`Personagem carregado: ${data.name}`, 'success');
-    }
-
-    function lockKey(character = activeCharacter) {
-      return `ethernum-section-locks-${character}`;
-    }
-
-    function getLocks(character = activeCharacter) {
-      try {
-        return JSON.parse(localStorage.getItem(lockKey(character)) || '{}') || {};
-      } catch {
-        return {};
-      }
-    }
-
-    function toggleSectionLock(sectionId) {
-      const locks = getLocks();
-      if (locks[sectionId]) delete locks[sectionId];
-      else locks[sectionId] = true;
-      localStorage.setItem(lockKey(), JSON.stringify(locks));
-      renderSectionControls();
-      sendToPlayer('APPLY_LOCKS');
-      showNotification(`${locks[sectionId] ? 'Bloqueado' : 'Liberado'}: ${sectionLabel(sectionId)}`, locks[sectionId] ? 'warning' : 'success');
-    }
-
-    function sectionLabel(sectionId) {
-      return (sectionDefinitions[activeCharacter] || []).find((section) => section.id === sectionId)?.label || sectionId;
-    }
-
-    function renderSectionControls() {
-      const defs = sectionDefinitions[activeCharacter] || sectionDefinitions.gyro;
-      const locks = getLocks();
-      const navHost = document.getElementById('section-buttons');
-      const lockHost = document.getElementById('lock-buttons');
-      navHost.innerHTML = '';
-      lockHost.innerHTML = '';
-      defs.forEach((section) => {
-        const navBtn = document.createElement('button');
-        navBtn.type = 'button';
-        navBtn.textContent = section.label;
-        navBtn.onclick = () => switchSection(section.id);
-        navHost.appendChild(navBtn);
-
-        const lockBtn = document.createElement('button');
-        lockBtn.type = 'button';
-        lockBtn.className = locks[section.id] ? 'locked' : '';
-        lockBtn.textContent = `${locks[section.id] ? 'Fechado' : 'Aberto'} · ${section.label}`;
-        lockBtn.onclick = () => toggleSectionLock(section.id);
-        lockHost.appendChild(lockBtn);
+      // Initialize on load
+      window.addEventListener("load", () => {
+        document.getElementById("character-select").value = activeCharacter;
+        changeCharacter(activeCharacter, false);
+        setTimeout(() => {
+          syncPlayerState();
+        }, 1000);
       });
-    }
 
-    /**
-     * Switch section in player iframe
-     */
-    function switchSection(sectionId) {
-      sendToPlayer('SWITCH_SECTION', { sectionId });
+      /**
+       * Send message to player iframe
+       */
+      function sendToPlayer(action, data = {}) {
+        playerFrame.contentWindow.postMessage({ action, ...data }, "*");
+        console.log("📤 Enviado para jogador:", action, data);
+      }
 
-      const label = sectionLabel(sectionId);
-      document.getElementById('char-section').textContent = label;
-      showNotification(`→ Navegando para: ${label}`, 'success');
-    }
+      /**
+       * Set master mode
+       */
+      function setMasterMode(enabled) {
+        if (
+          enabled &&
+          window.EthernumShared &&
+          !window.EthernumShared.isMaster()
+        ) {
+          if (!window.EthernumShared.requestMaster()) {
+            enabled = false;
+          }
+        }
+        if (!enabled && window.EthernumShared) {
+          window.EthernumShared.leaveMaster();
+        }
+        isMasterMode =
+          Boolean(enabled) &&
+          localStorage.getItem("ethernum-master-authenticated") === "true";
+        document
+          .getElementById("btn-master-on")
+          .classList.toggle("active", isMasterMode);
+        document
+          .getElementById("btn-master-off")
+          .classList.toggle("active", !isMasterMode);
+        document.getElementById("master-status").textContent = isMasterMode
+          ? "✓ Ativo"
+          : "✗ Desativo";
 
-    /**
-     * Toggle sound in player
-     */
-    function toggleSound() {
-      isSoundEnabled = !isSoundEnabled;
-      document.getElementById('btn-sound').classList.toggle('active', isSoundEnabled);
-      document.getElementById('btn-sound').textContent = isSoundEnabled ? '🔊 Sons Ativos' : '🔇 Sons Mutados';
+        sendToPlayer("TOGGLE_MASTER", { value: isMasterMode });
+        sendToPlayer("APPLY_LOCKS");
+        renderSectionControls();
+        showNotification(
+          isMasterMode
+            ? "👁️ Modo Privado ativado para o personagem atual"
+            : "🔒 Modo Jogador - conteúdo bloqueado",
+          isMasterMode ? "success" : "warning",
+        );
+      }
 
-      sendToPlayer('TOGGLE_SOUND', { enabled: isSoundEnabled });
-      showNotification(
-        isSoundEnabled ? '🔊 Sons ativados' : '🔇 Sons desativados',
-        'success'
-      );
-    }
+      function changeCharacter(character, notify = true) {
+        activeCharacter = characterFiles[character] ? character : "gyro";
+        const data = characterFiles[activeCharacter];
+        const params = new URLSearchParams({ private: "true" });
+        if (isMasterMode) params.set("master", "true");
+        playerFrame.src = `${data.file}?${params.toString()}`;
+        document.getElementById("char-name").textContent = data.name;
+        document.getElementById("char-level").textContent = data.level;
+        document.getElementById("char-section").textContent = "Inicial";
+        renderSectionControls();
+        if (notify)
+          showNotification(`Personagem carregado: ${data.name}`, "success");
+      }
 
-    function openGeneralSettings() {
-      const back = `mestre-panel.html?character=${encodeURIComponent(activeCharacter)}`;
-      window.location.href = `audio-config.html?target=${encodeURIComponent(activeCharacter)}&return=${encodeURIComponent(back)}`;
-    }
+      function lockKey(character = activeCharacter) {
+        return `ethernum-section-locks-${character}`;
+      }
 
-    /**
-     * Sync player state with master panel
-     */
-    function syncPlayerState() {
-      // Try to get character data from player
-      if (playerFrame.contentWindow.EthernumAPI) {
-        const data = playerFrame.contentWindow.EthernumAPI.getCharacterData();
-        if (data) {
-          document.getElementById('char-name').textContent = data.name || characterFiles[activeCharacter].name;
-          document.getElementById('char-level').textContent = data.level || 3;
+      function getLocks(character = activeCharacter) {
+        try {
+          return (
+            JSON.parse(localStorage.getItem(lockKey(character)) || "{}") || {}
+          );
+        } catch {
+          return {};
         }
       }
-    }
 
-    /**
-     * Show notification
-     */
-    function showNotification(message, type = 'success') {
-      const container = document.getElementById('notification-container');
+      function toggleSectionLock(sectionId) {
+        const locks = getLocks();
+        if (locks[sectionId]) delete locks[sectionId];
+        else locks[sectionId] = true;
+        localStorage.setItem(lockKey(), JSON.stringify(locks));
+        renderSectionControls();
+        sendToPlayer("APPLY_LOCKS");
+        showNotification(
+          `${locks[sectionId] ? "Bloqueado" : "Liberado"}: ${sectionLabel(sectionId)}`,
+          locks[sectionId] ? "warning" : "success",
+        );
+      }
 
-      const notif = document.createElement('div');
-      notif.className = type;
-      notif.textContent = message;
-      notif.style.fontSize = '11px';
-      notif.style.padding = '8px';
-      notif.style.borderRadius = '4px';
+      function sectionLabel(sectionId) {
+        return (
+          (sectionDefinitions[activeCharacter] || []).find(
+            (section) => section.id === sectionId,
+          )?.label || sectionId
+        );
+      }
 
-      container.appendChild(notif);
+      function renderSectionControls() {
+        const defs =
+          sectionDefinitions[activeCharacter] || sectionDefinitions.gyro;
+        const locks = getLocks();
+        const navHost = document.getElementById("section-buttons");
+        const lockHost = document.getElementById("lock-buttons");
+        navHost.innerHTML = "";
+        lockHost.innerHTML = "";
+        defs.forEach((section) => {
+          const navBtn = document.createElement("button");
+          navBtn.type = "button";
+          navBtn.textContent = section.label;
+          navBtn.onclick = () => switchSection(section.id);
+          navHost.appendChild(navBtn);
 
-      setTimeout(() => {
-        notif.style.opacity = '0';
-        notif.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => notif.remove(), 300);
-      }, 3000);
-    }
+          const lockBtn = document.createElement("button");
+          lockBtn.type = "button";
+          lockBtn.className = locks[section.id] ? "locked" : "";
+          lockBtn.textContent = `${locks[section.id] ? "Fechado" : "Aberto"} · ${section.label}`;
+          lockBtn.onclick = () => toggleSectionLock(section.id);
+          lockHost.appendChild(lockBtn);
+        });
+      }
 
-    /**
-     * Listen for messages from player
-     */
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.type === 'PLAYER_UPDATE') {
-        console.log('📥 Update do jogador:', event.data);
-        if (event.data.currentSection) {
-          document.getElementById('char-section').textContent = event.data.currentSection;
+      /**
+       * Switch section in player iframe
+       */
+      function switchSection(sectionId) {
+        sendToPlayer("SWITCH_SECTION", { sectionId });
+
+        const label = sectionLabel(sectionId);
+        document.getElementById("char-section").textContent = label;
+        showNotification(`→ Navegando para: ${label}`, "success");
+      }
+
+      /**
+       * Toggle sound in player
+       */
+      function toggleSound() {
+        isSoundEnabled = !isSoundEnabled;
+        document
+          .getElementById("btn-sound")
+          .classList.toggle("active", isSoundEnabled);
+        document.getElementById("btn-sound").textContent = isSoundEnabled
+          ? "🔊 Sons Ativos"
+          : "🔇 Sons Mutados";
+
+        sendToPlayer("TOGGLE_SOUND", { enabled: isSoundEnabled });
+        showNotification(
+          isSoundEnabled ? "🔊 Sons ativados" : "🔇 Sons desativados",
+          "success",
+        );
+      }
+
+      function openGeneralSettings() {
+        const back = `mestre-panel.html?character=${encodeURIComponent(activeCharacter)}`;
+        window.location.href = `audio-config.html?target=${encodeURIComponent(activeCharacter)}&return=${encodeURIComponent(back)}`;
+      }
+
+      /**
+       * Sync player state with master panel
+       */
+      function syncPlayerState() {
+        // Try to get character data from player
+        if (playerFrame.contentWindow.EthernumAPI) {
+          const data = playerFrame.contentWindow.EthernumAPI.getCharacterData();
+          if (data) {
+            document.getElementById("char-name").textContent =
+              data.name || characterFiles[activeCharacter].name;
+            document.getElementById("char-level").textContent = data.level || 3;
+          }
         }
       }
-    });
 
-    // Initial setup
-    setMasterMode(isMasterMode);
-    showNotification('✓ Painel do Mestre carregado', 'success');
-  </script>
-</body>
+      /**
+       * Show notification
+       */
+      function showNotification(message, type = "success") {
+        const container = document.getElementById("notification-container");
+
+        const notif = document.createElement("div");
+        notif.className = type;
+        notif.textContent = message;
+        notif.style.fontSize = "11px";
+        notif.style.padding = "8px";
+        notif.style.borderRadius = "4px";
+
+        container.appendChild(notif);
+
+        setTimeout(() => {
+          notif.style.opacity = "0";
+          notif.style.transition = "opacity 0.3s ease";
+          setTimeout(() => notif.remove(), 300);
+        }, 3000);
+      }
+
+      /**
+       * Listen for messages from player
+       */
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "PLAYER_UPDATE") {
+          console.log("📥 Update do jogador:", event.data);
+          if (event.data.currentSection) {
+            document.getElementById("char-section").textContent =
+              event.data.currentSection;
+          }
+        }
+      });
+
+      // Initial setup
+      setMasterMode(isMasterMode);
+      showNotification("✓ Painel Privado carregado", "success");
+    </script>
+  </body>
 </html>

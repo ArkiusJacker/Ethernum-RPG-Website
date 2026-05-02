@@ -1,26 +1,28 @@
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
+const fs = require("fs");
+const path = require("path");
+const vm = require("vm");
 
-const ROOT = path.resolve(__dirname, '..');
-const HTML_FILES = walk(ROOT).filter((file) => file.toLowerCase().endsWith('.html'));
+const ROOT = path.resolve(__dirname, "..");
+const HTML_FILES = walk(ROOT).filter((file) =>
+  file.toLowerCase().endsWith(".html"),
+);
 const JS_FILES = [
-  'js/app.js',
-  'js/ethernum-shared.js',
-  'js/api-reference.js',
-  'js/cartola.js',
-  'data/characters.js',
-  'data/mechanics.js',
-  'data/world.js'
+  "js/app.js",
+  "js/ethernum-shared.js",
+  "js/api-reference.js",
+  "js/cartola.js",
+  "data/characters.js",
+  "data/mechanics.js",
+  "data/world.js",
 ];
-const EXPECTED_VERSION = 'v3.7';
+const EXPECTED_VERSION = "v3.8";
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    if (entry.name === '.git') return [];
+    if (entry.name === ".git") return [];
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) return walk(full);
-    return [path.relative(ROOT, full).replace(/\\/g, '/')];
+    return [path.relative(ROOT, full).replace(/\\/g, "/")];
   });
 }
 
@@ -36,7 +38,7 @@ function pass(message) {
 }
 
 function read(file) {
-  return fs.readFileSync(path.join(ROOT, file), 'utf8');
+  return fs.readFileSync(path.join(ROOT, file), "utf8");
 }
 
 function existsLocal(ref, baseFile) {
@@ -58,32 +60,49 @@ for (const file of JS_FILES) {
 
 for (const file of HTML_FILES) {
   const html = read(file);
-  const scripts = [...html.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/gi)];
+  const scripts = [
+    ...html.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/gi),
+  ];
   for (let index = 0; index < scripts.length; index += 1) {
     try {
-      new vm.Script(scripts[index][1], { filename: `${file} inline script ${index + 1}` });
+      new vm.Script(scripts[index][1], {
+        filename: `${file} inline script ${index + 1}`,
+      });
     } catch (error) {
       fail(`${file} inline script ${index + 1}: ${error.message}`);
     }
   }
 
-  const refs = [...html.matchAll(/(?:href|src)=["']([^"'#]+)(?:#[^"']*)?["']/gi)].map((match) => match[1]);
+  const refs = [
+    ...html.matchAll(/(?:href|src)=["']([^"'#]+)(?:#[^"']*)?["']/gi),
+  ].map((match) => match[1]);
   for (const ref of refs) {
-    if (!existsLocal(ref, file)) fail(`${file} references missing local asset: ${ref}`);
+    if (!existsLocal(ref, file))
+      fail(`${file} references missing local asset: ${ref}`);
   }
   pass(`${file} inline scripts and local references checked`);
 }
 
-const testsHtml = read('pages/ferramentas/tests.html');
-const testIds = [...testsHtml.matchAll(/test(\d+): false/g)].map((match) => Number(match[1]));
-const missingTestValidators = testIds.filter((id) => !testsHtml.includes(`function validateTest${id}()`));
+const testsHtml = read("pages/ferramentas/tests.html");
+const testIds = [...testsHtml.matchAll(/test(\d+): false/g)].map((match) =>
+  Number(match[1]),
+);
+const missingTestValidators = testIds.filter(
+  (id) => !testsHtml.includes(`function validateTest${id}()`),
+);
 if (testIds.length !== 22) fail(`expected 22 tests, found ${testIds.length}`);
-else pass('pages/ferramentas/tests.html exposes 22 manual tests');
-if (missingTestValidators.length) fail(`missing validators for tests: ${missingTestValidators.join(', ')}`);
-else pass('all manual tests have validators');
+else pass("pages/ferramentas/tests.html exposes 22 manual tests");
+if (missingTestValidators.length)
+  fail(`missing validators for tests: ${missingTestValidators.join(", ")}`);
+else pass("all manual tests have validators");
 
-for (const file of ['index.html', 'pages/ferramentas/tests.html', 'js/app.js']) {
-  if (!read(file).includes(EXPECTED_VERSION)) fail(`${file} does not mention ${EXPECTED_VERSION}`);
+for (const file of [
+  "index.html",
+  "pages/ferramentas/tests.html",
+  "js/app.js",
+]) {
+  if (!read(file).includes(EXPECTED_VERSION))
+    fail(`${file} does not mention ${EXPECTED_VERSION}`);
   else pass(`${file} mentions ${EXPECTED_VERSION}`);
 }
 
@@ -92,4 +111,4 @@ if (failures) {
   process.exit(1);
 }
 
-console.log('\nAll self-tests passed.');
+console.log("\nAll self-tests passed.");

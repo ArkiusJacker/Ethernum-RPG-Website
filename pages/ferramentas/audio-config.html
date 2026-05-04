@@ -246,6 +246,7 @@
           <option value="index">Index</option>
           <option value="gyro">Gyro Zeppeli</option>
           <option value="cinerio">Cinério & Umbra</option>
+          <option value="kaitake">Kaitake Udacha</option>
           <option value="pipping">Pipping Baldwin Black</option>
           <option value="bayle">Bayle, O Horror</option>
         </select>
@@ -551,7 +552,7 @@
         reset() {
           if (confirm("Resetar todas as configurações de áudio?")) {
             localStorage.removeItem("ethernum-music-url");
-            ["index", "gyro", "cinerio", "pipping", "bayle"].forEach((target) =>
+            ["index", "gyro", "cinerio", "kaitake", "pipping", "bayle"].forEach((target) =>
               localStorage.removeItem(`ethernum-music-url-${target}`),
             );
             localStorage.removeItem("ethernum-allow-multiple");
@@ -574,6 +575,7 @@
             index: "Index",
             gyro: "Gyro",
             cinerio: "Cinério",
+            kaitake: "Kaitake",
             pipping: "Pipping",
             bayle: "Bayle",
           };

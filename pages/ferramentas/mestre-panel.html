@@ -262,6 +262,7 @@
           <select id="character-select" onchange="changeCharacter(this.value)">
             <option value="gyro">Gyro Zeppeli</option>
             <option value="cinerio">Cinério & Umbra</option>
+            <option value="kaitake">Kaitake Udacha</option>
             <option value="pipping">Pipping Baldwin Black</option>
             <option value="bayle">Bayle, O Horror</option>
           </select>
@@ -382,8 +383,13 @@
         },
         cinerio: {
           name: "Cinério & Umbra",
-          level: "-",
+          level: "3",
           file: "../personagens/cinerio-umbra.html",
+        },
+        kaitake: {
+          name: "Kaitake Udacha",
+          level: "1",
+          file: "../personagens/kaitake-udacha.html",
         },
         pipping: {
           name: "Pipping Baldwin Black",
@@ -421,6 +427,15 @@
           { id: "tecnicas", label: "Técnicas" },
           { id: "sombras", label: "Sombras" },
           { id: "progressao", label: "Progressão" },
+          { id: "ethernum-pf2-sheet", label: "Ficha" },
+        ],
+        kaitake: [
+          { id: "intro", label: "Introdução" },
+          { id: "cartola", label: "Cartola" },
+          { id: "store", label: "Loja" },
+          { id: "apostas", label: "Apostas" },
+          { id: "sinapses", label: "Sinapses" },
+          { id: "ethernum", label: "Ethernum" },
         ],
         pipping: [
           { id: "sheet", label: "Ficha" },

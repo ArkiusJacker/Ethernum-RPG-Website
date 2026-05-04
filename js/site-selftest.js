@@ -8,6 +8,7 @@ const HTML_FILES = walk(ROOT).filter((file) =>
 );
 const JS_FILES = [
   "js/app.js",
+  "js/index-app.js",
   "js/ethernum-shared.js",
   "js/api-reference.js",
   "js/cartola.js",
@@ -15,7 +16,9 @@ const JS_FILES = [
   "data/mechanics.js",
   "data/world.js",
 ];
-const EXPECTED_VERSION = "v3.8";
+const EXPECTED_VERSION = "v3.9";
+const LEGACY_VERSION = "v3.8";
+const REQUIRED_FILES = ["ROADMAP.md", "pages/sistema/roadmap.html"];
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -58,6 +61,11 @@ for (const file of JS_FILES) {
   }
 }
 
+for (const file of REQUIRED_FILES) {
+  if (!fs.existsSync(path.join(ROOT, file))) fail(`${file} is missing`);
+  else pass(`${file} exists`);
+}
+
 for (const file of HTML_FILES) {
   const html = read(file);
   const scripts = [
@@ -98,12 +106,18 @@ else pass("all manual tests have validators");
 
 for (const file of [
   "index.html",
-  "pages/ferramentas/tests.html",
-  "js/app.js",
+  "js/index-app.js",
+  "data/world.js",
 ]) {
   if (!read(file).includes(EXPECTED_VERSION))
     fail(`${file} does not mention ${EXPECTED_VERSION}`);
   else pass(`${file} mentions ${EXPECTED_VERSION}`);
+}
+
+for (const file of ["pages/ferramentas/tests.html", "js/app.js"]) {
+  if (!read(file).includes(LEGACY_VERSION))
+    fail(`${file} does not mention ${LEGACY_VERSION}`);
+  else pass(`${file} mentions ${LEGACY_VERSION}`);
 }
 
 if (failures) {

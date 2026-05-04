@@ -9,6 +9,7 @@ function detectEthernumCharacter() {
   const file = window.location.pathname.toLowerCase();
   if (file.includes("pipping")) return "pipping";
   if (file.includes("bayle")) return "bayle";
+  if (file.includes("kaitake")) return "kaitake";
   if (file.includes("cinerio")) return "cinerio";
   if (file.includes("gyro")) return "gyro";
   if (file.includes("index")) return "index";
@@ -360,7 +361,7 @@ class EthernumApp {
       btn.addEventListener("click", (e) => {
         this.playSound();
 
-        const sectionId = this.formatSectionId(e.target.textContent);
+        const sectionId = this.formatSectionId(btn.textContent);
 
         // Remove active state
         navButtons.forEach((b) => b.classList.remove("on"));
@@ -381,6 +382,7 @@ class EthernumApp {
   }
 
   formatSectionId(text) {
+    const label = (text || "").trim();
     const sectionMap = {
       "Sistema SP": "s-sp",
       IKONs: "s-ikons",
@@ -394,7 +396,7 @@ class EthernumApp {
       Questline: "s-quest",
       "Ficha PF2e": "s-ficha",
     };
-    return sectionMap[text] || "s-sp";
+    return sectionMap[label] || "s-sp";
   }
 
   /* ───────────────────────────────────────── EDIT MODE ───────────────────────────────────────── */

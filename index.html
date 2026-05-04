@@ -1,10 +1,10 @@
-<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.8 -->
+<!-- INDEX - MAPA VISUAL DO PROJETO ETHERNUM v3.9 -->
 <!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ethernum Company v3.8 - Arquivo Operacional</title>
+    <title>Ethernum Company v3.9 - Arquivo Operacional</title>
     <link rel="stylesheet" href="css/ethernum-shared.css?v=3.8" />
     <style>
       :root {
@@ -301,7 +301,6 @@
       }
 
       .terminal,
-      .record,
       .change,
       .tool-card {
         border: 1px solid var(--line);
@@ -323,7 +322,6 @@
 
       .terminal-grid,
       .ops-grid,
-      .characters,
       .changes,
       .tools {
         display: grid;
@@ -352,6 +350,37 @@
       .ops-card h3 {
         color: var(--gold);
         margin-bottom: 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .dashboard-card-main {
+        grid-column: span 1;
+      }
+
+      .dashboard-card-wide {
+        grid-column: span 3;
+        min-height: 160px;
+      }
+
+      .operator-list,
+      .alert-list {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .operator-item,
+      .alert-list span {
+        display: grid;
+        gap: 0.22rem;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid rgba(200, 168, 75, 0.13);
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .operator-item strong {
+        color: #f2df9b;
         text-transform: uppercase;
       }
 
@@ -392,7 +421,6 @@
 
       .signal span,
       .section-note,
-      .record p,
       .change p,
       .tool-card p {
         color: var(--muted);
@@ -419,9 +447,6 @@
         font-size: 0.92rem;
       }
 
-      .characters {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
       .changes {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -429,7 +454,6 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
-      .record,
       .change,
       .tool-card {
         min-height: 210px;
@@ -440,12 +464,191 @@
           background 180ms ease;
       }
 
-      .record:hover,
       .change:hover,
       .tool-card:hover {
         border-color: rgba(200, 168, 75, 0.58);
         background: rgba(18, 27, 24, 0.86);
         transform: translateY(-2px);
+      }
+
+      .character-roster {
+        --panel-min: 128px;
+        display: grid;
+        grid-template-columns: repeat(8, minmax(var(--panel-min), 1fr));
+        gap: 0;
+        min-height: clamp(420px, 55vw, 680px);
+        margin-inline: calc(clamp(1rem, 5vw, 5rem) * -0.45);
+        border-block: 1px solid rgba(200, 168, 75, 0.2);
+        background: rgba(0, 0, 0, 0.28);
+        overflow: hidden;
+      }
+
+      .roster-card {
+        --accent: var(--gold);
+        --accent-2: var(--green);
+        position: relative;
+        isolation: isolate;
+        display: block;
+        min-width: 0;
+        min-height: 100%;
+        margin-left: -22px;
+        overflow: hidden;
+        clip-path: polygon(16% 0, 100% 0, 84% 100%, 0 100%);
+        background:
+          radial-gradient(
+            circle at 50% 18%,
+            color-mix(in srgb, var(--accent-2) 28%, transparent),
+            transparent 34%
+          ),
+          linear-gradient(
+            150deg,
+            color-mix(in srgb, var(--accent) 88%, #050706) 0%,
+            color-mix(in srgb, var(--accent-2) 64%, #050706) 100%
+          );
+        transition:
+          filter 180ms ease,
+          transform 180ms ease;
+      }
+
+      .roster-card:first-child {
+        margin-left: 0;
+      }
+
+      .roster-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.5px),
+          linear-gradient(
+            110deg,
+            rgba(255, 255, 255, 0.14),
+            transparent 28%,
+            rgba(0, 0, 0, 0.18) 72%
+          );
+        background-size:
+          12px 12px,
+          auto;
+        opacity: 0.48;
+      }
+
+      .roster-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-inline: 4px solid rgba(0, 0, 0, 0.68);
+        box-shadow:
+          inset 0 -170px 88px rgba(0, 0, 0, 0.54),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+      }
+
+      .roster-card:hover,
+      .roster-card:focus-visible {
+        z-index: 3;
+        filter: saturate(1.08) contrast(1.04);
+        transform: translateY(-6px);
+      }
+
+      .roster-card.is-empty {
+        cursor: default;
+        filter: saturate(0.72);
+      }
+
+      .roster-card.is-empty:hover {
+        transform: none;
+      }
+
+      .roster-portrait {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      .roster-portrait img {
+        width: 122%;
+        height: 104%;
+        object-fit: cover;
+        object-position: center bottom;
+        filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.48));
+      }
+
+      .roster-card[data-character="gyro"] .roster-portrait img {
+        object-position: 54% bottom;
+      }
+
+      .roster-card[data-character="ailan"] .roster-portrait img {
+        object-position: 50% bottom;
+      }
+
+      .roster-card[data-character="cinerio"] .roster-portrait img {
+        object-position: 52% bottom;
+      }
+
+      .roster-card[data-character="kaitake"] .roster-portrait img {
+        object-position: 50% bottom;
+      }
+
+      .roster-card[data-character="pipping"] .roster-portrait img {
+        object-position: 50% bottom;
+      }
+
+      .roster-card[data-character="bayle"] .roster-portrait img {
+        object-position: 50% bottom;
+      }
+
+      .roster-initials {
+        color: rgba(255, 255, 255, 0.78);
+        font:
+          900 5.5rem / 0.9 Impact,
+          "Arial Black",
+          sans-serif;
+        letter-spacing: 0;
+        text-shadow: 0 18px 32px rgba(0, 0, 0, 0.42);
+      }
+
+      .roster-meta {
+        position: absolute;
+        inset: auto 13% 20px 14%;
+        z-index: 2;
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .roster-name {
+        width: min-content;
+        color: #f7f3e8;
+        font:
+          900 2.65rem / 0.88 Impact,
+          "Arial Black",
+          sans-serif;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        text-shadow:
+          3px 3px 0 rgba(0, 0, 0, 0.76),
+          0 0 20px rgba(0, 0, 0, 0.45);
+        transform: rotate(-6deg);
+      }
+
+      .roster-role,
+      .roster-status {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        padding: 0.35rem 0.55rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.42);
+        color: rgba(255, 255, 255, 0.84);
+        font-size: 0.68rem;
+        font-weight: 700;
+        line-height: 1.15;
+        text-transform: uppercase;
+      }
+
+      .roster-status {
+        color: color-mix(in srgb, var(--accent) 52%, white);
       }
 
       @media (prefers-reduced-motion: no-preference) {
@@ -458,14 +661,12 @@
           transform-origin: left center;
         }
 
-        .record,
         .change,
         .tool-card,
         .ops-card {
           transform-style: preserve-3d;
         }
 
-        .record:hover,
         .change:hover,
         .tool-card:hover,
         .ops-card:hover {
@@ -485,7 +686,6 @@
         }
       }
 
-      .record h3,
       .change h3,
       .tool-card h3 {
         color: var(--gold);
@@ -520,9 +720,28 @@
       }
 
       @media (max-width: 1200px) {
-        .characters,
         .tools {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .character-roster {
+          grid-template-columns: repeat(4, minmax(150px, 1fr));
+          min-height: auto;
+          margin-inline: 0;
+          gap: 0.75rem;
+          border: 0;
+          background: transparent;
+          overflow: visible;
+        }
+
+        .roster-card {
+          min-height: 420px;
+          margin-left: 0;
+          clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+        }
+
+        .roster-name {
+          font-size: 2.35rem;
         }
       }
 
@@ -531,6 +750,9 @@
         .ops-grid,
         .changes {
           grid-template-columns: 1fr;
+        }
+        .dashboard-card-wide {
+          grid-column: span 1;
         }
         .section-head,
         .topbar,
@@ -544,11 +766,31 @@
       }
 
       @media (max-width: 620px) {
-        .characters,
         .tools,
         .terminal-grid {
           grid-template-columns: 1fr;
         }
+
+        .character-roster {
+          grid-template-columns: 1fr;
+        }
+
+        .roster-card {
+          min-height: 280px;
+          clip-path: none;
+          border: 1px solid var(--line);
+          border-radius: 6px;
+        }
+
+        .roster-name {
+          width: auto;
+          font-size: 2.25rem;
+        }
+
+        .roster-meta {
+          inset-inline: 1rem;
+        }
+
         .button,
         .nav a,
         .nav button {
@@ -590,14 +832,14 @@
     </div>
 
     <header class="topbar">
-      <div class="brand">Ethernum Company · v3.8</div>
+      <div class="brand">Ethernum Company · v3.9</div>
       <nav class="nav" aria-label="Navegacao principal">
         <button type="button" data-intro-mode>Intro: uma vez</button>
         <a href="pages/mundo/campanha.html">Campanha</a>
         <a href="#personagens">Personagens</a>
         <a href="#alteracoes">Alteracoes</a>
         <a href="#ferramentas">Ferramentas</a>
-        <a href="#roadmap">Roadmap</a>
+        <a href="pages/sistema/roadmap.html">Roadmap</a>
       </nav>
     </header>
 
@@ -624,14 +866,17 @@
               >Status da campanha</a
             >
             <a class="button" href="pages/ferramentas/tests.html">Testes</a>
+            <a class="button" href="pages/sistema/roadmap.html"
+              >Roadmap operacional</a
+            >
           </div>
         </div>
 
         <aside class="terminal">
-          <p class="eyebrow">Status v3.8</p>
-          <div class="terminal-grid">
+          <p class="eyebrow">Status v3.9</p>
+          <div class="terminal-grid" data-dashboard-summary>
             <div class="signal">
-              <strong>4</strong><span>fichas registradas</span>
+              <strong>6</strong><span>personagens no roster</span>
             </div>
             <div class="signal">
               <strong>PF2e</strong><span>ficha + inventario</span>
@@ -651,6 +896,29 @@
         </aside>
       </section>
 
+      <section class="band" id="campanha-dashboard">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">v3.9 // Dashboard da campanha</p>
+            <h2>Painel vivo</h2>
+          </div>
+          <p class="section-note">
+            Dados renderizados a partir de <code>data/world.js</code>, mantendo
+            o index mais facil de migrar para uma versao modular no futuro.
+          </p>
+        </div>
+        <div class="ops-grid" data-campaign-dashboard>
+          <article class="ops-card">
+            <span class="tag">Carregando</span>
+            <h3>Dashboard</h3>
+            <p class="section-note">
+              Se o JavaScript estiver desativado, use a pagina de campanha para
+              consultar o status atual.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section class="band" id="personagens">
         <div class="section-head">
           <div>
@@ -663,54 +931,136 @@
           </p>
         </div>
 
-        <div class="characters">
-          <article class="record">
-            <span class="tag">Ativo</span>
-            <h3>Gyro Zeppeli</h3>
-            <p>Rotacao Sagrada, IKONs, Palmas e Ball Breaker.</p>
-            <div class="record-actions">
-              <a
-                class="button primary"
-                href="pages/personagens/gyro-zeppeli.html"
-                >Abrir ficha</a
-              >
-            </div>
+        <div class="character-roster" aria-label="Selecao de personagens">
+          <a
+            class="roster-card"
+            data-character="gyro"
+            href="pages/personagens/gyro-zeppeli.html"
+            style="--accent: #6ea36f; --accent-2: #c8a84b"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img src="assets/images/characters/gyro/gyro-roster.png" alt="" />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Ativo</span>
+              <span class="roster-name">Gyro</span>
+              <span class="roster-role">Exemplar · Rotacao</span>
+            </span>
+          </a>
+
+          <a
+            class="roster-card"
+            data-character="cinerio"
+            href="pages/personagens/cinerio-umbra.html"
+            style="--accent: #6ab4f0; --accent-2: #a882e8"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img
+                src="assets/images/characters/cinerio/cinerio2.jpeg"
+                alt=""
+              />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Ativo</span>
+              <span class="roster-name">Cinerio</span>
+              <span class="roster-role">Monge · Umbra</span>
+            </span>
+          </a>
+
+          <a
+            class="roster-card"
+            data-character="kaitake"
+            href="pages/personagens/kaitake-udacha.html"
+            style="--accent: #c9a84c; --accent-2: #9b6dd4"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img src="assets/images/characters/kaitake/kaitake1.png" alt="" />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Ativo</span>
+              <span class="roster-name">Kaitake</span>
+              <span class="roster-role">Psychic · Cartola</span>
+            </span>
+          </a>
+
+          <a
+            class="roster-card"
+            data-character="pipping"
+            href="pages/personagens/pipping-baldwin-black.html"
+            style="--accent: #6488e8; --accent-2: #e01840"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img
+                src="assets/images/characters/pipping/pipping-roster.png"
+                alt=""
+              />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Ativo</span>
+              <span class="roster-name">Pipping</span>
+              <span class="roster-role">Bardo · Noite</span>
+            </span>
+          </a>
+
+          <a
+            class="roster-card"
+            data-character="bayle"
+            href="pages/personagens/bayle-o-horror.html"
+            style="--accent: #c4a020; --accent-2: #d84032"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img src="assets/images/characters/bayle/bayle-roster.png" alt="" />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Ativo</span>
+              <span class="roster-name">Bayle</span>
+              <span class="roster-role">Draconico · Horror</span>
+            </span>
+          </a>
+
+          <article
+            class="roster-card"
+            data-character="ailan"
+            style="--accent: #b65f36; --accent-2: #d6b35c"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <img src="assets/images/characters/ailan/ailan-roster.png" alt="" />
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Em preparo</span>
+              <span class="roster-name">Ailan</span>
+              <span class="roster-role">Magus · Cozinheiro</span>
+            </span>
           </article>
-          <article class="record">
-            <span class="tag">Ativo</span>
-            <h3>Cinerio & Umbra</h3>
-            <p>Arquivo visual e ficha especial de dupla.</p>
-            <div class="record-actions">
-              <a
-                class="button primary"
-                href="pages/personagens/cinerio-umbra.html"
-                >Abrir ficha</a
-              >
-            </div>
+
+          <article
+            class="roster-card is-empty"
+            data-character="future-1"
+            style="--accent: #4f6670; --accent-2: #9a8f6a"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <span class="roster-initials">?</span>
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Reservado</span>
+              <span class="roster-name">Vaga I</span>
+              <span class="roster-role">Personagem futuro</span>
+            </span>
           </article>
-          <article class="record">
-            <span class="tag">Novo</span>
-            <h3>Pipping Baldwin Black</h3>
-            <p>Expressao da Noite, Pulso Sombrio e imagem PBB integrada.</p>
-            <div class="record-actions">
-              <a
-                class="button primary"
-                href="pages/personagens/pipping-baldwin-black.html"
-                >Abrir ficha</a
-              >
-            </div>
-          </article>
-          <article class="record">
-            <span class="tag">Novo</span>
-            <h3>Bayle, O Horror</h3>
-            <p>Estagios draconicos, Arquivista e imagem Bayle integrada.</p>
-            <div class="record-actions">
-              <a
-                class="button primary"
-                href="pages/personagens/bayle-o-horror.html"
-                >Abrir ficha</a
-              >
-            </div>
+
+          <article
+            class="roster-card is-empty"
+            data-character="future-2"
+            style="--accent: #6d4b58; --accent-2: #44676b"
+          >
+            <span class="roster-portrait" aria-hidden="true">
+              <span class="roster-initials">?</span>
+            </span>
+            <span class="roster-meta">
+              <span class="roster-status">Reservado</span>
+              <span class="roster-name">Vaga II</span>
+              <span class="roster-role">Personagem futuro</span>
+            </span>
           </article>
         </div>
       </section>
@@ -719,7 +1069,7 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Lista de alteracoes</p>
-            <h2>v3.8</h2>
+            <h2>v3.9</h2>
           </div>
           <p class="section-note">
             Toda rodada de alteracao sobe a versao do site.
@@ -727,6 +1077,13 @@
         </div>
 
         <div class="changes">
+          <article class="change">
+            <h3>Dashboard da campanha</h3>
+            <p>
+              O index agora renderiza missao, operadores, alertas e transmissao
+              a partir de <code>data/world.js</code>.
+            </p>
+          </article>
           <article class="change">
             <h3>Imagens novas</h3>
             <p>
@@ -895,72 +1252,34 @@
             <h2>Roadmap</h2>
           </div>
           <p class="section-note">
-            Proxima rodada sera v3.9, mantendo esse padrao de versionamento
-            incremental.
+            v3.8.1 documenta as proximas versoes, sistemas planejados e o
+            futuro do Terminal Ethernum sem implementar os sistemas grandes
+            ainda.
           </p>
+        </div>
+        <div class="tools">
+          <article class="tool-card">
+            <h3>Roadmap Operacional</h3>
+            <p>
+              Proximas versoes, sistemas planejados e direcao tecnica do
+              Terminal Ethernum.
+            </p>
+            <div class="record-actions">
+              <a class="button primary" href="pages/sistema/roadmap.html"
+                >Abrir roadmap</a
+              >
+              <a class="button" href="ROADMAP.md">ROADMAP.md</a>
+            </div>
+          </article>
         </div>
       </section>
     </main>
 
     <footer>
       <strong>Ethernum Company</strong> // arquivo estatico compativel com
-      GitHub Pages // INDEX v3.8
+      GitHub Pages // INDEX v3.9
     </footer>
-    <script>
-      (() => {
-        const introKey = "ethernum-index-intro-seen";
-        const introModeKey = "ethernum-index-intro-mode";
-        const intro = document.querySelector(".intro-gate");
-        const modeButton = document.querySelector("[data-intro-mode]");
-        const updateIntroMode = () => {
-          const always = localStorage.getItem(introModeKey) === "always";
-          if (modeButton)
-            modeButton.textContent = always
-              ? "Intro: sempre"
-              : "Intro: uma vez";
-        };
-        updateIntroMode();
-        modeButton?.addEventListener("click", () => {
-          const always = localStorage.getItem(introModeKey) === "always";
-          localStorage.setItem(introModeKey, always ? "once" : "always");
-          updateIntroMode();
-        });
-        const shouldShowIntro =
-          localStorage.getItem(introModeKey) === "always" ||
-          localStorage.getItem(introKey) !== "true";
-        if (intro && shouldShowIntro) {
-          document.body.classList.add("has-intro");
-          intro.classList.add("is-visible");
-          intro
-            .querySelector("[data-intro-always]")
-            ?.addEventListener("click", () => {
-              localStorage.setItem(introModeKey, "always");
-              updateIntroMode();
-              intro.querySelector("[data-intro-always]").textContent =
-                "Abertura marcada como sempre ativa";
-            });
-          intro
-            .querySelector("[data-enter-site]")
-            ?.addEventListener("click", () => {
-              if (localStorage.getItem(introModeKey) !== "always")
-                localStorage.setItem(introKey, "true");
-              intro.classList.remove("is-visible");
-              document.body.classList.remove("has-intro");
-            });
-        }
-
-        if (localStorage.getItem("ethernum-enable-custom") === "false") return;
-        const src = localStorage.getItem("ethernum-music-url-index");
-        if (!src) return;
-        const audio = new Audio(src.replace(/^\.\.\/\.\.\//, ""));
-        audio.loop = true;
-        audio.volume = 0.05;
-        document.addEventListener(
-          "click",
-          () => audio.play().catch(() => null),
-          { once: true },
-        );
-      })();
-    </script>
+    <script src="data/world.js?v=3.9"></script>
+    <script src="js/index-app.js?v=3.9"></script>
   </body>
 </html>

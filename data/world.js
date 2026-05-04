@@ -1,9 +1,35 @@
 window.ETHERNUM_WORLD = {
+  version: "v3.9",
   campaignStatus: "Em preparacao",
   currentSession: "A definir",
-  currentLocation: "A definir",
-  activeMission: "Aguardando contrato",
+  currentWorldDate: "Calendario interno a definir",
+  currentLocation: "Stingol / rota operacional Ethernum",
+  activeMission: {
+    code: "CONTRATO #001",
+    name: "Aguardando contrato",
+    rank: "1 - Agentes de Campo Trainee",
+    ep: "+1 previsto",
+    risk: "Moderado",
+    status: "Em despacho",
+    objective: "Registrar ameaca local, confirmar anomalia eterea e retornar com relatorio.",
+  },
   teamRank: "1 - Agentes de Campo Trainee",
   ep: "A definir",
-  corporateRisk: "A definir",
+  corporateRisk: "Moderado",
+  nextObjective: "Confirmar local da proxima sessao e registrar contrato ativo.",
+  transmission:
+    "Ethernum Company aguarda confirmacao do despacho. Operadores devem manter fichas e recursos atualizados antes da saida.",
+  operators: [
+    { name: "Gyro Zeppeli", status: "Ativo", role: "Exemplar / Rotacao" },
+    { name: "Cinerio & Umbra", status: "Ativo", role: "Monge / Umbra" },
+    { name: "Kaitake Udacha", status: "Ativo", role: "Psychic / Cartola" },
+    { name: "Pipping Baldwin Black", status: "Ativo", role: "Bardo / Noite" },
+    { name: "Bayle, O Horror", status: "Ativo", role: "Manifestacao draconica" },
+    { name: "Ailan", status: "Em preparo", role: "Magus / Cozinheiro" },
+  ],
+  alerts: [
+    "Atualizar missao ativa quando o contrato for definido.",
+    "Separar dados de campanha antes de iniciar sistemas maiores.",
+    "Nao registrar segredos reais em HTML publico.",
+  ],
 };

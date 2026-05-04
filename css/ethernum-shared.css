@@ -221,6 +221,25 @@
   );
 }
 
+.ethernum-theme-kaitake {
+  --overview-accent: #c9a84c;
+  --overview-accent-2: #9b6dd4;
+  --overview-muted: rgba(232, 204, 122, 0.6);
+  --overview-line: rgba(201, 168, 76, 0.34);
+  --overview-glow: rgba(155, 109, 212, 0.28);
+  --overview-bg-left: rgba(10, 8, 6, 0.98);
+  --overview-bg-mid: rgba(22, 18, 12, 0.96);
+  --overview-bg-right: rgba(39, 24, 56, 0.86);
+  --overview-name-gradient: linear-gradient(
+    135deg,
+    #f0e8d8 0%,
+    #c9a84c 34%,
+    #9b6dd4 68%,
+    #e8cc7a 88%,
+    #f0e8d8 100%
+  );
+}
+
 .ethernum-theme-bayle {
   --overview-accent: #c4a020;
   --overview-accent-2: #d84032;

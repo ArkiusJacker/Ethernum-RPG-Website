@@ -1,3 +1,12 @@
+## v3.8.1 - Roadmap Operacional
+
+- Criado `ROADMAP.md`.
+- Criada pagina visual `pages/sistema/roadmap.html`.
+- Adicionado link publico para o roadmap no index.
+- Atualizado README com a direcao futura do projeto.
+- Documentadas versoes futuras ate v5.0.
+- Ajustado selftest para verificar os arquivos do roadmap.
+
 ## v3.8 - Publico/Privado e Animacao
 
 - Corrigida a animacao continua em degradê dos nomes dos personagens.

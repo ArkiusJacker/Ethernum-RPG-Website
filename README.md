@@ -40,6 +40,7 @@ Depois acesse `http://localhost:8000/`.
 - `pages/ferramentas/mestre-panel.html`: painel privado do mestre, sem link na navegação pública.
 - `pages/ferramentas/audio-config.html`: configurações gerais e áudio para o fluxo privado.
 - `pages/ferramentas/tests.html`: bateria manual de testes.
+- `pages/sistema/roadmap.html`: roadmap visual do Terminal Ethernum.
 
 ## Adicionar Personagem
 
@@ -65,6 +66,24 @@ O Pages deve publicar a partir da branch configurada no repositório. Como o sit
 
 ## Roadmap
 
-- v3.7: organização estrutural, padronização de nomes e links relativos.
-- v3.8: separar modo público/privado, corrigir brilho dos nomes e atualizar versionamento.
-- v3.9: separar mais dados reutilizáveis e reduzir duplicidade nas fichas.
+O roadmap completo esta em:
+
+- `ROADMAP.md`
+- `pages/sistema/roadmap.html`
+
+A ordem planejada e:
+
+1. v3.8.1 - Roadmap Operacional
+2. v3.9 - Dashboard da Campanha
+3. v4.0 - Sistema Modular de Personagens
+4. v4.1 - Ficha de Combate Rapida
+5. v4.2 - Enciclopedia de Mecanicas
+6. v4.3 - Sistema de Runas
+7. v4.4 - Arquivo Mundial de Stingol
+8. v4.5 - Quadro de Missoes Ethernum
+9. v4.6 - Painel do Mestre 2.0
+10. v4.7 - Diario de Sessoes
+11. v4.8 - Inventario e Arsenal
+12. v5.0 - Terminal Ethernum Completo
+
+Observacao: a linha principal continua estatica em HTML, CSS e JavaScript puro. Uma futura versao em framework deve ser feita em branch separada para nao interromper o deploy GitHub Pages.

@@ -36,7 +36,7 @@
     gyro: {
       label: "Gyro Zeppeli",
       file: rootPath("pages/personagens/gyro-zeppeli.html"),
-      klass: "Gunslinger",
+      klass: "Exemplar",
       level: "3",
       ancestry: "Humano",
       hp: "38 / 38",
@@ -48,7 +48,7 @@
         line: "Mecanica unica - Rotacao Sagrada",
         first: "Gyro",
         last: "Zeppeli",
-        sub: "Gunslinger 3 · Nexus · agente de campo",
+        sub: "Exemplar 3 · Nexus · agente de campo",
         tags: ["Rotacao", "IKONs", "Palmas", "Ball Breaker", "SP 9"],
         origin:
           "Origem ainda em registro. Use este espaco para marcar familia, trauma, patronos, promessa inicial e o evento que colocou Gyro na rota da Ethernum.",
@@ -77,8 +77,8 @@
     cinerio: {
       label: "Cinerio & Umbra",
       file: rootPath("pages/personagens/cinerio-umbra.html"),
-      klass: "Ficha Especial",
-      level: "-",
+      klass: "Monge",
+      level: "3",
       ancestry: "Dupla",
       hp: "-- / --",
       ac: "--",
@@ -86,11 +86,11 @@
       speed: "--",
       art: rootPath("assets/images/characters/cinerio/cinerio1.png"),
       overview: {
-        line: "Arquivo especial - Vinculo Umbra",
+        line: "Ficha comum - Vinculo Umbra",
         first: "Cinerio",
         last: "Umbra",
-        sub: "Dupla vinculada · ficha especial · contrato em observacao",
-        tags: ["Vinculo", "Sombras", "Contrato", "Arquivo Visual"],
+        sub: "Monge 3 · dupla vinculada · contrato em observacao",
+        tags: ["Vinculo", "Sombras", "Contrato", "Ficha PF2e"],
         origin:
           "Origem ainda em registro. Use este espaco para separar o que pertence a Cinerio, o que pertence a Umbra e o que nenhum dos dois admite.",
         path: "Caminho em aberto. Marque quando o vinculo protege, quando cobra preco e quando a sombra passa a desejar algo proprio.",
@@ -104,6 +104,46 @@
         CHA: "+0",
       },
       sheet: ["Vinculo Umbra", "Contrato", "Risco", "Arquivo Visual"],
+    },
+    kaitake: {
+      label: "Kaitake Udacha",
+      file: rootPath("pages/personagens/kaitake-udacha.html"),
+      klass: "Psychic",
+      level: "1",
+      ancestry: "Gnomo",
+      hp: "35 / 35",
+      ac: "17",
+      heroPoints: "1",
+      speed: "25 ft",
+      art: rootPath("assets/images/characters/kaitake/kaitake1.png"),
+      overview: {
+        line: "Ficha comum - Cartola e Sinapses",
+        first: "Kaitake",
+        last: "Udacha",
+        sub: "Psychic 1 · gnoma · apostadora de improbabilidades",
+        tags: ["Cartola", "Sinapses", "Apostas", "Ethernum Co."],
+        origin:
+          "Kaitake e uma gnoma psiquica avoada que vive sob a logica do azar, guiada por improbabilidades.",
+        path: "Registre aqui as apostas, sinapses, dividas, pressagios e escolhas que transformam sorte em consequencia.",
+      },
+      attributes: {
+        STR: "-1",
+        DEX: "+2",
+        CON: "+3",
+        INT: "+0",
+        WIS: "+1",
+        CHA: "+4",
+      },
+      sheet: ["Psychic", "Distant Grasp", "Cartola", "Sinapses"],
+      inventory: ["Cartola", "Fichas", "Baralho", "Itens de aposta"],
+      strikes: ["Telekinetic Projectile", "Telekinetic Rend", "Daze"],
+      proficiencies: [
+        "Diplomacia +11",
+        "Deception +9",
+        "Performance +9",
+        "Occultism +5",
+        "Games Lore +5",
+      ],
     },
     pipping: {
       label: "Pipping Baldwin Black",
@@ -204,6 +244,7 @@
     if (file.includes("cinerio")) return "cinerio";
     if (file.includes("pipping")) return "pipping";
     if (file.includes("bayle")) return "bayle";
+    if (file.includes("kaitake")) return "kaitake";
     return document.body.dataset.character || "";
   }
 
@@ -233,6 +274,15 @@
       { id: "tecnicas", label: "Tecnicas" },
       { id: "sombras", label: "Sombras" },
       { id: "progressao", label: "Progressao" },
+      { id: "ethernum-pf2-sheet", label: "Ficha PF2e" },
+    ],
+    kaitake: [
+      { id: "intro", label: "Introducao" },
+      { id: "cartola", label: "Cartola" },
+      { id: "store", label: "Loja" },
+      { id: "apostas", label: "Apostas" },
+      { id: "sinapses", label: "Sinapses" },
+      { id: "ethernum", label: "Ethernum Co." },
     ],
     pipping: [
       { id: "sheet", label: "Ficha" },
@@ -379,6 +429,15 @@
         ...Array.from(
           document.querySelectorAll(
             `[data-t="${sectionId}"], [data-panel="${sectionId}"], #${sectionId}`,
+          ),
+        ),
+      ];
+    }
+    if (characterId === "kaitake") {
+      return [
+        ...Array.from(
+          document.querySelectorAll(
+            `[data-tab="${sectionId}"], #panel-${sectionId}`,
           ),
         ),
       ];
@@ -817,6 +876,31 @@
     panel.appendChild(document.querySelector('[data-pf2-sheet="true"]'));
   }
 
+  function addCinerioSheetTab() {
+    if (
+      !location.pathname.toLowerCase().includes("cinerio") ||
+      document.querySelector('[data-t="ethernum-pf2-sheet"]')
+    )
+      return;
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+    const btn = document.createElement("button");
+    btn.dataset.t = "ethernum-pf2-sheet";
+    btn.textContent = "Ficha PF2e";
+    nav.appendChild(btn);
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll("section")
+        .forEach((section) => section.classList.remove("active"));
+      document
+        .querySelectorAll("nav button")
+        .forEach((button) => button.classList.remove("active"));
+      document.getElementById("ethernum-pf2-sheet")?.classList.add("active");
+      btn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
   function exposeApi(characterId) {
     window.EthernumShared = {
       characters,
@@ -913,6 +997,13 @@
         return;
       }
     }
+    if (characterId === "kaitake") {
+      const btn = document.querySelector(`[data-tab="${sectionId}"]`);
+      if (btn) {
+        btn.click();
+        return;
+      }
+    }
     document
       .getElementById(sectionId)
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -930,6 +1021,7 @@
     makePippingTabs();
     addGyroSheetTab();
     addBayleSheetTab();
+    addCinerioSheetTab();
     applyMasterLocks();
     exposeApi(characterId);
     applySectionLocks(characterId);

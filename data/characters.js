@@ -4,7 +4,7 @@ window.ETHERNUM_CHARACTERS = [
     name: "Gyro Zeppeli",
     file: "pages/personagens/gyro-zeppeli.html",
     status: "Ativo",
-    role: "Operador / Rotacao",
+    role: "Exemplar / Rotacao",
     tags: ["Rotacao", "IKONs", "Cadaver Santo"],
   },
   {
@@ -12,8 +12,16 @@ window.ETHERNUM_CHARACTERS = [
     name: "Cinerio & Umbra",
     file: "pages/personagens/cinerio-umbra.html",
     status: "Ativo",
-    role: "Monge / Sombra cooperativa",
+    role: "Monge / Ficha comum",
     tags: ["Umbra", "Combate conjunto", "MAP compartilhado"],
+  },
+  {
+    id: "kaitake",
+    name: "Kaitake Udacha",
+    file: "pages/personagens/kaitake-udacha.html",
+    status: "Ativo",
+    role: "Psychic / Cartola",
+    tags: ["Sinapses", "Apostas", "Ethernum Co."],
   },
   {
     id: "pipping",

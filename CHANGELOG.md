@@ -1,3 +1,12 @@
+## v3.8 - Publico/Privado e Animacao
+
+- Corrigida a animacao continua em degradê dos nomes dos personagens.
+- Retirados links e botoes de mestre/edicao da navegacao publica.
+- Painel do mestre passa a ser tratado como fluxo privado, sem entrada no dashboard publico.
+- Fichas publicas preservam edicao da ficha PF2e; edicoes narrativas ficam no contexto privado.
+- Atualizados cache-busting e marcadores de versao para `v3.8`.
+- Documentado que Yu e apenas rascunho visual de referencia.
+
 ## v3.7 - Organizacao Estrutural
 
 - Reorganizada a estrutura em `css/`, `js/`, `assets/`, `pages/`, `data/` e `pdfs/`.

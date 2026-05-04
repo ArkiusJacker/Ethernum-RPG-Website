@@ -1,4 +1,4 @@
-/* 
+/*
  * ETHERNUM API — Quick Reference Guide
  * Adicione este arquivo num comentário do seu site para referência rápida
  */
@@ -9,9 +9,9 @@
 
 // Verificar se ETHERNUM está carregado
 if (window.ethernum) {
-  console.log('✓ ETHERNUM carregado');
+  console.log("✓ ETHERNUM carregado");
 } else {
-  console.warn('✗ ETHERNUM não encontrado');
+  console.warn("✗ ETHERNUM não encontrado");
 }
 
 // Acessar a API pública
@@ -25,9 +25,9 @@ const API = window.EthernumAPI;
 const currentSection = API.getCurrentSection(); // Retorna 's-ikons', etc
 
 // Mudar de seção
-API.switchSection('s-npcs');
-API.switchSection('s-tecnicas');
-API.switchSection('s-ranking');
+API.switchSection("s-npcs");
+API.switchSection("s-tecnicas");
+API.switchSection("s-ranking");
 
 // Obter status de edição
 const isEditing = API.getEditMode(); // true/false
@@ -42,7 +42,7 @@ API.toggleSound();
 // 3. MODO MESTRE
 // ════════════════════════════════════════════════════════════════════
 
-// Ativar modo mestre
+// Ativar modo privado
 API.setMasterMode(true);
 
 // Obter dados do personagem
@@ -65,24 +65,30 @@ Retorna:
 // <iframe id="character-sheet" src="../pages/personagens/pipping-baldwin-black.html"></iframe>
 
 // JavaScript
-const sheetFrame = document.getElementById('character-sheet');
+const sheetFrame = document.getElementById("character-sheet");
 
 // Enviar mensagens para o iframe
-sheetFrame.contentWindow.postMessage({
-  action: 'TOGGLE_MASTER',
-  value: true
-}, '*');
+sheetFrame.contentWindow.postMessage(
+  {
+    action: "TOGGLE_MASTER",
+    value: true,
+  },
+  "*",
+);
 
 // Trocar seção do personagem remotamente
-sheetFrame.contentWindow.postMessage({
-  action: 'SWITCH_SECTION',
-  sectionId: 's-npcs'
-}, '*');
+sheetFrame.contentWindow.postMessage(
+  {
+    action: "SWITCH_SECTION",
+    sectionId: "s-npcs",
+  },
+  "*",
+);
 
 // Receber mensagens do iframe
-window.addEventListener('message', (event) => {
-  if (event.data.type === 'PLAYER_UPDATE') {
-    console.log('Jogador atualizou:', event.data);
+window.addEventListener("message", (event) => {
+  if (event.data.type === "PLAYER_UPDATE") {
+    console.log("Jogador atualizou:", event.data);
   }
 });
 
@@ -92,20 +98,20 @@ window.addEventListener('message', (event) => {
 
 // Exemplo 1: Painel de Controle do Mestre
 function criarPainelMestre() {
-  const btnRevelarNPCs = document.createElement('button');
-  btnRevelarNPCs.textContent = 'Revelar NPCs';
+  const btnRevelarNPCs = document.createElement("button");
+  btnRevelarNPCs.textContent = "Revelar NPCs";
   btnRevelarNPCs.onclick = () => {
     API.setMasterMode(true);
-    API.switchSection('s-npcs');
-    console.log('✓ NPCs revelados para o mestre');
+    API.switchSection("s-npcs");
+    console.log("✓ NPCs revelados para o mestre");
   };
 
-  const btnOcultarJogador = document.createElement('button');
-  btnOcultarJogador.textContent = 'Modo Jogador';
+  const btnOcultarJogador = document.createElement("button");
+  btnOcultarJogador.textContent = "Modo Jogador";
   btnOcultarJogador.onclick = () => {
     API.setMasterMode(false);
-    API.switchSection('s-sp');
-    console.log('✓ Jogador em modo restrito');
+    API.switchSection("s-sp");
+    console.log("✓ Jogador em modo restrito");
   };
 
   document.body.appendChild(btnRevelarNPCs);
@@ -133,7 +139,7 @@ function automatizarNavegacao(sequencia) {
 // Exemplo 3: Monitorar Mudanças de Seção
 setInterval(() => {
   const section = API.getCurrentSection();
-  console.log('Seção atual:', section);
+  console.log("Seção atual:", section);
 }, 1000);
 
 // Exemplo 4: Integração com Chat
@@ -149,12 +155,12 @@ function enviarStatusParaChat() {
 // ════════════════════════════════════════════════════════════════════
 
 // Salvar preferências
-localStorage.setItem('masterMode', 'true');
-localStorage.setItem('soundEnabled', 'true');
+localStorage.setItem("masterMode", "true");
+localStorage.setItem("soundEnabled", "true");
 
 // Recuperar
-const wasMaster = localStorage.getItem('masterMode') === 'true';
-const hasSounds = localStorage.getItem('soundEnabled') === 'true';
+const wasMaster = localStorage.getItem("masterMode") === "true";
+const hasSounds = localStorage.getItem("soundEnabled") === "true";
 
 // Limpar tudo (reset)
 localStorage.clear();
@@ -163,7 +169,7 @@ localStorage.clear();
 // 7. URL PARAMETERS (Atalhos)
 // ════════════════════════════════════════════════════════════════════
 
-// Modo Mestre automático agora pede senha:
+// Modo Privado automático agora pede senha:
 // https://seu-site.com/pages/ferramentas/mestre-panel.html?character=pipping
 
 // Você pode adicionar mais parâmetros:
@@ -171,27 +177,27 @@ localStorage.clear();
 
 // Parse no seu código:
 const params = new URLSearchParams(window.location.search);
-const masterMode = params.get('master') === 'true';
-const initialSection = params.get('section') || 's-sp';
-const soundEnabled = params.get('sound') !== 'false';
+const masterMode = params.get("master") === "true";
+const initialSection = params.get("section") || "s-sp";
+const soundEnabled = params.get("sound") !== "false";
 
 // ════════════════════════════════════════════════════════════════════
 // 8. EVENTOS E LISTENERS
 // ════════════════════════════════════════════════════════════════════
 
 // Detectar clique em elementos do ETHERNUM
-document.addEventListener('click', (e) => {
-  if (e.target.closest('.nav-btn')) {
-    console.log('Usuário clicou em uma aba');
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".nav-btn")) {
+    console.log("Usuário clicou em uma aba");
     API.playSound();
   }
 });
 
 // Detectar scroll parallax
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   const scrollPercent = (window.scrollY / window.innerHeight) * 100;
   if (scrollPercent > 30) {
-    console.log('Parallax ativado:', scrollPercent + '%');
+    console.log("Parallax ativado:", scrollPercent + "%");
   }
 });
 
@@ -203,10 +209,10 @@ window.addEventListener('scroll', () => {
 if (window.ethernum) {
   // Executar função após init
   const originalInit = window.ethernum.init;
-  window.ethernum.init = function() {
+  window.ethernum.init = function () {
     originalInit.call(this);
-    console.log('✓ ETHERNUM inicializado com customizações');
-    
+    console.log("✓ ETHERNUM inicializado com customizações");
+
     // Seu código aqui
     API.setMasterMode(true);
     API.playSound();
@@ -218,39 +224,42 @@ if (window.ethernum) {
 // ════════════════════════════════════════════════════════════════════
 
 // Abra no console (F12):
-console.log(window.ethernum);        // Objeto completo
-console.log(window.EthernumAPI);     // API pública
-console.log(localStorage);           // Dados salvos
+console.log(window.ethernum); // Objeto completo
+console.log(window.EthernumAPI); // API pública
+console.log(localStorage); // Dados salvos
 
 // Limpar localStorage
-localStorage.clear(); location.reload();
+localStorage.clear();
+location.reload();
 
-// Forçar modo mestre
-localStorage.setItem('masterMode', 'true'); location.reload();
+// Forçar modo privado
+localStorage.setItem("masterMode", "true");
+location.reload();
 
 // Desativar sons
-localStorage.setItem('soundEnabled', 'false'); location.reload();
+localStorage.setItem("soundEnabled", "false");
+location.reload();
 
 // ════════════════════════════════════════════════════════════════════
 // ESTRUTURA DE SEÇÕES
 // ════════════════════════════════════════════════════════════════════
 
 const SECTIONS = {
-  'Sistema SP': 's-sp',
-  'IKONs': 's-ikons',
-  'Palmas do Diabo': 's-palmas',
-  'Técnicas': 's-tecnicas',
-  'Ranking': 's-ranking',
-  'Execução & Risco': 's-risco',
-  'Ball Breaker': 's-bb',
-  'Progressão': 's-prog',
-  'NPCs': 's-npcs',
-  'Questline': 's-quest'
+  "Sistema SP": "s-sp",
+  IKONs: "s-ikons",
+  "Palmas do Diabo": "s-palmas",
+  Técnicas: "s-tecnicas",
+  Ranking: "s-ranking",
+  "Execução & Risco": "s-risco",
+  "Ball Breaker": "s-bb",
+  Progressão: "s-prog",
+  NPCs: "s-npcs",
+  Questline: "s-quest",
 };
 
 // Usar:
 Object.entries(SECTIONS).forEach(([name, id]) => {
-  console.log(name, '→', id);
+  console.log(name, "→", id);
 });
 
 // ════════════════════════════════════════════════════════════════════
